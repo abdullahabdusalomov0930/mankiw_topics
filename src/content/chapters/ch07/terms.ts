@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,7 +8,7 @@ export const terms: Term[] = [
     en: 'consumer surplus',
     uz: "iste'molchi ortiqchaligi",
     defEn: 'the amount a buyer is willing to pay for a good minus the amount the buyer actually pays for it',
-    defUz: "Xaridorning “yutug'i”: to'lashga tayyor bo'lgan summa minus haqiqatda to'lagani. Grafikda — talab egri chizig'i ostida, narx chizig'i ustidagi maydon.",
+    defUz: tr("Xaridorning “yutug'i”: to'lashga tayyor bo'lgan summa minus haqiqatda to'lagani. Grafikda — talab egri chizig'i ostida, narx chizig'i ustidagi maydon.", "The buyer's “gain”: what they were willing to pay minus what they actually paid. On a graph — the area below the demand curve and above the price."),
   },
   {
     id: 'producer-surplus',
@@ -15,7 +16,7 @@ export const terms: Term[] = [
     en: 'producer surplus',
     uz: 'ishlab chiqaruvchi ortiqchaligi',
     defEn: "the amount a seller is paid for a good minus the seller's cost of providing it",
-    defUz: "Sotuvchining “yutug'i”: olgan narxi minus xarajati. Grafikda — narx chizig'i ostida, taklif egri chizig'i ustidagi maydon.",
+    defUz: tr("Sotuvchining “yutug'i”: olgan narxi minus xarajati. Grafikda — narx chizig'i ostida, taklif egri chizig'i ustidagi maydon.", "The seller's “gain”: the price received minus cost. On a graph — the area below the price and above the supply curve."),
   },
   {
     id: "welfare-economics",
@@ -23,7 +24,7 @@ export const terms: Term[] = [
     en: "welfare economics",
     uz: "farovonlik iqtisodiyoti",
     defEn: "the study of how the allocation of resources affects economic well-being",
-    defUz: "Resurslar qanday taqsimlanishi odamlarning iqtisodiy farovonligiga qanday ta'sir qilishini o'rganadi. Asosiy vositalari — consumer va producer surplus.",
+    defUz: tr("Resurslar qanday taqsimlanishi odamlarning iqtisodiy farovonligiga qanday ta'sir qilishini o'rganadi. Asosiy vositalari — consumer va producer surplus.", 'Studies how the allocation of resources affects economic well-being. Its main tools are consumer and producer surplus.'),
   },
   {
     id: "willingness-to-pay",
@@ -31,8 +32,8 @@ export const terms: Term[] = [
     en: "willingness to pay",
     uz: "to'lashga tayyorlik",
     defEn: "the maximum amount that a buyer will pay for a good",
-    defUz: "Xaridor tovar uchun to'lashga rozi bo'lgan **eng yuqori** summa — u tovarni qanchalik qadrlashini o'lchaydi. Narx shundan past bo'lsa — sotib oladi, yuqori bo'lsa — yo'q.",
-    example: "Whitney Elvis albomi uchun $1,000 gacha to'lashga tayyor.",
+    defUz: tr("Xaridor tovar uchun to'lashga rozi bo'lgan **eng yuqori** summa — u tovarni qanchalik qadrlashini o'lchaydi. Narx shundan past bo'lsa — sotib oladi, yuqori bo'lsa — yo'q.", "The **maximum** a buyer will pay for a good — it measures how much they value it. If the price is lower they buy; if higher, they don't."),
+    example: tr("Whitney Elvis albomi uchun $1,000 gacha to'lashga tayyor.", 'Whitney is willing to pay up to $1,000 for an Elvis album.'),
   },
   {
     id: "marginal-buyer",
@@ -40,7 +41,7 @@ export const terms: Term[] = [
     en: "marginal buyer",
     uz: "marjinal xaridor",
     defEn: "the buyer who would leave the market first if the price were any higher",
-    defUz: "Narx sal oshsa birinchi bo'lib bozordan chiqadigan xaridor. Talab egri chizig'ining balandligi har bir miqdorda shu xaridorning to'lashga tayyorligi.",
+    defUz: tr("Narx sal oshsa birinchi bo'lib bozordan chiqadigan xaridor. Talab egri chizig'ining balandligi har bir miqdorda shu xaridorning to'lashga tayyorligi.", "The buyer who would leave the market first if the price rose slightly. At each quantity the height of the demand curve is this buyer's willingness to pay."),
   },
   {
     id: "cost",
@@ -48,7 +49,7 @@ export const terms: Term[] = [
     en: "cost",
     uz: "xarajat (sotuvchi uchun)",
     defEn: "the value of everything a seller must give up to produce a good",
-    defUz: "Sotuvchining **imkoniyat xarajati**: bo'yoq, cho'tka kabi to'g'ridan-to'g'ri xarajatlar + o'z vaqtining qiymati. Bu — u qabul qiladigan eng past narx.",
+    defUz: tr("Sotuvchining **imkoniyat xarajati**: bo'yoq, cho'tka kabi to'g'ridan-to'g'ri xarajatlar + o'z vaqtining qiymati. Bu — u qabul qiladigan eng past narx.", "The seller's **opportunity cost**: out-of-pocket costs such as paint and brushes + the value of their own time. It is the lowest price they will accept."),
   },
   {
     id: "marginal-seller",
@@ -56,7 +57,7 @@ export const terms: Term[] = [
     en: "marginal seller",
     uz: "marjinal sotuvchi",
     defEn: "the seller who would leave the market first if the price were any lower",
-    defUz: "Narx sal tushsa birinchi bo'lib chiqadigan sotuvchi. Taklif egri chizig'ining balandligi — uning xarajati.",
+    defUz: tr("Narx sal tushsa birinchi bo'lib chiqadigan sotuvchi. Taklif egri chizig'ining balandligi — uning xarajati.", 'The seller who would leave the market first if the price fell slightly. The height of the supply curve is their cost.'),
   },
   {
     id: "total-surplus",
@@ -64,7 +65,7 @@ export const terms: Term[] = [
     en: "total surplus",
     uz: "umumiy ortiqchalik",
     defEn: "the sum of consumer and producer surplus: value to buyers minus cost to sellers",
-    defUz: "CS + PS = xaridorlar uchun qiymat − sotuvchilar xarajati (to'langan pul ikki tomonda bir-birini yo'qqa chiqaradi). Grafikda — muvozanatgacha talab va taklif orasidagi maydon.",
+    defUz: tr("CS + PS = xaridorlar uchun qiymat − sotuvchilar xarajati (to'langan pul ikki tomonda bir-birini yo'qqa chiqaradi). Grafikda — muvozanatgacha talab va taklif orasidagi maydon.", 'CS + PS = value to buyers − cost to sellers (the money paid cancels out). On a graph — the area between demand and supply up to equilibrium.'),
   },
   {
     id: "efficiency-surplus",
@@ -72,7 +73,7 @@ export const terms: Term[] = [
     en: "efficiency (of an allocation)",
     uz: "samaradorlik (taqsimotning)",
     defEn: "the property of a resource allocation of maximizing the total surplus received by all members of society",
-    defUz: "Taqsimot samarali, agar total surplus **maksimal** bo'lsa: tovar eng ko'p qadrlaganlarga boradi, eng arzon ishlab chiqaruvchilar ishlab chiqaradi va miqdor muvozanatda.",
+    defUz: tr("Taqsimot samarali, agar total surplus **maksimal** bo'lsa: tovar eng ko'p qadrlaganlarga boradi, eng arzon ishlab chiqaruvchilar ishlab chiqaradi va miqdor muvozanatda.", 'An allocation is efficient if total surplus is **maximized**: goods go to those who value them most, the lowest-cost producers produce them, and the quantity is at equilibrium.'),
   },
   {
     id: "benevolent-social-planner",
@@ -80,7 +81,7 @@ export const terms: Term[] = [
     en: "benevolent social planner",
     uz: "xayrixoh ijtimoiy rejalashtiruvchi",
     defEn: "a hypothetical all-powerful, all-knowing, well-intentioned planner who wants to maximize the economic well-being of everyone",
-    defUz: "Tahlil uchun o'ylab topilgan obraz: hammasini biladigan, hammasiga qodir va faqat yaxshilik istaydigan rejalashtiruvchi. Xulosa: u bozor natijasini o'zgartira olmaydi — bozor allaqachon samarali.",
+    defUz: tr("Tahlil uchun o'ylab topilgan obraz: hammasini biladigan, hammasiga qodir va faqat yaxshilik istaydigan rejalashtiruvchi. Xulosa: u bozor natijasini o'zgartira olmaydi — bozor allaqachon samarali.", "A figure invented for analysis: a planner who knows everything, can do anything, and wants only the best. The conclusion: they couldn't improve on the market outcome — the market is already efficient."),
   },
   {
     id: "laissez-faire",
@@ -88,6 +89,6 @@ export const terms: Term[] = [
     en: "laissez-faire",
     uz: "laissez-faire (qo'yib ber)",
     defEn: "French for “leave to do”: let people do as they will",
-    defUz: "Bozor samarali bo'lsa, hukumat aralashmasligi kerak, degan siyosat. Fransuzcha: “qo'yib ber, qilsinlar”.",
+    defUz: tr("Bozor samarali bo'lsa, hukumat aralashmasligi kerak, degan siyosat. Fransuzcha: “qo'yib ber, qilsinlar”.", 'The policy that government should not intervene when markets are efficient. French for “let them do.”'),
   },
 ];

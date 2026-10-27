@@ -3,6 +3,7 @@ import { formulas } from './formulas';
 import { problems, review } from './problems';
 import { questions } from './quiz';
 import { terms } from './terms';
+import { tr } from '../../../lib/lang';
 
 export const ch07: ChapterData = {
   number: 7,
@@ -16,12 +17,12 @@ export const ch07: ChapterData = {
   questions,
   problems: [...review, ...problems],
   graphs: [
-    { title: 'Figure 7 — Muvozanatdagi consumer va producer surplus', demand: { a: 10, b: 0.1 }, supply: { c: 1, d: 0.08 }, xMax: 100, yMax: 10, modes: ['market', 'ceiling', 'floor'], surplus: true, surplusOn: true, qtyDigits: 0 },
+    { title: tr('Figure 7 — Muvozanatdagi consumer va producer surplus', 'Figure 7 — Consumer and producer surplus in equilibrium'), demand: { a: 10, b: 0.1 }, supply: { c: 1, d: 0.08 }, xMax: 100, yMax: 10, modes: ['market', 'ceiling', 'floor'], surplus: true, surplusOn: true, qtyDigits: 0 },
   ],
   extraCards: [
-    { id: 'card:ch07:three-insights', chapter: 7, front: "Bozor samaradorligining **uch xulosasi**?", back: "1) Tovar eng ko'p qadrlovchi xaridorlarga boradi. 2) Eng arzon ishlab chiqaruvchilar sotadi. 3) Muvozanat miqdori total surplusni maksimal qiladi." },
-    { id: 'card:ch07:price-fall', chapter: 7, front: "Narx tushganda CS o'sishi qanday ikki qismdan iborat?", back: "**BCED** — eski xaridorlar kamroq to'laydi; **CEF** — yangi xaridorlar bozorga kiradi." },
+    { id: 'card:ch07:three-insights', chapter: 7, front: tr("Bozor samaradorligining **uch xulosasi**?", 'The **three insights** about market efficiency?'), back: tr("1) Tovar eng ko'p qadrlovchi xaridorlarga boradi. 2) Eng arzon ishlab chiqaruvchilar sotadi. 3) Muvozanat miqdori total surplusni maksimal qiladi.", '1) Goods go to the buyers who value them most. 2) The lowest-cost producers sell. 3) The equilibrium quantity maximizes total surplus.') },
+    { id: 'card:ch07:price-fall', chapter: 7, front: tr("Narx tushganda CS o'sishi qanday ikki qismdan iborat?", 'What two parts make up the rise in CS when the price falls?'), back: tr("**BCED** — eski xaridorlar kamroq to'laydi; **CEF** — yangi xaridorlar bozorga kiradi.", '**BCED** — existing buyers pay less; **CEF** — new buyers enter the market.') },
     { id: 'card:ch07:ts', chapter: 7, front: "Total surplus formulasi?", back: "CS + PS = Value to buyers − Cost to sellers." },
-    { id: 'card:ch07:failures', chapter: 7, front: "Samaradorlik xulosasi qaysi ikki farazga tayanadi?", back: "Mukammal raqobat (market power yo'q) va externalities yo'qligi." },
+    { id: 'card:ch07:failures', chapter: 7, front: tr("Samaradorlik xulosasi qaysi ikki farazga tayanadi?", 'Which two assumptions does the efficiency result rest on?'), back: tr("Mukammal raqobat (market power yo'q) va externalities yo'qligi.", 'Perfect competition (no market power) and no externalities.') },
   ],
 };

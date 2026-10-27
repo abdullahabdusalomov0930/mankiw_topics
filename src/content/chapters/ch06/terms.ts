@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,8 +8,8 @@ export const terms: Term[] = [
     en: "price ceiling",
     uz: "narx shifti (narxning yuqori chegarasi)",
     defEn: "a legal maximum on the price at which a good can be sold",
-    defUz: "Davlat belgilagan **eng yuqori** narx: bundan qimmatga sotish taqiqlanadi. Faqat muvozanat narxidan **past** bo'lsa ta'sir qiladi va **taqchillik** keltirib chiqaradi.",
-    example: "Ijara haqiga cheklov (rent control), 1970-yillarda AQShda benzin narxiga qo'yilgan cheklov.",
+    defUz: tr("Davlat belgilagan **eng yuqori** narx: bundan qimmatga sotish taqiqlanadi. Faqat muvozanat narxidan **past** bo'lsa ta'sir qiladi va **taqchillik** keltirib chiqaradi.", 'A legal **maximum** price set by the government: selling for more is forbidden. It matters only if it is **below** the equilibrium price, and then it causes a **shortage**.'),
+    example: tr("Ijara haqiga cheklov (rent control), 1970-yillarda AQShda benzin narxiga qo'yilgan cheklov.", 'Rent control; the cap on gasoline prices in the U.S. in the 1970s.'),
   },
   {
     id: "price-floor",
@@ -16,8 +17,8 @@ export const terms: Term[] = [
     en: "price floor",
     uz: "narx tubi (narxning quyi chegarasi)",
     defEn: "a legal minimum on the price at which a good can be sold",
-    defUz: "Davlat belgilagan **eng past** narx: bundan arzonga sotish taqiqlanadi. Faqat muvozanat narxidan **yuqori** bo'lsa ta'sir qiladi va **ortiqcha taklif** (surplus) keltirib chiqaradi.",
-    example: "Eng kam ish haqi (minimum wage) — mehnat bozoridagi narx tubi.",
+    defUz: tr("Davlat belgilagan **eng past** narx: bundan arzonga sotish taqiqlanadi. Faqat muvozanat narxidan **yuqori** bo'lsa ta'sir qiladi va **ortiqcha taklif** (surplus) keltirib chiqaradi.", 'A legal **minimum** price set by the government: selling for less is forbidden. It matters only if it is **above** the equilibrium price, and then it causes a **surplus**.'),
+    example: tr("Eng kam ish haqi (minimum wage) — mehnat bozoridagi narx tubi.", 'The minimum wage — a price floor in the labor market.'),
   },
   {
     id: "binding-constraint",
@@ -25,8 +26,8 @@ export const terms: Term[] = [
     en: "binding constraint",
     uz: "ta'sirli (majburiy) cheklov",
     defEn: "a price control that prevents the market from reaching its equilibrium",
-    defUz: "Narx nazorati bozorni muvozanatga yetishiga **to'sqinlik qilsa**, u binding. Shift muvozanatdan past, tub muvozanatdan yuqori bo'lsa — binding. Aks holda **not binding** (ta'sirsiz): bozor o'z holicha muvozanatga yetadi.",
-    example: "Muvozanat $3 bo'lsa: $2 lik shift — binding, $4 lik shift — not binding.",
+    defUz: tr("Narx nazorati bozorni muvozanatga yetishiga **to'sqinlik qilsa**, u binding. Shift muvozanatdan past, tub muvozanatdan yuqori bo'lsa — binding. Aks holda **not binding** (ta'sirsiz): bozor o'z holicha muvozanatga yetadi.", 'A price control is binding if it **prevents** the market from reaching equilibrium. A ceiling below equilibrium or a floor above it is binding. Otherwise it is **not binding**: the market reaches equilibrium on its own.'),
+    example: tr("Muvozanat $3 bo'lsa: $2 lik shift — binding, $4 lik shift — not binding.", 'With equilibrium at $3: a $2 ceiling is binding, a $4 ceiling is not.'),
   },
   {
     id: "rationing",
@@ -34,7 +35,7 @@ export const terms: Term[] = [
     en: "rationing mechanism",
     uz: "taqsimlash mexanizmi",
     defEn: "the way a scarce good is allocated among buyers when price cannot do the job",
-    defUz: "Narx tovarni taqsimlay olmaganda (taqchillikda) qo'llanadigan usullar: **navbatlar**, sotuvchining shaxsiy tanlovi (tanish-bilish, qarindoshlar), **pora**, kutish ro'yxatlari. Ular odatda samarasiz va adolatsiz. Erkin bozorda esa taqsimlovchi — narxning o'zi.",
+    defUz: tr("Narx tovarni taqsimlay olmaganda (taqchillikda) qo'llanadigan usullar: **navbatlar**, sotuvchining shaxsiy tanlovi (tanish-bilish, qarindoshlar), **pora**, kutish ro'yxatlari. Ular odatda samarasiz va adolatsiz. Erkin bozorda esa taqsimlovchi — narxning o'zi.", "The ways goods are rationed when the price can't do it (in a shortage): **long lines**, the seller's personal preferences (friends, relatives), **bribes**, waiting lists. They are usually inefficient and unfair. In a free market the rationing device is the price itself."),
   },
   {
     id: "rent-control",
@@ -42,7 +43,7 @@ export const terms: Term[] = [
     en: "rent control",
     uz: "ijara haqi nazorati",
     defEn: "a ceiling on the rents that landlords may charge their tenants",
-    defUz: "Uy egalari oladigan ijara haqiga qo'yilgan shift. Qisqa muddatda taqchillik kichik, lekin **uzoq muddatda** taklif va talab egiluvchanroq bo'lgani uchun taqchillik katta bo'ladi; uylar sifati ham pasayadi.",
+    defUz: tr("Uy egalari oladigan ijara haqiga qo'yilgan shift. Qisqa muddatda taqchillik kichik, lekin **uzoq muddatda** taklif va talab egiluvchanroq bo'lgani uchun taqchillik katta bo'ladi; uylar sifati ham pasayadi.", 'A ceiling on the rents landlords may charge. In the short run the shortage is small, but **in the long run** supply and demand are more elastic, so the shortage is large; the quality of housing also falls.'),
   },
   {
     id: "minimum-wage",
@@ -50,8 +51,8 @@ export const terms: Term[] = [
     en: "minimum wage",
     uz: "eng kam ish haqi",
     defEn: "the lowest price for labor that any employer may legally pay",
-    defUz: "Mehnat bozoridagi **narx tubi**. Muvozanat ish haqidan yuqori bo'lsa, taklif qilingan mehnat talab qilingandan ko'p bo'ladi — **ishsizlik**. Eng ko'p ta'sir **o'smirlar** va past malakali ishchilarga tushadi.",
-    example: "AQSh federal eng kam ish haqi 2021 yilda soatiga $7.25 edi.",
+    defUz: tr("Mehnat bozoridagi **narx tubi**. Muvozanat ish haqidan yuqori bo'lsa, taklif qilingan mehnat talab qilingandan ko'p bo'ladi — **ishsizlik**. Eng ko'p ta'sir **o'smirlar** va past malakali ishchilarga tushadi.", 'A **price floor** in the labor market. If it is above the equilibrium wage, the quantity of labor supplied exceeds the quantity demanded — **unemployment**. It hits **teenagers** and low-skilled workers hardest.'),
+    example: tr("AQSh federal eng kam ish haqi 2021 yilda soatiga $7.25 edi.", 'The U.S. federal minimum wage in 2021 was $7.25 an hour.'),
   },
   {
     id: "unemployment",
@@ -59,7 +60,7 @@ export const terms: Term[] = [
     en: "unemployment (labor surplus)",
     uz: "ishsizlik (ortiqcha mehnat taklifi)",
     defEn: "the quantity of labor supplied exceeds the quantity of labor demanded",
-    defUz: "Ish qidirayotganlar soni firmalar yollamoqchi bo'lganlar sonidan ko'p bo'lgan holat. 6-bobda u ta'sirli eng kam ish haqining natijasi sifatida ko'riladi (makroiqtisodiyotda batafsil o'rganiladi).",
+    defUz: tr("Ish qidirayotganlar soni firmalar yollamoqchi bo'lganlar sonidan ko'p bo'lgan holat. 6-bobda u ta'sirli eng kam ish haqining natijasi sifatida ko'riladi (makroiqtisodiyotda batafsil o'rganiladi).", 'More people are looking for work than firms want to hire. Chapter 6 treats it as the result of a binding minimum wage (macroeconomics studies it in depth).'),
   },
   {
     id: "subsidy",
@@ -67,7 +68,7 @@ export const terms: Term[] = [
     en: "subsidy (rent subsidy, wage subsidy)",
     uz: "subsidiya (ijara yoki ish haqi subsidiyasi)",
     defEn: "a payment from the government that lowers the cost of housing or raises the pay of low-wage workers",
-    defUz: "Narxni cheklash o'rniga davlat kambag'al oilalar ijarasining bir qismini to'laydi yoki past maoshli ishchilarga qo'shimcha pul beradi. Taqchillik yaratmaydi, lekin byudjetga xarajat — demak **soliqlar** kerak bo'ladi.",
+    defUz: tr("Narxni cheklash o'rniga davlat kambag'al oilalar ijarasining bir qismini to'laydi yoki past maoshli ishchilarga qo'shimcha pul beradi. Taqchillik yaratmaydi, lekin byudjetga xarajat — demak **soliqlar** kerak bo'ladi.", "Instead of capping the price, the government pays part of poor families' rent or gives low-wage workers extra money. It creates no shortage, but it costs the budget — so it needs **taxes**."),
   },
   {
     id: "earned-income-tax-credit",
@@ -75,7 +76,7 @@ export const terms: Term[] = [
     en: "earned income tax credit (EITC)",
     uz: "ishlab topilgan daromad uchun soliq imtiyozi",
     defEn: "a government program that supplements the incomes of low-wage workers",
-    defUz: "AQShdagi ish haqi subsidiyasi: kam maosh oladigan ishchilarning daromadiga davlat qo'shimcha qiladi. Eng kam ish haqidan farqli o'laroq, firmalarni ishchi yollashdan qaytarmaydi.",
+    defUz: tr("AQShdagi ish haqi subsidiyasi: kam maosh oladigan ishchilarning daromadiga davlat qo'shimcha qiladi. Eng kam ish haqidan farqli o'laroq, firmalarni ishchi yollashdan qaytarmaydi.", 'A U.S. wage subsidy: the government tops up the earnings of low-wage workers. Unlike the minimum wage, it does not discourage firms from hiring.'),
   },
   {
     id: "tax-incidence",
@@ -83,7 +84,7 @@ export const terms: Term[] = [
     en: "tax incidence",
     uz: "soliq yukining taqsimlanishi",
     defEn: "the manner in which the burden of a tax is shared among participants in a market",
-    defUz: "Soliqni **haqiqatda** kim ko'taradi — xaridorlarmi yoki sotuvchilarmi? Javob soliqni qonun bo'yicha kim to'lashiga emas, **talab va taklif egiluvchanligiga** bog'liq.",
+    defUz: tr("Soliqni **haqiqatda** kim ko'taradi — xaridorlarmi yoki sotuvchilarmi? Javob soliqni qonun bo'yicha kim to'lashiga emas, **talab va taklif egiluvchanligiga** bog'liq.", 'Who **really** bears a tax — buyers or sellers? The answer depends not on who pays it by law but on the **elasticities of supply and demand**.'),
   },
   {
     id: "tax-wedge",
@@ -91,7 +92,7 @@ export const terms: Term[] = [
     en: "tax wedge",
     uz: "soliq ponasi",
     defEn: "the gap a tax creates between the price buyers pay and the price sellers receive",
-    defUz: "Soliq xaridor to'laydigan narx \\(P_B\\) bilan sotuvchi qo'lida qoladigan narx \\(P_S\\) orasiga “pona” qo'yadi: \\(P_B - P_S = T\\). Soliq kimdan undirilishidan qat'i nazar, pona bir xil.",
+    defUz: tr("Soliq xaridor to'laydigan narx \\(P_B\\) bilan sotuvchi qo'lida qoladigan narx \\(P_S\\) orasiga “pona” qo'yadi: \\(P_B - P_S = T\\). Soliq kimdan undirilishidan qat'i nazar, pona bir xil.", 'A tax drives a “wedge” between the price buyers pay \\(P_B\\) and the price sellers keep \\(P_S\\): \\(P_B - P_S = T\\). The wedge is the same whoever the tax is collected from.'),
   },
   {
     id: "payroll-tax",
@@ -99,7 +100,7 @@ export const terms: Term[] = [
     en: "payroll tax",
     uz: "ish haqi fondiga soliq",
     defEn: "a tax on the wages that firms pay their workers",
-    defUz: "Firmalar ishchilarga to'laydigan maoshdan olinadigan soliq (AQShda FICA, 2021 yilda 15,3%). Qonun uni firma va ishchi o'rtasida 50/50 bo'ladi, lekin haqiqiy yuk egiluvchanlikka bog'liq — odatda **ishchilar** ko'proq ko'taradi.",
+    defUz: tr("Firmalar ishchilarga to'laydigan maoshdan olinadigan soliq (AQShda FICA, 2021 yilda 15,3%). Qonun uni firma va ishchi o'rtasida 50/50 bo'ladi, lekin haqiqiy yuk egiluvchanlikka bog'liq — odatda **ishchilar** ko'proq ko'taradi.", 'A tax on the wages firms pay workers (FICA in the U.S., 15.3% in 2021). The law splits it 50/50 between firm and worker, but the real burden depends on elasticities — **workers** usually bear most of it.'),
   },
   {
     id: "luxury-tax",
@@ -107,6 +108,6 @@ export const terms: Term[] = [
     en: "luxury tax",
     uz: "hashamat solig'i",
     defEn: "a tax on items such as yachts, private planes, furs, jewelry, and expensive cars (US, 1990–1993)",
-    defUz: "Boylardan soliq olish uchun o'ylab topilgan, lekin yaxta talabi juda egiluvchan, taklifi esa noegiluvchan bo'lgani uchun yuk asosan **yaxta quruvchi ishchilar va firmalar** zimmasiga tushgan. 1993 yilda asosan bekor qilingan.",
+    defUz: tr("Boylardan soliq olish uchun o'ylab topilgan, lekin yaxta talabi juda egiluvchan, taklifi esa noegiluvchan bo'lgani uchun yuk asosan **yaxta quruvchi ishchilar va firmalar** zimmasiga tushgan. 1993 yilda asosan bekor qilingan.", 'Meant to tax the rich, but because the demand for yachts is very elastic and the supply inelastic, the burden fell mostly on **the workers and firms building yachts**. It was largely repealed in 1993.'),
   },
 ];
