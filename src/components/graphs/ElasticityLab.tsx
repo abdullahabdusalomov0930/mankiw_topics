@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useMemo, useState } from 'react';
 import {
   classifyElasticity,
@@ -174,7 +175,7 @@ export function ElasticityLab({
         </label>
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3 text-[15px]">
-        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
         <p>
           {tr('Narx', 'When the price goes')} ${fmt(p1)} → ${fmt(p2)}{tr(" bo'lganda talab miqdori", ', quantity demanded goes')} {fmt(q1, 1)} → {fmt(q2, 1)}. {tr('Egiluvchanlik', 'Elasticity')}{' '}
           <b>{Number.isFinite(e) ? fmt(e, 2) : '∞'}</b> — <b>{CLASS_UZ[cls]}</b>.{' '}

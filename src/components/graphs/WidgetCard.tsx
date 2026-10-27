@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import type { ReactNode } from 'react';
 import { fmt } from '../../lib/econ';
 import { tr } from '../../lib/lang';
@@ -18,7 +19,7 @@ export function Card({ title, tabs, children, explain, controls, bare = false }:
       {controls && <div className="grid gap-x-6 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">{controls}</div>}
       {!bare && (
         <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
           <RichText text={explain} block className="prose-uz text-[15px]" />
         </div>
       )}

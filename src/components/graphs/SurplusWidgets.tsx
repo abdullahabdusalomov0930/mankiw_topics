@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { consumerSurplus, equilibrium, fmt, producerSurplus, qd, qs, type Demand, type Supply } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -45,7 +46,7 @@ function Card({ title, children, explain }: { title: string; children: React.Rea
       </div>
       {children}
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>

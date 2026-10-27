@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { Fragment, useMemo, useState } from 'react';
 import { fmt, scheduleEquilibrium, sumSchedules } from '../../lib/econ';
 import { RichText } from '../ui/RichText';
@@ -160,7 +161,7 @@ export function ScheduleBuilder({ config }: { config: ScheduleConfig }) {
               {config.optional.label}
             </label>
           )}
-          {config.editable && <p className="mt-2 font-hand text-sm font-semibold text-pen">{tr("Raqamlarni o'zgartirib ko'ring — bozor ustuni va grafik darhol yangilanadi ✎", 'Change the numbers — the market column and the graph update at once ✎')}</p>}
+          {config.editable && <p className="mt-2 font-hand text-sm font-semibold text-pen">{tr("Raqamlarni o'zgartirib ko'ring — bozor ustuni va grafik darhol yangilanadi", 'Change the numbers — the market column and the graph update at once')} <Sticker name="pencil" /></p>}
         </div>
         <div ref={wrapRef} className="min-w-0 border-t-2 border-dashed border-ink/30 p-1 md:border-l-2 md:border-t-0">
           <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label={config.title}>
@@ -226,7 +227,7 @@ export function ScheduleBuilder({ config }: { config: ScheduleConfig }) {
         </div>
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3 text-[15px]">
-        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
         {hover != null && multi ? (
           <p>
             {tr('Narx', 'At a price of')} <b>${fmt(config.prices[hover])}</b>{tr(' da:', ':')}{' '}

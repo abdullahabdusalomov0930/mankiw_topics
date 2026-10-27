@@ -1,3 +1,4 @@
+import { Sticker } from '../../../components/ui/Sticker';
 import { SupplyDemandGraph } from '../../../components/graphs/SupplyDemandGraph';
 import { Callout, PollBar } from '../../../components/ui/Kit';
 import { Math as M } from '../../../components/ui/Math';
@@ -25,7 +26,7 @@ function BoxLink({ id, children }: { id: string; children: React.ReactNode }) {
       href={`#${id}`}
       className="my-3 flex items-center gap-2 rounded-[0.95rem] border-2 border-dashed border-ink/60 bg-surface px-3 py-2 text-sm font-semibold transition hover:border-solid hover:bg-marker hover:text-[#111]"
     >
-      <span aria-hidden>📎</span>
+      <Sticker name="clip" />
       <span>{children}</span>
       <span className="ml-auto">→</span>
     </a>
@@ -80,14 +81,14 @@ function S61() {
       <div className="not-prose my-7 grid gap-6 sm:grid-cols-2">
         <div className="postit tape bg-postit-pink p-4 pt-5 rotate-[0.6deg]">
           <div className="text-2xl" aria-hidden>
-            ⬆︎🚫
+            <Sticker name="up" /><Sticker name="no" />
           </div>
           <div className="mt-1 font-display font-bold">Ceiling = shift (tom)</div>
           <p className="mt-1 text-sm text-muted">Xonaning shifti kabi: narx undan yuqori ko'tarila olmaydi. Xaridorlarni “himoya” qilish uchun.</p>
         </div>
         <div className="postit tape bg-postit-blue p-4 pt-5 -rotate-[0.6deg]">
           <div className="text-2xl" aria-hidden>
-            ⬇︎🚫
+            <Sticker name="down" /><Sticker name="no" />
           </div>
           <div className="mt-1 font-display font-bold">Floor = pol (tub)</div>
           <p className="mt-1 text-sm text-muted">Xonaning poli kabi: narx undan pastga tusha olmaydi. Sotuvchilarni “himoya” qilish uchun.</p>

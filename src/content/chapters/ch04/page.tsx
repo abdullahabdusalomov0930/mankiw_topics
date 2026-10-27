@@ -1,3 +1,4 @@
+import { Sticker } from '../../../components/ui/Sticker';
 import { ScheduleBuilder } from '../../../components/graphs/ScheduleBuilder';
 import { ShiftTable } from '../../../components/graphs/ShiftTable';
 import { SupplyDemandGraph } from '../../../components/graphs/SupplyDemandGraph';
@@ -25,7 +26,7 @@ import {
 function BoxLink({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <a href={`#${id}`} className="my-3 flex items-center gap-2 rounded-[0.95rem] border-2 border-dashed border-ink/60 bg-surface px-3 py-2 text-sm font-semibold transition hover:border-solid hover:bg-marker hover:text-[#111]">
-      <span aria-hidden>📎</span>
+      <Sticker name="clip" />
       <span>{children}</span>
       <span className="ml-auto">→</span>
     </a>

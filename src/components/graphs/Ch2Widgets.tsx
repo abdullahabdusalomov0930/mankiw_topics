@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useRef, useState, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
 import { correlation, fmt, ppfOpportunityCost, ppfStatus, ppfY, slope, type PPF } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -135,7 +136,7 @@ export function PPFExplorer() {
             <div className="flex justify-between pt-2"><span className="text-muted">{tr('1 mashinaning OC', 'OC of 1 car')}</span><span className="num font-semibold text-tax">{fmt(oc, 2)} {tr('komp.', 'comp.')}</span></div>
             <div className="flex justify-between"><span className="text-muted">{tr('Chegaradagi kompyuter', 'Computers on the frontier')}</span><span className="num">{fmt(yf, 0)}</span></div>
           </div>
-          <p className="mt-3 font-hand text-sm font-semibold text-pen">{tr("Grafikka bosing yoki torting — nuqta ko'chadi ✎", 'Click or drag on the graph to move the point ✎')}</p>
+          <p className="mt-3 font-hand text-sm font-semibold text-pen">{tr("Grafikka bosing yoki torting — nuqta ko'chadi", 'Click or drag on the graph to move the point')} <Sticker name="pencil" /></p>
         </div>
       </div>
     </Card>

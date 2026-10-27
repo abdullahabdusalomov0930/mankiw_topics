@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { fmt } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -210,7 +211,7 @@ export function AdSignal() {
             <div className="num text-sm">
               {tr('Sotuv', 'Sales')} ${rev as number} {tr('mln vs reklama', 'm vs ads')} ${adCost} {tr('mln', 'm')}
             </div>
-            <div className="font-semibold">{ads ? tr('📣 Reklama qiladi', '📣 Advertises') : tr('🤫 Reklama qilmaydi', "🤫 Doesn't advertise")}</div>
+            <div className="font-semibold">{ads ? <><Sticker name="megaphone" /> {tr('Reklama qiladi', 'Advertises')}</> : <><Sticker name="shush" /> {tr('Reklama qilmaydi', "Doesn't advertise")}</>}</div>
           </div>
         ))}
       </div>

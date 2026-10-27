@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { equilibrium, fmt, type Demand, type Supply } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -21,7 +22,7 @@ function Shell({ title, controls, side, explain, children, tabs }: { title: stri
       </div>
       <div className="grid gap-x-6 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">{controls}</div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>
@@ -320,7 +321,7 @@ export function CoaseLab() {
       explain={explain}
       side={
         <div className="space-y-2">
-          <div className={`rounded-lg border-2 border-ink p-3 text-center font-bold text-[#111] ${keep ? 'bg-postit-yellow' : 'bg-postit-blue'}`}>{keep ? tr('🐕 Clifford qoladi', '🐕 Clifford stays') : tr('🏡 Clifford yangi uyga ketadi', '🏡 Clifford moves to a new home')}</div>
+          <div className={`rounded-lg border-2 border-ink p-3 text-center font-bold text-[#111] ${keep ? 'bg-postit-yellow' : 'bg-postit-blue'}`}>{keep ? <><Sticker name="dog" /> {tr('Clifford qoladi', 'Clifford stays')}</> : <><Sticker name="house" /> {tr('Clifford yangi uyga ketadi', 'Clifford moves to a new home')}</>}</div>
           <div className={`rounded-lg border-2 border-ink p-2 text-center text-sm font-semibold text-[#111] ${efficient ? 'bg-postit-green' : 'bg-postit-pink'}`}>{efficient ? tr('Samarali', 'Efficient') : tr('Samarasiz', 'Inefficient')}</div>
         </div>
       }
@@ -334,18 +335,18 @@ export function CoaseLab() {
     >
       <div className="flex min-w-0 items-center justify-center gap-6 p-6 text-center">
         <div>
-          <div className="text-5xl" aria-hidden>
-            👩
+          <div className="text-5xl">
+            <Sticker name="woman" size="1em" />
           </div>
           <div className="mt-1 font-semibold">Emily</div>
           <div className="num text-sm text-demand">+${benefit}</div>
         </div>
         <div className="text-5xl" aria-hidden>
-          {keep ? '🐕' : '➡️🏡'}
+          {keep ? <Sticker name="dog" size="1em" /> : <><Sticker name="right" size="1em" /><Sticker name="house" size="1em" /></>}
         </div>
         <div>
-          <div className="text-5xl" aria-hidden>
-            🧔
+          <div className="text-5xl">
+            <Sticker name="man" size="1em" />
           </div>
           <div className="mt-1 font-semibold">Horace</div>
           <div className="num text-sm text-supply">−${cost}</div>

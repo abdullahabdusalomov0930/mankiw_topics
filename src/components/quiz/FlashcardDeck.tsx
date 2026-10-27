@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useMemo, useState } from 'react';
 import type { Flashcard } from '../../content/types';
 import { tr } from '../../lib/lang';
@@ -96,7 +97,7 @@ export function FlashcardDeck({ cards, title }: { cards: Flashcard[]; title?: st
         </>
       ) : (
         <div className="postit tape mt-6 rotate-[0.5deg] bg-postit-green p-6 pt-8 text-center">
-          <div className="text-3xl">🎉</div>
+          <div><Sticker name="party" size="3rem" /></div>
           <p className="mt-2 font-semibold">{tr('Bugun takrorlanadigan kartochka qolmadi.', 'No cards left to review today.')}</p>
           <p className="mt-1 text-sm text-muted">{tr('Bilgan kartochkalaringiz bir necha kundan keyin yana chiqadi (Leitner tizimi).', 'Cards you knew come back in a few days (Leitner system).')}</p>
         </div>

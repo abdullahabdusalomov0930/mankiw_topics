@@ -1,3 +1,4 @@
+import { Sticker } from '../../../../components/ui/Sticker';
 import { SupplyDemandGraph } from '../../../../components/graphs/SupplyDemandGraph';
 import { Callout, PollBar } from '../../../../components/ui/Kit';
 import { BoxLink, Source } from '../../../../components/ui/Lesson';
@@ -58,14 +59,14 @@ const S61 = () => (
     <div className="not-prose my-7 grid gap-6 sm:grid-cols-2">
       <div className="postit tape rotate-[0.6deg] bg-postit-pink p-4 pt-5">
         <div className="text-2xl" aria-hidden>
-          ⬆︎🚫
+          <Sticker name="up" /><Sticker name="no" />
         </div>
         <div className="mt-1 font-display font-bold">Ceiling</div>
         <p className="mt-1 text-sm text-muted">Like a room's ceiling: the price can't rise above it. Meant to “protect” buyers.</p>
       </div>
       <div className="postit tape -rotate-[0.6deg] bg-postit-blue p-4 pt-5">
         <div className="text-2xl" aria-hidden>
-          ⬇︎🚫
+          <Sticker name="down" /><Sticker name="no" />
         </div>
         <div className="mt-1 font-display font-bold">Floor</div>
         <p className="mt-1 text-sm text-muted">Like a room's floor: the price can't fall below it. Meant to “protect” sellers.</p>

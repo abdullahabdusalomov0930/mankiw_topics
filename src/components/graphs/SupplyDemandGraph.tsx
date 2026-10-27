@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useEffect, useMemo, useRef, useState, type PointerEvent as RPointerEvent } from 'react';
 import {
   consumerSurplus,
@@ -683,7 +684,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
 
       {!config.compact && (
         <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
           <RichText text={explanation} block className="prose-uz text-[15px]" />
           {s.preset != null && config.presets?.[s.preset]?.note && (
             <p className="mt-2 text-sm text-muted">

@@ -1,3 +1,4 @@
+import { Sticker } from '../components/ui/Sticker';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { chapters, readyChapters } from '../chapterRegistry';
@@ -88,7 +89,7 @@ export function FormulasPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <PageHead title={tr("Formulalar varag'i", 'Formula sheet')} sub={tr('Barcha boblardagi formulalar bir joyda. Chop etish mumkin.', 'Every formula from every chapter in one place. Printable.')} />
         <button className="btn-ghost mb-8 print:hidden" onClick={() => window.print()}>
-          🖨 {tr('Chop etish', 'Print')}
+          <Sticker name="printer" /> {tr('Chop etish', 'Print')}
         </button>
       </div>
       {readyChapters().map((c) => (
@@ -184,7 +185,7 @@ export function MistakesPage() {
     <div className="mx-auto max-w-3xl px-4 pb-10">
       <PageHead title={tr('Xatolar ustida ishlash', 'Work on your mistakes')} sub={tr("Noto'g'ri javob bergan savollaringiz. To'g'ri javob bersangiz, ro'yxatdan chiqadi.", 'Questions you got wrong. Answer one correctly and it leaves the list.')} />
       {items.length === 0 ? (
-        <div className="card p-8 text-center text-muted">{tr("Hozircha xato yo'q. 🎉", 'No mistakes so far. 🎉')}</div>
+        <div className="card p-8 text-center text-muted">{tr("Hozircha xato yo'q.", 'No mistakes so far.')} <Sticker name="party" /></div>
       ) : (
         <div className="space-y-4">
           {items.map((q, i) => (

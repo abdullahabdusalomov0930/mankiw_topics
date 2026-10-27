@@ -1,3 +1,4 @@
+import { Sticker } from '../components/ui/Sticker';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getChapter } from '../chapterRegistry';
@@ -235,7 +236,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             <div className="grid gap-3 sm:grid-cols-2">
               {page.examTraps.map((t, i) => (
                 <div key={t.title} className={`postit tape mt-3 bg-postit-yellow p-4 pt-5 ${i % 2 ? 'rotate-[0.7deg]' : '-rotate-[0.7deg]'}`}>
-                  <div className="mb-1 font-hand text-[16px] font-semibold text-[#1f4fb8]">🎯 {t.title}</div>
+                  <div className="mb-1 font-hand text-[16px] font-semibold text-[#1f4fb8]"><Sticker name="target" /> {t.title}</div>
                   <RichText text={t.body} block className="prose-uz text-[15px]" />
                 </div>
               ))}

@@ -1,3 +1,4 @@
+import { Sticker } from '../components/ui/Sticker';
 import { Link } from 'react-router-dom';
 import { chapters, readyChapters } from '../chapterRegistry';
 import { Ring } from '../components/ui/Kit';
@@ -18,7 +19,7 @@ export function Home() {
       <section className="grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div>
           <div className="kicker flex -rotate-2 items-center gap-2 text-xl sm:text-[1.4rem]">
-            {tr('Bugungi dars: narx shifti va soliqlar', "Today's lesson: price ceilings and taxes")} <span aria-hidden>✎</span>
+            {tr('Bugungi dars: narx shifti va soliqlar', "Today's lesson: price ceilings and taxes")} <Sticker name="pencil" />
           </div>
           <h1 className="mt-4 text-[2.6rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl">
             {isEn ? (
@@ -84,7 +85,7 @@ export function Home() {
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label={tr('Tajriba (XP)', 'Experience (XP)')} value={state.xp} />
-        <Stat label={tr('Kunlik seriya', 'Daily streak')} value={`🔥 ${state.streak.count}`} />
+        <Stat label={tr('Kunlik seriya', 'Daily streak')} value={<><Sticker name="fire" /> {state.streak.count}</>} />
         <Stat label={tr('Takrorlash kerak', 'Due for review')} value={dueCards} hint={tr('kartochka', 'cards')} />
         <Stat label={tr('Ochiq xatolar', 'Open mistakes')} value={mistakes} hint={tr('savol', 'questions')} />
       </section>
@@ -138,7 +139,7 @@ export function Home() {
   );
 }
 
-function Stat({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
+function Stat({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
   return (
     <div className="card p-4">
       <div className="font-hand text-sm font-semibold text-pen">{label}</div>

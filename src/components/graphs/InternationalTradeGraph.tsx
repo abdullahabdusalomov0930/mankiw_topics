@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useRef, useState, type PointerEvent as RPointerEvent } from 'react';
 import { consumerSurplus, equilibrium, fmt, freeTrade, producerSurplus, qd, qs, tariff as tariffOutcome, type Demand, type Supply } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -274,7 +275,7 @@ export function InternationalTradeGraph({
         {mode === 'tariff' && <Slider label={quota ? tr("Kvota ta'siri (narx farqi)", 'Effect of the quota (price gap)') : tr('Tariff (bojxona boji)', 'Tariff')} value={t} min={0} max={Math.max(0.01, P0 - world)} step={yMax / 400} onChange={setT} display={money(t)} color="--tax" />}
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>

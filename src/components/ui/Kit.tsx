@@ -1,15 +1,16 @@
+import { Sticker, type StickerName } from './Sticker';
 import { useState, type ReactNode } from 'react';
 import { tr } from '../../lib/lang';
 import { RichText } from './RichText';
 
 type CalloutKind = 'exam' | 'mistake' | 'note' | 'tip' | 'uz';
 
-const calloutStyle: Record<CalloutKind, { icon: string; label: string; cls: string; tilt: string }> = {
-  exam: { icon: '🎯', label: tr("Imtihonda so'raladi", 'On the exam'), cls: 'bg-postit-yellow', tilt: '-rotate-[0.6deg]' },
-  mistake: { icon: '⚠️', label: tr("Ko'p uchraydigan xato", 'Common mistake'), cls: 'bg-postit-pink', tilt: 'rotate-[0.5deg]' },
-  note: { icon: '📌', label: tr('Eslatma', 'Note'), cls: 'bg-postit-blue', tilt: 'rotate-[0.4deg]' },
-  tip: { icon: '💡', label: tr('Maslahat', 'Tip'), cls: 'bg-postit-green', tilt: '-rotate-[0.4deg]' },
-  uz: { icon: '🇺🇿', label: tr("O'zbekistondagi misol", 'Example from Uzbekistan'), cls: 'bg-postit-blue', tilt: '-rotate-[0.5deg]' },
+const calloutStyle: Record<CalloutKind, { icon: StickerName; label: string; cls: string; tilt: string }> = {
+  exam: { icon: 'target', label: tr("Imtihonda so'raladi", 'On the exam'), cls: 'bg-postit-yellow', tilt: '-rotate-[0.6deg]' },
+  mistake: { icon: 'warning', label: tr("Ko'p uchraydigan xato", 'Common mistake'), cls: 'bg-postit-pink', tilt: 'rotate-[0.5deg]' },
+  note: { icon: 'pin', label: tr('Eslatma', 'Note'), cls: 'bg-postit-blue', tilt: 'rotate-[0.4deg]' },
+  tip: { icon: 'bulb', label: tr('Maslahat', 'Tip'), cls: 'bg-postit-green', tilt: '-rotate-[0.4deg]' },
+  uz: { icon: 'flag-uz', label: tr("O'zbekistondagi misol", 'Example from Uzbekistan'), cls: 'bg-postit-blue', tilt: '-rotate-[0.5deg]' },
 };
 
 /** A pastel sticky note held on with tape. */
@@ -18,7 +19,7 @@ export function Callout({ kind, title, children }: { kind: CalloutKind; title?: 
   return (
     <aside className={`postit tape my-8 p-5 pt-6 ${s.cls} ${s.tilt}`}>
       <div className="mb-1.5 flex items-center gap-2 font-hand text-[17px] font-semibold text-[#1f4fb8]">
-        <span aria-hidden>{s.icon}</span>
+        <Sticker name={s.icon} size="1.6rem" />
         <span>{title ?? s.label}</span>
       </div>
       <div className="prose-uz text-[15px]">{children}</div>

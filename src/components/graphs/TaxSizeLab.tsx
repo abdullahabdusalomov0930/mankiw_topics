@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useCallback, useState } from 'react';
 import { deadweightLoss, fmt, revenueMaximizingTax, tax, taxSchedule, type Demand, type Supply } from '../../lib/econ';
 import { RichText } from '../ui/RichText';
@@ -61,7 +62,7 @@ export function TaxSizeLab({ demand, supply, xMax, yMax, startTax }: { demand: D
           <MiniChart title="(e) Tax revenue: the Laffer curve" data={sched.map((r) => [r.T, r.revenue])} cur={[st.T, cur.revenue]} color="tax" maxT={maxT} peak={tStar} border />
         </div>
         <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
           <RichText text={explain} block className="prose-uz text-[15px]" />
         </div>
       </figure>

@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { fmt } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -133,7 +134,7 @@ function FrankRuby() {
 function ExplainText({ text }: { text: string }) {
   return (
     <>
-      <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
+      <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz?", 'What are you seeing?')} <Sticker name="pencil" /></div>
       <RichText text={text} block className="prose-uz text-[15px]" />
     </>
   );

@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { fmt } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -366,7 +367,7 @@ export function Tournament() {
         {sorted.map(({ s, tot }, i) => (
           <div key={s} className="grid grid-cols-[8.5rem_1fr_4.5rem] items-center gap-2 text-sm">
             <span className="font-semibold">
-              {i === 0 ? '🏆 ' : ''}
+              {i === 0 ? <><Sticker name="trophy" /> </> : ''}
               {STRATS[s]}
             </span>
             <div className="h-5 rounded-md bg-surface2">

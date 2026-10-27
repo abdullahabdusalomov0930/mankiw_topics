@@ -1,3 +1,4 @@
+import { Sticker } from '../ui/Sticker';
 import { useState } from 'react';
 import { fmt } from '../../lib/econ';
 import { Segmented, Slider } from '../ui/Kit';
@@ -136,7 +137,7 @@ export function PublicGoodVote() {
                 <td>${fmt(v)}</td>
                 <td>${fmt(share, 2)}</td>
                 <td className={v - share >= 0 ? 'text-good' : 'text-bad'}>{v - share >= 0 ? '+' : '−'}${fmt(Math.abs(v - share), 2)}</td>
-                <td className="font-sans">{v > share ? tr('👍 ha', '👍 yes') : tr('👎 yo‘q', '👎 no')}</td>
+                <td className="font-sans">{v > share ? <><Sticker name="thumbs-up" /> {tr('ha', 'yes')}</> : <><Sticker name="thumbs-down" /> {tr('yo‘q', 'no')}</>}</td>
               </tr>
             ))}
           </tbody>

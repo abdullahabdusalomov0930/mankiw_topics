@@ -1,3 +1,4 @@
+import { Sticker } from './ui/Sticker';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { isEn, setLang, tr } from '../lib/lang';
@@ -80,7 +81,7 @@ export function Layout() {
             <div className="relative flex items-center gap-2 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-1.5 text-sm" title={tr('Tajriba ballari va kunlik seriya', 'Experience points and daily streak')}>
               <span className="num font-semibold">{state.xp} XP</span>
               <span className="text-muted">·</span>
-              <span title={tr('Kunlik seriya (streak)', 'Daily streak')}>🔥 <span className="num">{state.streak.count}</span></span>
+              <span title={tr('Kunlik seriya (streak)', 'Daily streak')}><Sticker name="fire" /> <span className="num">{state.streak.count}</span></span>
               {lastGain && <XPBurst key={lastGain.key} amount={lastGain.amount} />}
             </div>
             <div className="flex rounded-[0.8rem] border-2 border-ink bg-surface p-0.5 text-xs font-bold" role="group" aria-label={tr('Til', 'Language')}>
@@ -107,7 +108,7 @@ export function Layout() {
               aria-label={dark ? tr("Yorug' rejim", 'Light mode') : tr("Qorong'i rejim", 'Dark mode')}
               title={dark ? tr("Yorug' rejim", 'Light mode') : tr("Qorong'i rejim", 'Dark mode')}
             >
-              {dark ? '☀︎' : '☾'}
+              <Sticker name={dark ? 'sun' : 'moon'} size="1.35rem" />
             </button>
             <button className="btn-ghost btn-sm h-9 w-9 !p-0 lg:hidden" onClick={() => setMenu((m) => !m)} aria-label={tr('Menyu', 'Menu')} aria-expanded={menu}>
               {menu ? '✕' : '☰'}
@@ -145,6 +146,17 @@ export function Layout() {
             o'rnini bosmaydi.
           </>
         )}
+        <div className="mt-1 text-xs">
+          {tr('Stikerlar', 'Stickers')}:{' '}
+          <a className="underline" href="https://openmoji.org" target="_blank" rel="noreferrer">
+            OpenMoji
+          </a>{' '}
+          (
+          <a className="underline" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+            CC BY-SA 4.0
+          </a>
+          )
+        </div>
       </footer>
     </div>
   );
