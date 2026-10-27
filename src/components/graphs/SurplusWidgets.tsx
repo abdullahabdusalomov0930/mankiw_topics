@@ -114,18 +114,28 @@ export function StepSurplus({
               const i = sorted.indexOf(p);
               const top = Math.max(p.value, price);
               const bottom = Math.min(p.value, price);
+              const h = sy(f, bottom) - sy(f, top);
+              // A thin surplus strip has no room for its label: put it just outside the price line instead.
+              const labelY = h >= 18 ? (sy(f, top) + sy(f, bottom)) / 2 + 4 : kind === 'buyers' ? sy(f, price) + 14 : sy(f, price) - 5;
               return (
                 <g key={p.name}>
-                  <rect x={sx(f, i)} y={sy(f, top)} width={sx(f, i + 1) - sx(f, i)} height={sy(f, bottom) - sy(f, top)} className={`${fill}/25`} />
-                  <text x={(sx(f, i) + sx(f, i + 1)) / 2} y={(sy(f, top) + sy(f, bottom)) / 2 + 4} textAnchor="middle" className="num fill-ink text-[11px] font-bold">
+                  <rect x={sx(f, i)} y={sy(f, top)} width={sx(f, i + 1) - sx(f, i)} height={h} className={`${fill}/25`} />
+                  <text x={(sx(f, i) + sx(f, i + 1)) / 2} y={labelY} textAnchor="middle" className="num fill-ink text-[11px] font-bold">
                     ${fmt(top - bottom)}
                   </text>
                 </g>
               );
             })}
             <polyline points={stepPts.map(([q, p]) => `${sx(f, q)},${sy(f, p)}`).join(' ')} fill="none" className={kind === 'buyers' ? 'stroke-demand' : 'stroke-supply'} strokeWidth={3} />
+            {/* Names sit on the side of the step away from the surplus area, so they never cover the $ labels. */}
             {sorted.map((p, i) => (
-              <text key={p.name} x={(sx(f, i) + sx(f, i + 1)) / 2} y={sy(f, p.value) - 6} textAnchor="middle" className="fill-ink text-[11px] font-semibold">
+              <text
+                key={p.name}
+                x={(sx(f, i) + sx(f, i + 1)) / 2}
+                y={kind === 'buyers' ? sy(f, p.value) - 6 : sy(f, p.value) + 15}
+                textAnchor="middle"
+                className="fill-ink text-[11px] font-semibold"
+              >
                 {p.name}
               </text>
             ))}

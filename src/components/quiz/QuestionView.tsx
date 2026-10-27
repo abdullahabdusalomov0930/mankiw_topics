@@ -68,14 +68,16 @@ function Feedback({ ok, children }: { ok: boolean; children: React.ReactNode }) 
 function MCQView({ q, onAnswer, hideFeedback }: ViewProps<MCQ>) {
   const [picked, setPicked] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
-  const correctIdx = q.options.findIndex((o) => o.correct);
+  // Most authored questions list the correct answer first; show them in a stable shuffled order.
+  const options = useMemo(() => shuffleOptions(q), [q]);
+  const correctIdx = options.findIndex((o) => o.correct);
   const done = picked != null;
   const letters = 'abcdefg';
 
   return (
     <div>
       <div className="space-y-2">
-        {q.options.map((o, i) => {
+        {options.map((o, i) => {
           const isPicked = picked === i;
           const isCorrect = i === correctIdx;
           let cls = 'border-ink/30 hover:border-ink hover:bg-marker/25';
@@ -182,11 +184,21 @@ function TFView({ q, onAnswer, hideFeedback }: ViewProps<TrueFalse>) {
 function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
   const [value, setValue] = useState('');
   const [result, setResult] = useState<{ ok: boolean; trap?: string } | null>(null);
+  // First wrong attempt: a hint and another try. The answer is shown only after the second miss.
+  const [hint, setHint] = useState<{ close: boolean; text: string } | null>(null);
   const check = () => {
     const v = Number(value.replace(',', '.').replace(/[^0-9.\-]/g, ''));
     if (value.trim() === '' || Number.isNaN(v)) return;
     const ok = Math.abs(v - q.answer) <= q.tolerance + 1e-9;
     const trap = ok ? undefined : q.traps?.find((t) => Math.abs(v - t.value) <= q.tolerance + 1e-9)?.why;
+    if (!ok && !hint && !hideFeedback) {
+      const close = Math.abs(v - q.answer) <= Math.max(0.25 * Math.abs(q.answer), 10 * q.tolerance);
+      const direction = v > q.answer ? tr('Javobingiz kerakligidan katta.', 'Your answer is too high.') : tr('Javobingiz kerakligidan kichik.', 'Your answer is too low.');
+      setHint({ close, text: trap ?? direction });
+      setValue('');
+      return;
+    }
+    setHint(null);
     setResult({ ok, trap });
     onAnswer(ok);
   };
@@ -199,7 +211,7 @@ function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
           disabled={result != null}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && check()}
-          placeholder={tr('Javobingiz', 'Your answer')}
+          placeholder={hint ? tr('Yana bir urinish', 'One more try') : tr('Javobingiz', 'Your answer')}
           className="num w-40 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-2 text-[15px] outline-none focus:ring-4 focus:ring-pen/30"
         />
         {q.unit && <span className="text-sm text-muted">{q.unit}</span>}
@@ -219,6 +231,15 @@ function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
           </button>
         )}
       </div>
+      {hint && (
+        <div className="postit animate-pop mt-4 border-2 border-ink bg-postit-yellow p-4 text-[15px] text-[#111]">
+          <div className="mb-1 font-hand text-[17px] font-semibold text-[#1f4fb8]">
+            {hint.close ? tr('Yaqin! Yana bir bor urinib ko‘ring', 'Close! Try once more') : tr('Hali emas — yana bir bor urinib ko‘ring', 'Not yet — try once more')}
+          </div>
+          <span className="font-semibold">{tr('Maslahat: ', 'Hint: ')}</span>
+          <RichText text={hint.text} />
+        </div>
+      )}
       {result && !hideFeedback && (
         <Feedback ok={result.ok}>
           {!result.ok && result.trap && (
@@ -358,7 +379,7 @@ function stripMarkup(s: string) {
 }
 
 /** Deterministic shuffle so options don't jump around on re-render. */
-function shuffle<T>(arr: T[], seed: string): T[] {
+function shuffle<T>(arr: T[], seed: string, keepOrderAllowed = false): T[] {
   let h = 2166136261;
   for (const ch of seed) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
   const out = [...arr];
@@ -368,6 +389,16 @@ function shuffle<T>(arr: T[], seed: string): T[] {
     [out[i], out[j]] = [out[j], out[i]];
   }
   // Never leave it in the original order
-  if (out.every((x, i) => x === arr[i]) && out.length > 1) out.push(out.shift()!);
+  if (!keepOrderAllowed && out.every((x, i) => x === arr[i]) && out.length > 1) out.push(out.shift()!);
   return out;
+}
+
+/** “All/None of the above” must stay where it is; every other option is shuffled. */
+const PINNED = /\b(all|none) of the above\b/i;
+
+export function shuffleOptions(q: MCQ): MCQ['options'] {
+  const movable = q.options.filter((o) => !PINNED.test(o.text));
+  const shuffled = shuffle(movable, q.id, true);
+  let k = 0;
+  return q.options.map((o) => (PINNED.test(o.text) ? o : shuffled[k++]));
 }
