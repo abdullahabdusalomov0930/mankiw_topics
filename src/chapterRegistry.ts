@@ -8,6 +8,16 @@ import { ch07 } from './content/chapters/ch07';
 import { ch08 } from './content/chapters/ch08';
 import { ch09 } from './content/chapters/ch09';
 import { ch10 } from './content/chapters/ch10';
+import { ch11 } from './content/chapters/ch11';
+import { ch12 } from './content/chapters/ch12';
+import { ch13 } from './content/chapters/ch13';
+import { ch14 } from './content/chapters/ch14';
+import { ch15 } from './content/chapters/ch15';
+import { ch16 } from './content/chapters/ch16';
+import { ch17 } from './content/chapters/ch17';
+import { ch18 } from './content/chapters/ch18';
+import { ch19 } from './content/chapters/ch19';
+import { ch20 } from './content/chapters/ch20';
 import type { ChapterData, ChapterPageContent, Term } from './content/types';
 
 /**
@@ -46,6 +56,16 @@ export const chapters: ChapterEntry[] = [
   { number: 8, titleEn: ch08.titleEn, titleUz: ch08.titleUz, part: ch08.part, data: ch08, loadPage: () => import('./content/chapters/ch08/page') },
   { number: 9, titleEn: ch09.titleEn, titleUz: ch09.titleUz, part: ch09.part, data: ch09, loadPage: () => import('./content/chapters/ch09/page') },
   { number: 10, titleEn: ch10.titleEn, titleUz: ch10.titleUz, part: ch10.part, data: ch10, loadPage: () => import('./content/chapters/ch10/page') },
+  { number: 11, titleEn: ch11.titleEn, titleUz: ch11.titleUz, part: ch11.part, data: ch11, loadPage: () => import('./content/chapters/ch11/page') },
+  { number: 12, titleEn: ch12.titleEn, titleUz: ch12.titleUz, part: ch12.part, data: ch12, loadPage: () => import('./content/chapters/ch12/page') },
+  { number: 13, titleEn: ch13.titleEn, titleUz: ch13.titleUz, part: ch13.part, data: ch13, loadPage: () => import('./content/chapters/ch13/page') },
+  { number: 14, titleEn: ch14.titleEn, titleUz: ch14.titleUz, part: ch14.part, data: ch14, loadPage: () => import('./content/chapters/ch14/page') },
+  { number: 15, titleEn: ch15.titleEn, titleUz: ch15.titleUz, part: ch15.part, data: ch15, loadPage: () => import('./content/chapters/ch15/page') },
+  { number: 16, titleEn: ch16.titleEn, titleUz: ch16.titleUz, part: ch16.part, data: ch16, loadPage: () => import('./content/chapters/ch16/page') },
+  { number: 17, titleEn: ch17.titleEn, titleUz: ch17.titleUz, part: ch17.part, data: ch17, loadPage: () => import('./content/chapters/ch17/page') },
+  { number: 18, titleEn: ch18.titleEn, titleUz: ch18.titleUz, part: ch18.part, data: ch18, loadPage: () => import('./content/chapters/ch18/page') },
+  { number: 19, titleEn: ch19.titleEn, titleUz: ch19.titleUz, part: ch19.part, data: ch19, loadPage: () => import('./content/chapters/ch19/page') },
+  { number: 20, titleEn: ch20.titleEn, titleUz: ch20.titleUz, part: ch20.part, data: ch20, loadPage: () => import('./content/chapters/ch20/page') },
 ];
 
 export const readyChapters = (): ChapterData[] => chapters.filter((c) => c.data).map((c) => c.data!);

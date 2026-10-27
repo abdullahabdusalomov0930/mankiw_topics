@@ -130,7 +130,7 @@ export function GraphsPage() {
   const cur = all.find((x) => x.key === pick) ?? shown[0];
   return (
     <div className="mx-auto max-w-5xl px-4 pb-10">
-      <PageHead title="Grafiklar galereyasi" sub="Barcha interaktiv grafiklar va laboratoriyalar, 1–10-boblar. Tanlang va o'ynab ko'ring." />
+      <PageHead title="Grafiklar galereyasi" sub={`Barcha interaktiv grafiklar va laboratoriyalar, 1–${chapters.length}-boblar. Tanlang va o'ynab ko'ring.`} />
       <div className="mb-3 flex flex-wrap gap-1.5">
         {(['all', ...readyChapters().map((c) => c.number)] as const).map((n) => (
           <button key={n} className={chFilter === n ? 'btn-primary btn-sm' : 'btn-ghost btn-sm'} onClick={() => setChFilter(n)}>

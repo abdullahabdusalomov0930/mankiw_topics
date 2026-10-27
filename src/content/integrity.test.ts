@@ -6,7 +6,7 @@ const dups = (ids: string[]) => ids.filter((id, i) => ids.indexOf(id) !== i);
 
 describe('content integrity', () => {
   const chs = readyChapters();
-  it('has all ten chapters', () => expect(chs.map((c) => c.number)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+  it('chapters are numbered 1..n without gaps', () => expect(chs.map((c) => c.number)).toEqual(chs.map((_, i) => i + 1)));
   it('term ids are unique across the book', () => expect(dups(chs.flatMap((c) => c.terms.map((t) => t.id)))).toEqual([]));
   it('formula ids are unique', () => expect(dups(chs.flatMap((c) => c.formulas.map((f) => f.id)))).toEqual([]));
   it('question ids are unique', () => expect(dups(chs.flatMap((c) => c.questions.map((q) => q.id)))).toEqual([]));

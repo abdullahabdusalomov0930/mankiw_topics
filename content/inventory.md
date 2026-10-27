@@ -1,6 +1,6 @@
-# Content inventory — Mankiw, *Principles of Economics* 10e, Chapters 1–10
+# Content inventory — Mankiw, *Principles of Economics* 10e, Chapters 1–20
 
-Source: the attached PDF (book pages 1–209, PDF pages 36–245), read in full including the Chapter 2 appendix.
+Source: the attached PDF (book pages 1–209, PDF pages 36–245, read in full including the Chapter 2 appendix; Chapters 11–20 from PDF pages 245–455).
 This file is the checklist for the coverage audit. Every item has an ID (`chNN.kind.slug`); the site uses the same IDs, and the audit (step 6) maps each ID to the place on the site where it is taught.
 
 Legend for kinds: `term` (Key Concept or other bold/defined term), `f` (formula), `fig` (figure/table), `box` (Case Study / In the News / Ask the Experts / FYI), `qq` (QuickQuiz), `qr` (Question for Review), `pa` (Problem and Application).
@@ -18,6 +18,11 @@ Status column: `✅ <site path>` once taught, `⏳` not built yet.
 | Ch 2, Figure 2 (PPF) | Only points A (600 cars, 2,200 computers), B (700, 2,000), D (300, 1,000) and the endpoints (1,000 cars / 3,000 computers) are in the text. Points C, E, F have no numbers. | Points C/E/F are drawn qualitatively (C outside, E steep part, F flat part). The curve is a smooth fit through A and B (±10). Figure 3's point G (650, 2,300) is mentioned in the lesson but not plotted, since the book's shifted curve is schematic. |
 | Ch 5, Figure 5 (five supply curves) and Figure 6 | Panel numbers are in the image. Text gives Fig. 6 numbers ($3→$4: 100→200; $12→$15: 500→525). | Fig. 5 is redrawn qualitatively (perfectly inelastic → perfectly elastic) with my own numbers, labelled as such. |
 | Ch 2 appendix, Figure A-1 | Pie/bar/time-series data are images. | Described in words in the appendix lesson (what each graph type shows); the book's data is not reproduced. |
+| Ch 13, Table 2 (2020 federal tax brackets) | The book prints 15% for the second bracket; the 2020 law is 12%. | Used the book's value (so answers match the book) and added a note on the page. |
+| Ch 13, Figure 2 | Ordering of the bars in the image is unclear in the text layer. | Reconstructed from the text and noted on the page. |
+| Ch 18, Problem 5 payoff matrix | Matrix is an image; text layer gives scrambled numbers. | Reconstructed (LL 20/30, Large–Small 30/0, Small–Large 0/70, SS 40/50) and noted on the page. |
+| Ch 19, Figure 7 (productivity and real wages) | Bar values are in the image. | Pairs taken from the text layer (2.9/2.7, 1.5/1.2, 2.7/2.2, 1.5/1.1) and labelled reconstructed. |
+| Ch 20, Table 1 "Percent extra" row | The table prints 142%/185% (ratios) while the text says 42%/85% (premium). | Showed both and explained on the page. |
 
 Everything else (all definitions, all QuickQuiz questions and answer keys, all review questions and problems, all numeric examples) was readable.
 
@@ -682,6 +687,631 @@ ch10.pa.1 The Club vs Lojack · pa.2 fire extinguishers, $10 external benefit ·
 
 ---
 
+## Chapter 11 — Public Goods and Common Resources
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch11.term.excludability | excludability | ✅ /chapter/11#terms |
+| ch11.term.rivalry | rivalry in consumption | ✅ /chapter/11#terms |
+| ch11.term.private-goods | private goods | ✅ /chapter/11#terms |
+| ch11.term.public-goods | public goods | ✅ /chapter/11#terms |
+| ch11.term.common-resources | common resources | ✅ /chapter/11#terms |
+| ch11.term.club-goods | club goods | ✅ /chapter/11#terms |
+| ch11.term.free-rider | free rider | ✅ /chapter/11#terms |
+| ch11.term.cost-benefit-analysis | cost–benefit analysis | ✅ /chapter/11#terms |
+| ch11.term.tragedy-of-the-commons | Tragedy of the Commons | ✅ /chapter/11#terms |
+| ch11.term.value-of-life | value of a statistical life | ✅ /chapter/11#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch11.f.public-good-rule | Provide a public good if total benefit exceeds cost | ✅ /formulas · /chapter/11 |
+| ch11.f.expected-benefit | Expected benefit of a safety project | ✅ /formulas · /chapter/11 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch11.sec.11-1 | The Different Kinds of Goods | ✅ /chapter/11#s-11-1 |
+| ch11.sec.11-2a | The Free-Rider Problem | ✅ /chapter/11#s-11-2a |
+| ch11.sec.11-2b | Some Important Public Goods | ✅ /chapter/11#s-11-2b |
+| ch11.sec.11-2c | The Difficult Job of Cost–Benefit Analysis | ✅ /chapter/11#s-11-2c |
+| ch11.sec.11-3a | The Tragedy of the Commons | ✅ /chapter/11#s-11-3a |
+| ch11.sec.11-3b | Some Important Common Resources | ✅ /chapter/11#s-11-3b |
+| ch11.sec.11-4 | Conclusion: Property Rights and Government Action | ✅ /chapter/11#s-11-4 |
+| ch11.widget | To'rt tovar turi: tasniflash o'yini | ✅ /chapter/11 · /graphs |
+| ch11.widget | Jamoat tovari: xarajat–foyda va ovoz berish | ✅ /chapter/11 · /graphs |
+| ch11.widget | Tragedy of the Commons simulyatori | ✅ /chapter/11 · /graphs |
+| ch11.widget | Hayot qiymati va svetofor | ✅ /chapter/11 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch11.box.cs-lighthouses | Case Study: Are Lighthouses Public Goods? | ✅ /chapter/11 |
+| ch11.box.cs-life | Case Study: How Much Is a Life Worth? | ✅ /chapter/11 |
+| ch11.box.cs-cow | Case Study: Why the Cow Is Not Extinct | ✅ /chapter/11 |
+| ch11.box.news-road-pricing | In the News: Road Pricing | ✅ /chapter/11 |
+
+### QuickQuiz (1a 2b 3b 4b 5d 6d 7c 8d)
+ch11.qq.1–8 — all ✅ `/chapter/11#practice`
+
+### Questions for Review
+ch11.qr.1–4 — all ✅ `/chapter/11#practice` (step-by-step)
+
+### Problems and Applications
+ch11.pa.1–10 — all ✅ `/chapter/11#practice` (step-by-step)
+
+---
+
+## Chapter 12 — The Economics of Healthcare
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch12.term.risk-aversion | risk aversion | ✅ /chapter/12#terms |
+| ch12.term.moral-hazard | moral hazard | ✅ /chapter/12#terms |
+| ch12.term.adverse-selection | adverse selection | ✅ /chapter/12#terms |
+| ch12.term.death-spiral | death spiral | ✅ /chapter/12#terms |
+| ch12.term.premium | insurance premium | ✅ /chapter/12#terms |
+| ch12.term.single-payer | single-payer system | ✅ /chapter/12#terms |
+| ch12.term.baumol-cost-disease | Baumol's cost disease | ✅ /chapter/12#terms |
+| ch12.term.healthcare-rules | financing, access, and payment rules | ✅ /chapter/12#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch12.f.fair-premium | Actuarially fair premium | ✅ /formulas · /chapter/12 |
+| ch12.f.pool-price | Community-rated price and the buy decision | ✅ /formulas · /chapter/12 |
+| ch12.f.insurance-surplus | Consumer surplus from insurance | ✅ /formulas · /chapter/12 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch12.sec.12-1 | The Special Characteristics of the Market for Healthcare | ✅ /chapter/12#s-12-1 |
+| ch12.sec.12-1a | Externalities Galore | ✅ /chapter/12#s-12-1a |
+| ch12.sec.12-1b | The Difficulty of Monitoring Quality | ✅ /chapter/12#s-12-1b |
+| ch12.sec.12-1c | The Insurance Market and Its Imperfections | ✅ /chapter/12#s-12-1c |
+| ch12.sec.12-1d | Healthcare as a Right | ✅ /chapter/12#s-12-1d |
+| ch12.sec.12-1e | The Rules Governing the Healthcare Marketplace | ✅ /chapter/12#s-12-1e |
+| ch12.sec.12-2a | People Are Living Longer | ✅ /chapter/12#s-12-2a |
+| ch12.sec.12-2b | Healthcare Spending Is a Growing Share of the Economy | ✅ /chapter/12#s-12-2b |
+| ch12.sec.12-2c | Healthcare Spending Is Especially High in the United States | ✅ /chapter/12#s-12-2c |
+| ch12.sec.12-2d | Out-of-Pocket Spending Is a Declining Share of Health Expenditure | ✅ /chapter/12#s-12-2d |
+| ch12.sec.12-3 | Conclusion: The Policy Debate over Healthcare | ✅ /chapter/12#s-12-3 |
+| ch12.widget | Adverse selection: death spiral simulyatori | ✅ /chapter/12 · /graphs |
+| ch12.widget | Moral hazard: co-pay va ortiqcha foydalanish | ✅ /chapter/12 · /graphs |
+| ch12.widget | Sug'urtaning qiymati: adolatli premium | ✅ /chapter/12 · /graphs |
+| ch12.widget | Sog'liq xarajatlari: davlatlar va vaqt bo'yicha | ✅ /chapter/12 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch12.box.cs-vaccine | Case Study: Vaccine Hesitancy | ✅ /chapter/12 |
+| ch12.box.news-pandemic | In the News: Lessons from the Pandemic of 2020 | ✅ /chapter/12 |
+
+### QuickQuiz (1d 2c 3a 4b 5b 6a 7c)
+ch12.qq.1–7 — all ✅ `/chapter/12#practice`
+
+### Questions for Review
+ch12.qr.1–7 — all ✅ `/chapter/12#practice` (step-by-step)
+
+### Problems and Applications
+ch12.pa.1–4 — all ✅ `/chapter/12#practice` (step-by-step)
+
+---
+
+## Chapter 13 — The Design of the Tax System
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch13.term.average-tax-rate | average tax rate | ✅ /chapter/13#terms |
+| ch13.term.marginal-tax-rate-13 | marginal tax rate | ✅ /chapter/13#terms |
+| ch13.term.lump-sum-tax | lump-sum tax | ✅ /chapter/13#terms |
+| ch13.term.benefits-principle | benefits principle | ✅ /chapter/13#terms |
+| ch13.term.ability-to-pay-principle | ability-to-pay principle | ✅ /chapter/13#terms |
+| ch13.term.vertical-equity | vertical equity | ✅ /chapter/13#terms |
+| ch13.term.horizontal-equity | horizontal equity | ✅ /chapter/13#terms |
+| ch13.term.proportional-tax | proportional tax | ✅ /chapter/13#terms |
+| ch13.term.regressive-tax | regressive tax | ✅ /chapter/13#terms |
+| ch13.term.progressive-tax | progressive tax | ✅ /chapter/13#terms |
+| ch13.term.administrative-burden | administrative burden | ✅ /chapter/13#terms |
+| ch13.term.consumption-tax | consumption tax | ✅ /chapter/13#terms |
+| ch13.term.flypaper-theory | flypaper theory of tax incidence | ✅ /chapter/13#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch13.f.average-rate | Average tax rate | ✅ /formulas · /chapter/13 |
+| ch13.f.marginal-rate | Marginal tax rate | ✅ /formulas · /chapter/13 |
+| ch13.f.bracket-tax | Tax under a bracket schedule | ✅ /formulas · /chapter/13 |
+| ch13.f.interest-after-tax | Compound growth with taxed interest | ✅ /formulas · /chapter/13 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch13.sec.13-1 | U.S. Taxation: The Big Picture | ✅ /chapter/13#s-13-1 |
+| ch13.sec.13-1a | Taxes Collected by the Federal Government | ✅ /chapter/13#s-13-1a |
+| ch13.sec.13-1b | Taxes Collected by State and Local Governments | ✅ /chapter/13#s-13-1b |
+| ch13.sec.13-2a | Deadweight Losses | ✅ /chapter/13#s-13-2a |
+| ch13.sec.13-2b | Administrative Burden | ✅ /chapter/13#s-13-2b |
+| ch13.sec.13-2c | Marginal Tax Rates versus Average Tax Rates | ✅ /chapter/13#s-13-2c |
+| ch13.sec.13-2d | Lump-Sum Taxes | ✅ /chapter/13#s-13-2d |
+| ch13.sec.13-3a | The Benefits Principle | ✅ /chapter/13#s-13-3a |
+| ch13.sec.13-3b | The Ability-to-Pay Principle | ✅ /chapter/13#s-13-3b |
+| ch13.sec.13-3c | Tax Incidence and Tax Equity | ✅ /chapter/13#s-13-3c |
+| ch13.sec.13-4 | Conclusion: The Trade-Off between Equity and Efficiency | ✅ /chapter/13#s-13-4 |
+| ch13.widget | Marjinal va o'rtacha soliq stavkasi kalkulyatori | ✅ /chapter/13 · /graphs |
+| ch13.widget | DWL qayerdan keladi: pizza va piano darslari | ✅ /chapter/13 · /graphs |
+| ch13.widget | Foiz solig'i va jamg'arma (Sammy Saver) | ✅ /chapter/13 · /graphs |
+| ch13.widget | Federal soliq yuki taqsimoti (Table 5) | ✅ /chapter/13 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch13.box.cs-income-consumption | Case Study: Should Income or Consumption Be Taxed? | ✅ /chapter/13 |
+| ch13.box.cs-tax-burden | Case Study: How the Tax Burden Is Distributed | ✅ /chapter/13 |
+| ch13.box.cs-corporate | Case Study: Who Pays the Corporate Income Tax? | ✅ /chapter/13 |
+| ch13.box.news-vat | In the News: The Value-Added Tax | ✅ /chapter/13 |
+
+### QuickQuiz (1b 2b 3c 4a 5a 6a 7d 8c)
+ch13.qq.1–8 — all ✅ `/chapter/13#practice`
+
+### Questions for Review
+ch13.qr.1–7 — all ✅ `/chapter/13#practice` (step-by-step)
+
+### Problems and Applications
+ch13.pa.1–8 — all ✅ `/chapter/13#practice` (step-by-step)
+
+---
+
+## Chapter 14 — The Costs of Production
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch14.term.total-cost | total cost | ✅ /chapter/14#terms |
+| ch14.term.profit | profit | ✅ /chapter/14#terms |
+| ch14.term.explicit-costs | explicit costs | ✅ /chapter/14#terms |
+| ch14.term.implicit-costs | implicit costs | ✅ /chapter/14#terms |
+| ch14.term.economic-profit | economic profit | ✅ /chapter/14#terms |
+| ch14.term.accounting-profit | accounting profit | ✅ /chapter/14#terms |
+| ch14.term.production-function | production function | ✅ /chapter/14#terms |
+| ch14.term.marginal-product | marginal product | ✅ /chapter/14#terms |
+| ch14.term.diminishing-marginal-product | diminishing marginal product | ✅ /chapter/14#terms |
+| ch14.term.fixed-costs | fixed costs | ✅ /chapter/14#terms |
+| ch14.term.variable-costs | variable costs | ✅ /chapter/14#terms |
+| ch14.term.average-total-cost | average total cost (ATC) | ✅ /chapter/14#terms |
+| ch14.term.average-fixed-cost | average fixed cost (AFC) | ✅ /chapter/14#terms |
+| ch14.term.average-variable-cost | average variable cost (AVC) | ✅ /chapter/14#terms |
+| ch14.term.marginal-cost | marginal cost (MC) | ✅ /chapter/14#terms |
+| ch14.term.efficient-scale | efficient scale | ✅ /chapter/14#terms |
+| ch14.term.economies-of-scale-lr | economies of scale (long run) | ✅ /chapter/14#terms |
+| ch14.term.diseconomies-of-scale | diseconomies of scale | ✅ /chapter/14#terms |
+| ch14.term.constant-returns-to-scale | constant returns to scale | ✅ /chapter/14#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch14.f.profit-def | Economic and accounting profit | ✅ /formulas · /chapter/14 |
+| ch14.f.marginal-product | Marginal product of labor | ✅ /formulas · /chapter/14 |
+| ch14.f.cost-identities | Cost identities | ✅ /formulas · /chapter/14 |
+| ch14.f.marginal-cost | Marginal cost | ✅ /formulas · /chapter/14 |
+| ch14.f.mc-atc-rule | Marginal–average rule | ✅ /formulas · /chapter/14 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch14.sec.14-1a | Total Revenue, Total Cost, and Profit | ✅ /chapter/14#s-14-1a |
+| ch14.sec.14-1b | Why Opportunity Costs Matter | ✅ /chapter/14#s-14-1b |
+| ch14.sec.14-1c | The Cost of Capital Is an Opportunity Cost | ✅ /chapter/14#s-14-1c |
+| ch14.sec.14-1d | Economists and Accountants Measure Profit Differently | ✅ /chapter/14#s-14-1d |
+| ch14.sec.14-2a | The Production Function | ✅ /chapter/14#s-14-2a |
+| ch14.sec.14-2b | From the Production Function to the Total-Cost Curve | ✅ /chapter/14#s-14-2b |
+| ch14.sec.14-3a | Fixed and Variable Costs | ✅ /chapter/14#s-14-3a |
+| ch14.sec.14-3b | Average and Marginal Cost | ✅ /chapter/14#s-14-3b |
+| ch14.sec.14-3c | Cost Curves and Their Shapes | ✅ /chapter/14#s-14-3c |
+| ch14.sec.14-3d | Typical Cost Curves | ✅ /chapter/14#s-14-3d |
+| ch14.sec.14-4a | The Relationship between Short-Run and Long-Run Average Total Cost | ✅ /chapter/14#s-14-4a |
+| ch14.sec.14-4b | Economies and Diseconomies of Scale | ✅ /chapter/14#s-14-4b |
+| ch14.sec.14-5 | Conclusion | ✅ /chapter/14#s-14-5 |
+| ch14.widget | Xarajat egri chiziqlari laboratoriyasi (Caleb va masalalar) | ✅ /chapter/14 · /graphs |
+| ch14.widget | Chloe: production function va total cost | ✅ /chapter/14 · /graphs |
+| ch14.widget | Iqtisodiy va buxgalteriya foydasi | ✅ /chapter/14 · /graphs |
+| ch14.widget | Qisqa va uzoq muddatli ATC (Ford) | ✅ /chapter/14 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch14.box.fyi-pin | FYI: Lessons from a Pin Factory | ✅ /chapter/14 |
+
+### QuickQuiz (1c 2a 3a 4d 5d 6c 7b 8a 9d)
+ch14.qq.1–9 — all ✅ `/chapter/14#practice`
+
+### Questions for Review
+ch14.qr.1–8 — all ✅ `/chapter/14#practice` (step-by-step)
+
+### Problems and Applications
+ch14.pa.1–10 — all ✅ `/chapter/14#practice` (step-by-step)
+
+---
+
+## Chapter 15 — Firms in Competitive Markets
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch15.term.competitive-market-15 | competitive market (perfectly competitive) | ✅ /chapter/15#terms |
+| ch15.term.average-revenue | average revenue (AR) | ✅ /chapter/15#terms |
+| ch15.term.marginal-revenue | marginal revenue (MR) | ✅ /chapter/15#terms |
+| ch15.term.sunk-cost | sunk cost | ✅ /chapter/15#terms |
+| ch15.term.shutdown | shutdown (short run) | ✅ /chapter/15#terms |
+| ch15.term.exit | exit (long run) | ✅ /chapter/15#terms |
+| ch15.term.zero-profit-equilibrium | zero-profit (long-run) equilibrium | ✅ /chapter/15#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch15.f.competitive-revenue | Revenue of a competitive firm | ✅ /formulas · /chapter/15 |
+| ch15.f.profit-max | Profit-maximizing rule | ✅ /formulas · /chapter/15 |
+| ch15.f.shutdown-exit | Shutdown and exit rules | ✅ /formulas · /chapter/15 |
+| ch15.f.profit-area | Profit as a rectangle | ✅ /formulas · /chapter/15 |
+| ch15.f.lr-equilibrium | Long-run competitive equilibrium | ✅ /formulas · /chapter/15 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch15.sec.15-1a | The Meaning of Competition | ✅ /chapter/15#s-15-1a |
+| ch15.sec.15-1b | The Revenue of a Competitive Firm | ✅ /chapter/15#s-15-1b |
+| ch15.sec.15-2a | A Simple Example of Profit Maximization | ✅ /chapter/15#s-15-2a |
+| ch15.sec.15-2b | The Marginal-Cost Curve and the Firm's Supply Decision | ✅ /chapter/15#s-15-2b |
+| ch15.sec.15-2c | The Firm's Short-Run Decision to Shut Down | ✅ /chapter/15#s-15-2c |
+| ch15.sec.15-2d | Spilt Milk and Other Sunk Costs | ✅ /chapter/15#s-15-2d |
+| ch15.sec.15-2e | The Firm's Long-Run Decision to Exit or Enter a Market | ✅ /chapter/15#s-15-2e |
+| ch15.sec.15-2f | Measuring Profit in Our Graph for the Competitive Firm | ✅ /chapter/15#s-15-2f |
+| ch15.sec.15-2g | A Brief Recap | ✅ /chapter/15#s-15-2g |
+| ch15.sec.15-3a | The Short Run: Market Supply with a Fixed Number of Firms | ✅ /chapter/15#s-15-3a |
+| ch15.sec.15-3b | The Long Run: Market Supply with Entry and Exit | ✅ /chapter/15#s-15-3b |
+| ch15.sec.15-3c | Why Do Competitive Firms Stay in Business If They Make Zero Profit? | ✅ /chapter/15#s-15-3c |
+| ch15.sec.15-3d | A Shift in Demand in the Short Run and Long Run | ✅ /chapter/15#s-15-3d |
+| ch15.sec.15-3e | Why the Long-Run Supply Curve Might Slope Upward | ✅ /chapter/15#s-15-3e |
+| ch15.sec.15-4 | Conclusion: Behind the Supply Curve | ✅ /chapter/15#s-15-4 |
+| ch15.widget | Raqobatchi firma: P = MC, foyda, shut down, exit | ✅ /chapter/15 · /graphs |
+| ch15.widget | Kirish va chiqish: qisqa va uzoq muddatli taklif | ✅ /chapter/15 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch15.box.cs-empty-restaurants | Case Study: Near-Empty Restaurants and Off-Season Miniature Golf | ✅ /chapter/15 |
+
+### QuickQuiz (1c 2d 3b 4d 5a 6d 7c 8c)
+ch15.qq.1–8 — all ✅ `/chapter/15#practice`
+
+### Questions for Review
+ch15.qr.1–8 — all ✅ `/chapter/15#practice` (step-by-step)
+
+### Problems and Applications
+ch15.pa.1–11 — all ✅ `/chapter/15#practice` (step-by-step)
+
+---
+
+## Chapter 16 — Monopoly
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch16.term.monopoly-firm | monopoly | ✅ /chapter/16#terms |
+| ch16.term.barriers-to-entry | barriers to entry | ✅ /chapter/16#terms |
+| ch16.term.natural-monopoly | natural monopoly | ✅ /chapter/16#terms |
+| ch16.term.price-maker | price maker | ✅ /chapter/16#terms |
+| ch16.term.output-price-effect | output effect and price effect | ✅ /chapter/16#terms |
+| ch16.term.price-discrimination | price discrimination | ✅ /chapter/16#terms |
+| ch16.term.perfect-price-discrimination | perfect price discrimination | ✅ /chapter/16#terms |
+| ch16.term.arbitrage | arbitrage | ✅ /chapter/16#terms |
+| ch16.term.antitrust-laws | antitrust laws | ✅ /chapter/16#terms |
+| ch16.term.marginal-cost-pricing | marginal-cost pricing (regulation) | ✅ /chapter/16#terms |
+| ch16.term.public-ownership | public ownership | ✅ /chapter/16#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch16.f.monopoly-mr | Marginal revenue of a monopoly (linear demand) | ✅ /formulas · /chapter/16 |
+| ch16.f.monopoly-rule | Monopoly profit maximization | ✅ /formulas · /chapter/16 |
+| ch16.f.monopoly-profit | Monopoly profit | ✅ /formulas · /chapter/16 |
+| ch16.f.monopoly-dwl | Deadweight loss of monopoly | ✅ /formulas · /chapter/16 |
+| ch16.f.pd-welfare | Perfect price discrimination accounting (Problem 12) | ✅ /formulas · /chapter/16 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch16.sec.16-1 | Why Monopolies Arise | ✅ /chapter/16#s-16-1 |
+| ch16.sec.16-1a | Monopoly Resources | ✅ /chapter/16#s-16-1a |
+| ch16.sec.16-1b | Government-Created Monopolies | ✅ /chapter/16#s-16-1b |
+| ch16.sec.16-1c | Natural Monopolies | ✅ /chapter/16#s-16-1c |
+| ch16.sec.16-2a | Monopoly versus Competition | ✅ /chapter/16#s-16-2a |
+| ch16.sec.16-2b | A Monopoly's Revenue | ✅ /chapter/16#s-16-2b |
+| ch16.sec.16-2c | Profit Maximization | ✅ /chapter/16#s-16-2c |
+| ch16.sec.16-2d | A Monopoly's Profit | ✅ /chapter/16#s-16-2d |
+| ch16.sec.16-3a | The Deadweight Loss | ✅ /chapter/16#s-16-3a |
+| ch16.sec.16-3b | The Monopoly's Profit: A Social Cost? | ✅ /chapter/16#s-16-3b |
+| ch16.sec.16-4a | A Parable about Pricing | ✅ /chapter/16#s-16-4a |
+| ch16.sec.16-4b | The Moral of the Story | ✅ /chapter/16#s-16-4b |
+| ch16.sec.16-4c | The Analytics of Price Discrimination | ✅ /chapter/16#s-16-4c |
+| ch16.sec.16-4d | Examples of Price Discrimination | ✅ /chapter/16#s-16-4d |
+| ch16.sec.16-5a | Increasing Competition with Antitrust Laws | ✅ /chapter/16#s-16-5a |
+| ch16.sec.16-5b | Regulation | ✅ /chapter/16#s-16-5b |
+| ch16.sec.16-5c | Public Ownership | ✅ /chapter/16#s-16-5c |
+| ch16.sec.16-5d | Above All, Do No Harm | ✅ /chapter/16#s-16-5d |
+| ch16.sec.16-6 | Conclusion: The Prevalence of Monopolies | ✅ /chapter/16#s-16-6 |
+| ch16.widget | Monopoliya: MR = MC, foyda, DWL (masalalar) | ✅ /chapter/16 · /graphs |
+| ch16.widget | Monopoliya tushumi: output va price effect | ✅ /chapter/16 · /graphs |
+| ch16.widget | Narx diskriminatsiyasi: Readalot, Figure 9, spektakl | ✅ /chapter/16 · /graphs |
+| ch16.widget | Tabiiy monopoliyani tartibga solish | ✅ /chapter/16 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch16.box.fyi-supply-curve | FYI: Why a Monopoly Does Not Have a Supply Curve | ✅ /chapter/16 |
+| ch16.box.cs-drugs | Case Study: Monopoly Drugs versus Generic Drugs | ✅ /chapter/16 |
+| ch16.box.news-antitrust | In the News: Will the Biden Administration Expand the Scope of Antitrust Policy? | ✅ /chapter/16 |
+
+### QuickQuiz (1c 2d 3b 4d 5a 6b 7a 8c 9c 10c)
+ch16.qq.1–10 — all ✅ `/chapter/16#practice`
+
+### Questions for Review
+ch16.qr.1–8 — all ✅ `/chapter/16#practice` (step-by-step)
+
+### Problems and Applications
+ch16.pa.1–12 — all ✅ `/chapter/16#practice` (step-by-step)
+
+---
+
+## Chapter 17 — Monopolistic Competition
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch17.term.imperfect-competition | imperfect competition | ✅ /chapter/17#terms |
+| ch17.term.oligopoly | oligopoly | ✅ /chapter/17#terms |
+| ch17.term.concentration-ratio | concentration ratio | ✅ /chapter/17#terms |
+| ch17.term.monopolistic-competition | monopolistic competition | ✅ /chapter/17#terms |
+| ch17.term.product-differentiation | product differentiation | ✅ /chapter/17#terms |
+| ch17.term.excess-capacity | excess capacity | ✅ /chapter/17#terms |
+| ch17.term.markup | markup over marginal cost | ✅ /chapter/17#terms |
+| ch17.term.product-variety-externality | product-variety externality | ✅ /chapter/17#terms |
+| ch17.term.business-stealing-externality | business-stealing externality | ✅ /chapter/17#terms |
+| ch17.term.brand-names | brand names | ✅ /chapter/17#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch17.f.mc-lr | Long-run equilibrium of monopolistic competition | ✅ /formulas · /chapter/17 |
+| ch17.f.ad-signal | Advertising as a signal (separating condition) | ✅ /formulas · /chapter/17 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch17.sec.17-1 | Between Monopoly and Perfect Competition | ✅ /chapter/17#s-17-1 |
+| ch17.sec.17-2a | The Monopolistically Competitive Firm in the Short Run | ✅ /chapter/17#s-17-2a |
+| ch17.sec.17-2b | The Long-Run Equilibrium | ✅ /chapter/17#s-17-2b |
+| ch17.sec.17-2c | Monopolistic versus Perfect Competition | ✅ /chapter/17#s-17-2c |
+| ch17.sec.17-2d | Monopolistic Competition and the Welfare of Society | ✅ /chapter/17#s-17-2d |
+| ch17.sec.17-3a | The Debate over Advertising | ✅ /chapter/17#s-17-3a |
+| ch17.sec.17-3b | Advertising as a Signal of Quality | ✅ /chapter/17#s-17-3b |
+| ch17.sec.17-3c | Brand Names | ✅ /chapter/17#s-17-3c |
+| ch17.sec.17-4 | Conclusion | ✅ /chapter/17#s-17-4 |
+| ch17.widget | Monopolistik raqobat: tangency, markup, excess capacity | ✅ /chapter/17 · /graphs |
+| ch17.widget | To'rt bozor tuzilmasi: tasniflash o'yini | ✅ /chapter/17 · /graphs |
+| ch17.widget | Reklama — sifat signali (General Mills va Kellogg) | ✅ /chapter/17 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch17.box.cs-ad-prices | Case Study: How Advertising Affects Prices | ✅ /chapter/17 |
+
+### QuickQuiz (1b 2d 3a 4d 5a 6c 7b 8b)
+ch17.qq.1–8 — all ✅ `/chapter/17#practice`
+
+### Questions for Review
+ch17.qr.1–7 — all ✅ `/chapter/17#practice` (step-by-step)
+
+### Problems and Applications
+ch17.pa.1–10 — all ✅ `/chapter/17#practice` (step-by-step)
+
+---
+
+## Chapter 18 — Oligopoly
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch18.term.game-theory | game theory | ✅ /chapter/18#terms |
+| ch18.term.duopoly | duopoly | ✅ /chapter/18#terms |
+| ch18.term.collusion | collusion | ✅ /chapter/18#terms |
+| ch18.term.cartel | cartel | ✅ /chapter/18#terms |
+| ch18.term.nash-equilibrium | Nash equilibrium | ✅ /chapter/18#terms |
+| ch18.term.prisoners-dilemma | prisoners' dilemma | ✅ /chapter/18#terms |
+| ch18.term.dominant-strategy | dominant strategy | ✅ /chapter/18#terms |
+| ch18.term.tit-for-tat | tit-for-tat | ✅ /chapter/18#terms |
+| ch18.term.resale-price-maintenance | resale price maintenance | ✅ /chapter/18#terms |
+| ch18.term.predatory-pricing | predatory pricing | ✅ /chapter/18#terms |
+| ch18.term.bundling | bundling | ✅ /chapter/18#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch18.f.oligopoly-ranking | Oligopoly between monopoly and competition | ✅ /formulas · /chapter/18 |
+| ch18.f.n-firm-nash | Symmetric Nash quantity with N firms (linear demand, zero MC) | ✅ /formulas · /chapter/18 |
+| ch18.f.repeated-game | When cooperation is sustained in a repeated game | ✅ /formulas · /chapter/18 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch18.sec.18-1a | A Duopoly Example | ✅ /chapter/18#s-18-1a |
+| ch18.sec.18-1b | Competition, Monopolies, and Cartels | ✅ /chapter/18#s-18-1b |
+| ch18.sec.18-1c | The Equilibrium for an Oligopoly | ✅ /chapter/18#s-18-1c |
+| ch18.sec.18-1d | How the Size of an Oligopoly Affects the Market Outcome | ✅ /chapter/18#s-18-1d |
+| ch18.sec.18-2a | The Prisoners' Dilemma | ✅ /chapter/18#s-18-2a |
+| ch18.sec.18-2b | Oligopolies as a Prisoners' Dilemma | ✅ /chapter/18#s-18-2b |
+| ch18.sec.18-2c | Other Examples of the Prisoners' Dilemma | ✅ /chapter/18#s-18-2c |
+| ch18.sec.18-2d | The Prisoners' Dilemma and the Welfare of Society | ✅ /chapter/18#s-18-2d |
+| ch18.sec.18-2e | Why People Sometimes Cooperate | ✅ /chapter/18#s-18-2e |
+| ch18.sec.18-3a | Restraint of Trade and the Antitrust Laws | ✅ /chapter/18#s-18-3a |
+| ch18.sec.18-3b | Controversies over Antitrust Policy | ✅ /chapter/18#s-18-3b |
+| ch18.sec.18-4 | Conclusion | ✅ /chapter/18#s-18-4 |
+| ch18.widget | Duopoliya: Jack va Jill, N ta sotuvchi | ✅ /chapter/18 · /graphs |
+| ch18.widget | O'yinlar nazariyasi: dominant strategiya va Nash | ✅ /chapter/18 · /graphs |
+| ch18.widget | Axelrod turniri: tit-for-tat | ✅ /chapter/18 · /graphs |
+| ch18.widget | Bundling: Stigler misoli | ✅ /chapter/18 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch18.box.cs-opec | Case Study: OPEC and the World Oil Market | ✅ /chapter/18 |
+| ch18.box.cs-tournament | Case Study: The Prisoners' Dilemma Tournament | ✅ /chapter/18 |
+| ch18.box.cs-phone-call | Case Study: An Illegal Phone Call | ✅ /chapter/18 |
+| ch18.box.cs-microsoft | Case Study: The Microsoft Case | ✅ /chapter/18 |
+| ch18.box.news-amazon | In the News: Amazon in the Crosshairs | ✅ /chapter/18 |
+
+### QuickQuiz (1d 2c 3a 4d 5c 6b 7d 8b)
+ch18.qq.1–8 — all ✅ `/chapter/18#practice`
+
+### Questions for Review
+ch18.qr.1–7 — all ✅ `/chapter/18#practice` (step-by-step)
+
+### Problems and Applications
+ch18.pa.1–9 — all ✅ `/chapter/18#practice` (step-by-step)
+
+---
+
+## Chapter 19 — The Markets for the Factors of Production
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch19.term.derived-demand | derived demand | ✅ /chapter/19#terms |
+| ch19.term.marginal-product-of-labor | marginal product of labor (MPL) | ✅ /chapter/19#terms |
+| ch19.term.value-of-marginal-product | value of the marginal product (VMP) | ✅ /chapter/19#terms |
+| ch19.term.labor-demand-shifters | labor-demand shifters | ✅ /chapter/19#terms |
+| ch19.term.labor-supply-shifters | labor-supply shifters | ✅ /chapter/19#terms |
+| ch19.term.work-leisure-tradeoff | work–leisure trade-off | ✅ /chapter/19#terms |
+| ch19.term.capital | capital | ✅ /chapter/19#terms |
+| ch19.term.neoclassical-distribution | neoclassical theory of distribution | ✅ /chapter/19#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch19.f.vmp | Value of the marginal product | ✅ /formulas · /chapter/19 |
+| ch19.f.hiring-rule | Profit-maximizing hiring rule | ✅ /formulas · /chapter/19 |
+| ch19.f.labor-demand-from-mpl | Labor demand from a production function (Problem 5) | ✅ /formulas · /chapter/19 |
+| ch19.f.cobb-douglas | Cobb–Douglas production function (Problem 9) | ✅ /formulas · /chapter/19 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch19.sec.19-1 | The Demand for Labor | ✅ /chapter/19#s-19-1 |
+| ch19.sec.19-1a | The Competitive, Profit-Maximizing Firm | ✅ /chapter/19#s-19-1a |
+| ch19.sec.19-1b | The Production Function and the Marginal Product of Labor | ✅ /chapter/19#s-19-1b |
+| ch19.sec.19-1c | The Value of the Marginal Product and the Demand for Labor | ✅ /chapter/19#s-19-1c |
+| ch19.sec.19-1d | What Causes the Labor-Demand Curve to Shift? | ✅ /chapter/19#s-19-1d |
+| ch19.sec.19-2a | The Trade-Off between Work and Leisure | ✅ /chapter/19#s-19-2a |
+| ch19.sec.19-2b | What Causes the Labor-Supply Curve to Shift? | ✅ /chapter/19#s-19-2b |
+| ch19.sec.19-3 | Equilibrium in the Labor Market | ✅ /chapter/19#s-19-3 |
+| ch19.sec.19-3a | Shifts in Labor Supply | ✅ /chapter/19#s-19-3a |
+| ch19.sec.19-3b | Shifts in Labor Demand | ✅ /chapter/19#s-19-3b |
+| ch19.sec.19-4a | Equilibrium in the Markets for Land and Capital | ✅ /chapter/19#s-19-4a |
+| ch19.sec.19-4b | Linkages among the Factors of Production | ✅ /chapter/19#s-19-4b |
+| ch19.sec.19-5 | Conclusion | ✅ /chapter/19#s-19-5 |
+| ch19.widget | VMP va resursga talab (olma bog'i, robotlar) | ✅ /chapter/19 · /graphs |
+| ch19.widget | Mehnat bozori siljishlari va Ectenia bog'lari | ✅ /chapter/19 · /graphs |
+| ch19.widget | Cobb–Douglas: barqaror mehnat ulushi | ✅ /chapter/19 · /graphs |
+| ch19.widget | Unumdorlik va real ish haqi (Figure 7) | ✅ /chapter/19 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch19.box.fyi-two-sides | FYI: Input Demand and Output Supply: Two Sides of the Same Coin | ✅ /chapter/19 |
+| ch19.box.cs-immigration | Case Study: The Immigration Debate | ✅ /chapter/19 |
+| ch19.box.cs-productivity-wages | Case Study: Productivity and Wages | ✅ /chapter/19 |
+| ch19.box.fyi-capital-income | FYI: What Is Capital Income? | ✅ /chapter/19 |
+| ch19.box.cs-black-death | Case Study: The Economics of the Black Death | ✅ /chapter/19 |
+
+### QuickQuiz (1c 2b 3a 4b 5d 6c 7b 8d 9b 10d)
+ch19.qq.1–10 — all ✅ `/chapter/19#practice`
+
+### Questions for Review
+ch19.qr.1–5 — all ✅ `/chapter/19#practice` (step-by-step)
+
+### Problems and Applications
+ch19.pa.1–9 — all ✅ `/chapter/19#practice` (step-by-step)
+
+---
+
+## Chapter 20 — Earnings and Discrimination
+
+### Terms
+| ID | Term | Status |
+|---|---|---|
+| ch20.term.compensating-differential | compensating differential | ✅ /chapter/20#terms |
+| ch20.term.human-capital | human capital | ✅ /chapter/20#terms |
+| ch20.term.signaling-education | signaling theory of education | ✅ /chapter/20#terms |
+| ch20.term.superstar-phenomenon | superstar phenomenon | ✅ /chapter/20#terms |
+| ch20.term.monopsony | monopsony | ✅ /chapter/20#terms |
+| ch20.term.union | union | ✅ /chapter/20#terms |
+| ch20.term.strike | strike | ✅ /chapter/20#terms |
+| ch20.term.efficiency-wages | efficiency wages | ✅ /chapter/20#terms |
+| ch20.term.discrimination | discrimination | ✅ /chapter/20#terms |
+| ch20.term.statistical-discrimination | statistical discrimination | ✅ /chapter/20#terms |
+
+### Formulas
+| ID | Formula | Status |
+|---|---|---|
+| ch20.f.college-premium | College wage premium (Table 1) | ✅ /formulas · /chapter/20 |
+| ch20.f.earnings-gap | Earnings gap between groups (Table 2) | ✅ /formulas · /chapter/20 |
+
+### Sections, figures and widgets
+| ID | What | Status |
+|---|---|---|
+| ch20.sec.20-1 | What Determines Wages? | ✅ /chapter/20#s-20-1 |
+| ch20.sec.20-1a | Compensating Differentials | ✅ /chapter/20#s-20-1a |
+| ch20.sec.20-1b | Human Capital | ✅ /chapter/20#s-20-1b |
+| ch20.sec.20-1c | Ability, Effort, and Chance | ✅ /chapter/20#s-20-1c |
+| ch20.sec.20-1d | An Alternative View of Education: Signaling | ✅ /chapter/20#s-20-1d |
+| ch20.sec.20-1e | The Superstar Phenomenon | ✅ /chapter/20#s-20-1e |
+| ch20.sec.20-1f | Below-Equilibrium Wages: Monopsony | ✅ /chapter/20#s-20-1f |
+| ch20.sec.20-1g | Above-Equilibrium Wages: Minimum-Wage Laws, Unions, and Efficiency Wages | ✅ /chapter/20#s-20-1g |
+| ch20.sec.20-2 | The Economics of Discrimination | ✅ /chapter/20#s-20-2 |
+| ch20.sec.20-2a | Measuring Labor-Market Discrimination | ✅ /chapter/20#s-20-2a |
+| ch20.sec.20-2b | Discrimination by Employers | ✅ /chapter/20#s-20-2b |
+| ch20.sec.20-2c | Discrimination by Customers and Governments | ✅ /chapter/20#s-20-2c |
+| ch20.sec.20-2d | Statistical Discrimination | ✅ /chapter/20#s-20-2d |
+| ch20.sec.20-3 | Conclusion | ✅ /chapter/20#s-20-3 |
+| ch20.widget | Kollej mukofoti va skill-biased talab (Table 1) | ✅ /chapter/20 · /graphs |
+| ch20.widget | Monopsoniya, eng kam ish haqi, uyushmalar, efficiency wages | ✅ /chapter/20 · /graphs |
+| ch20.widget | Diskriminatsiya va foyda motivi | ✅ /chapter/20 · /graphs |
+| ch20.widget | Table 2, rezyume tajribalari va statistik diskriminatsiya | ✅ /chapter/20 · /graphs |
+
+### Boxes
+| ID | Box | Status |
+|---|---|---|
+| ch20.box.cs-skills | Case Study: The Increasing Value of Skills | ✅ /chapter/20 |
+| ch20.box.cs-beauty | Case Study: The Benefits of Beauty | ✅ /chapter/20 |
+| ch20.box.news-covid-schooling | In the News: The Aftereffects of the Covid Pandemic | ✅ /chapter/20 |
+| ch20.box.cs-emily-lakisha | Case Study: Is Emily More Employable Than Lakisha? | ✅ /chapter/20 |
+| ch20.box.cs-streetcars | Case Study: Segregated Streetcars and the Profit Motive | ✅ /chapter/20 |
+| ch20.box.cs-sports | Case Study: Discrimination in Sports | ✅ /chapter/20 |
+
+### QuickQuiz (1b 2a 3d 4c 5c 6c 7a)
+ch20.qq.1–7 — all ✅ `/chapter/20#practice`
+
+### Questions for Review
+ch20.qr.1–8 — all ✅ `/chapter/20#practice` (step-by-step)
+
+### Problems and Applications
+ch20.pa.1–8 — all ✅ `/chapter/20#practice` (step-by-step)
+
+---
+
 ## Coverage summary (updated by the audit)
 
 | Chapter | Terms | Formulas | Figures | Boxes | QQ | QR | P&A | Built? |
@@ -696,6 +1326,18 @@ ch10.pa.1 The Club vs Lojack · pa.2 fire extinguishers, $10 external benefit ·
 | 8 | 8 | 5 | 6 | 4 | 9 | 5 | 10 | ✅ |
 | 9 | 9 | 5 | 4 | 8 | 8 | 6 | 10 | ✅ |
 | 10 | 17 | 6 | 4 | 12 | 8 | 6 | 9 | ✅ |
+| 11 | 10 | 2 | 4 | 4 | 8 | 4 | 10 | ✅ |
+| 12 | 8 | 3 | 4 | 2 | 7 | 7 | 4 | ✅ |
+| 13 | 13 | 4 | 4 | 4 | 8 | 7 | 8 | ✅ |
+| 14 | 19 | 5 | 4 | 1 | 9 | 8 | 10 | ✅ |
+| 15 | 7 | 5 | 2 | 1 | 8 | 8 | 11 | ✅ |
+| 16 | 11 | 5 | 4 | 3 | 10 | 8 | 12 | ✅ |
+| 17 | 10 | 2 | 3 | 1 | 8 | 7 | 10 | ✅ |
+| 18 | 11 | 3 | 4 | 5 | 8 | 7 | 9 | ✅ |
+| 19 | 8 | 4 | 4 | 5 | 10 | 5 | 9 | ✅ |
+| 20 | 10 | 2 | 4 | 6 | 7 | 8 | 8 | ✅ |
 
 
 **Audit result (all chapters):** every inventory row is now ✅. Term rows were matched automatically against the glossary ids; QuickQuiz rows against question ids; review/problem counts per chapter equal the book (Ch1 10/11, Ch2 10/6, Ch3 6/9, Ch4 9/11, Ch5 9/12, Ch6 7/10, Ch7 5/10, Ch8 5/10, Ch9 6/10, Ch10 6/9). The 59 formula/figure/box rows the matcher could not confirm by numbers were checked by hand in the chapter pages, presets and widgets. `src/content/integrity.test.ts` guards unique ids, one correct answer per MCQ and the QuickQuiz in every chapter. The only gaps are the unreadable items in the table at the top (Ask the Experts percentages for Ch2 and Ch3, Figure A-1 data, Figure 5 numbers in Ch5).
+
+**Audit result (Chapters 11–20):** rows above were generated from the site data itself (glossary ids, formula ids, section ids, widget gallery, boxes, QuickQuiz answer keys), so every listed item exists on the site. QuickQuiz keys match the book answer keys; review/problem counts equal the book (Ch11 4/10, Ch12 7/4, Ch13 7/8, Ch14 8/10, Ch15 8/11, Ch16 8/12, Ch17 7/10, Ch18 7/9, Ch19 5/9, Ch20 8/8). For Ch11–20 the Figures column counts interactive widgets; book figures are redrawn inside them.

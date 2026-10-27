@@ -1,0 +1,36 @@
+import type { Term } from '../../types';
+
+const t = (id: string, en: string, uz: string, defEn: string, defUz: string, example?: string): Term => ({ id, chapter: 20, en, uz, defEn, defUz, example });
+
+export const terms: Term[] = [
+  t("compensating-differential", "compensating differential", "kompensatsion farq", "a difference in wages that arises to offset the nonmonetary characteristics of different jobs",
+    "Ishning pul bo'lmagan xususiyatlarini (og'ir, zerikarli, xavfli) qoplash uchun paydo bo'ladigan ish haqi farqi. Yoqimli ishlarga taklif ko'p → muvozanat ish haqi past.",
+    "Tom yopuvchilar (qatron hidi, baxtsiz hodisa xavfi), tungi smena ishchilari ko'proq; professorlar huquqshunos va shifokorlardan kam oladi."),
+  t("human-capital", "human capital", "inson kapitali", "the accumulation of investments in people, such as education and on-the-job training",
+    "Odamlarga qilingan investitsiyalar to'plami; eng muhimi — ta'lim. Kapitalning boshqa turlari kabi kelajak unumdorligini oshirish uchun resurs sarflash, lekin ma'lum shaxsga bog'langan.",
+    "AQShda kollej bitiruvchilari o'rta maktab bitiruvchilaridan deyarli ikki barobar ko'p topadi (2019: erkaklarda +85%, ayollarda +78%)."),
+  t("signaling-education", "signaling theory of education", "ta'limning signal nazariyasi", "the view that schooling does not raise productivity but signals high innate ability to employers",
+    "Diplom ishchini unumdorroq qilmaydi, lekin qobiliyatli ekanini ko'rsatadi: qobiliyatlilar uchun diplom olish osonroq. 17-bobdagi reklama signali kabi. Agar to'g'ri bo'lsa — hammaning ta'limini oshirish ish haqini oshirmaydi. Haqiqat ehtimol ikki nazariya orasida.",
+    "Firma matematika bitiruvchisi Robinni yolladi — ishda matematika kerak emas, lekin “aqlli bo'lsa kerak” (QQ 4)."),
+  t("superstar-phenomenon", "superstar phenomenon", "superyulduz hodisasi", "very high incomes for the best producers in markets where everyone wants the best and technology lets them serve everyone at low cost",
+    "Ikki shart: (1) har bir mijoz eng yaxshisini xohlaydi; (2) texnologiya eng yaxshilarga barcha mijozlarga arzon xizmat ko'rsatish imkonini beradi (film nusxalari, TV). Santexniklarda superyulduz yo'q — bitta usta cheklangan mijozga xizmat qiladi.",
+    "Scarlett Johansson, Daniil Medvedev; yozib olish texnologiyasi eng yaxshi musiqachilar daromadini oshirgan (P6)."),
+  t("monopsony", "monopsony", "monopsoniya", "a market that has only one buyer",
+    "Yagona xaridor (masalan, kichik shahardagi yagona yirik ish beruvchi). Monopoliya kabi: kamroq ishchi yollab, taklif egri chizig'i bo'ylab pastga harakatlanadi — **ish haqi muvozanatdan past**, deadweight loss. Joan Robinson (1930-lar).",
+    "2021: AQSh Oliy sudi NCAA monopsoniya sifatida ishlaganini tan oldi; non-compete bandlari."),
+  t("union", "union", "kasaba uyushmasi", "a worker association that bargains with employers over wages and working conditions",
+    "Ish haqi va mehnat sharoitlari bo'yicha ish beruvchilar bilan muzokara olib boradigan ishchilar uyushmasi. Ba'zan monopsoniyaga qarshi kuch, ba'zan monopolist kabi ish haqini raqobat darajasidan oshiradi. A'zolar o'xshash ishchilardan ~10–20% ko'p topadi.",
+    "Ish tashlash tahdidi bilan muzokara."),
+  t("strike", "strike", "ish tashlash", "a collective refusal to work organized as a form of protest",
+    "Norozilik shakli sifatida uyushtirilgan jamoaviy ishdan bosh tortish — kasaba uyushmasining asosiy kuchi.",
+    "Uyushma a'zolari ish haqi oshirilmasa ishlamaydi."),
+  t("efficiency-wages", "efficiency wages", "samaradorlik ish haqi", "above-equilibrium wages paid by firms to increase worker productivity",
+    "Firma ixtiyoriy ravishda muvozanatdan yuqori ish haqi to'laydi, chunki u (1) kadrlar qo'nimsizligini kamaytiradi, (2) ko'proq harakatga undaydi, (3) yaxshiroq nomzodlarni jalb qiladi. Minimal ish haqi va uyushmalar kabi — ortiqcha mehnat (ishsizlik) yaratadi.",
+    "Barney boshqalardan ikki barobar ko'p to'laydi — ishchilar sodiqroq va mehnatkash (QQ 3)."),
+  t("discrimination", "discrimination", "diskriminatsiya", "the offering of different opportunities to similar individuals who differ only by race, ethnicity, gender, age, religion, sexual orientation, or other personal characteristics",
+    "Faqat irq, millat, jins, yosh, din va boshqa shaxsiy xususiyatlari bilan farq qiluvchi o'xshash shaxslarga turli imkoniyatlar berish. O'lchash qiyin: guruhlar human capital va ish turi bilan ham farqlanadi.",
+    "Bertrand–Mullainathan: “oq” ismli rezyumelar ~50% ko'p qo'ng'iroq olgan."),
+  t("statistical-discrimination", "statistical discrimination", "statistik diskriminatsiya", "discrimination that arises because an irrelevant but observable personal characteristic is correlated with a relevant but unobservable attribute",
+    "Ish beruvchi ma'lumoti to'liq emas: muhim, ammo ko'rinmas xususiyat (punktuallik) ahamiyatsiz, ammo ko'rinadigan xususiyat (ko'z rangi) bilan korrelyatsiya qilsa, odamlar guruh o'rtachasi bilan baholanadi.",
+    "“Ban the box” qonunlari sudlanmagan yosh qora tanli erkaklar bandligini kamaytirgan."),
+];

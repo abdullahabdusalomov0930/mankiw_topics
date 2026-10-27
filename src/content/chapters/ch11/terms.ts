@@ -1,0 +1,36 @@
+import type { Term } from '../../types';
+
+const t = (id: string, en: string, uz: string, defEn: string, defUz: string, example?: string): Term => ({ id, chapter: 11, en, uz, defEn, defUz, example });
+
+export const terms: Term[] = [
+  t("excludability", "excludability", "chetlatish mumkinligi", "the property of a good whereby a person can be prevented from using it",
+    "Odamni tovardan foydalanishdan **to'xtatish mumkin** bo'lsa — excludable. Mumkin bo'lmasa (osmondagi mushakbozlik) — not excludable.",
+    "Muzqaymoq — excludable (pul to'lamasangiz bermaydi); milliy mudofaa — yo'q."),
+  t("rivalry", "rivalry in consumption", "iste'molda raqobatlilik", "the property of a good whereby one person's use diminishes other people's use",
+    "Bir kishining foydalanishi **boshqalarning foydalanishini kamaytirsa** — rival. Kamaytirmasa (sirena ovozi) — not rival.",
+    "Siz yegan pizza bo'lagini boshqa odam yeya olmaydi — rival."),
+  t("private-goods", "private goods", "xususiy tovarlar", "goods that are both excludable and rival in consumption",
+    "**Excludable + rival**. Iqtisodiyotdagi ko'p tovarlar shunday; 4–9-boblardagi talab-taklif tahlili aynan ularga tegishli — bozor ular uchun yaxshi ishlaydi.",
+    "Muzqaymoq, kiyim, non."),
+  t("public-goods", "public goods", "jamoat tovarlari", "goods that are neither excludable nor rival in consumption",
+    "**Not excludable + not rival**. To'lamagan odamni chetlatib bo'lmagani uchun **free-rider** muammosi: bozor ularni kam yoki umuman ta'minlamaydi; davlat soliq hisobidan ta'minlashi mumkin.",
+    "Tornado sirenasi, milliy mudofaa, fundamental bilim, shahar mushakbozligi."),
+  t("common-resources", "common resources", "umumiy resurslar", "goods that are rival in consumption but not excludable",
+    "**Rival + not excludable**. Bepul, lekin har bir foydalanuvchi boshqalarga zarar qiladi → **haddan tashqari ko'p ishlatiladi** (Tragedy of the Commons).",
+    "Okeandagi baliq, toza havo, tirband yo'l, yovvoyi fillar."),
+  t("club-goods", "club goods", "klub tovarlari", "goods that are excludable but not rival in consumption",
+    "**Excludable + not rival**. Kitobda keyinroq ko'rsatiladi: ular — **tabiiy monopoliya** turi (16-bob).",
+    "Sun'iy yo'ldosh TV: to'lamasangiz uziladi, lekin signal boshqalarga kamaymaydi."),
+  t("free-rider", "free rider", "tekinxo'r (bepul foydalanuvchi)", "a person who receives the benefit of a good but avoids paying for it",
+    "Tovar foydasini oladi, lekin to'lamaydi. Jamoat tovarlarida chetlatib bo'lmagani uchun ko'pchilik shunday qiladi va xususiy bozor tovarni ta'minlamaydi — bu ijobiy tashqi effektning bir ko'rinishi.",
+    "Mushakbozlikni chiptasiz tomosha qilgan Smalltown aholisi; jamoat TV sini ko'rib, xayriya qilmaydigan Fredo."),
+  t("cost-benefit-analysis", "cost–benefit analysis", "xarajat–foyda tahlili", "a study that compares the costs and benefits to society of providing a public good",
+    "Jamoat tovarining jamiyat uchun jami foydasi va xarajatini solishtirish. Qiyin, chunki **narx signali yo'q**: so'rovnomada odamlar foydani bo'rttiradi yoki kamaytiradi.",
+    "Svetofor: xavf 0.5 foiz punktga kamayadi × hayot qiymati $10 mln = $50,000 > $10,000 xarajat."),
+  t("tragedy-of-the-commons", "Tragedy of the Commons", "umumiy mulk fojiasi", "a parable that illustrates why common resources are used more than is desirable from the standpoint of society as a whole",
+    "O'rta asr shaharchasidagi umumiy yaylov: har oila o'z qo'ylari boshqalarga zarar qilishini (salbiy tashqi effekt) e'tiborsiz qoldiradi → qo'y ko'payib, yaylov yaroqsiz bo'ladi. Yechimlar: cheklov, soliq, ruxsatnoma auksioni yoki yerni xususiylashtirish (enclosure movement).",
+    "Aristotel: “Ko'pchilikka tegishli narsaga eng kam g'amxo'rlik qilinadi.”"),
+  t("value-of-life", "value of a statistical life", "hayotning statistik qiymati", "the implicit dollar value of a human life used in cost–benefit analysis, estimated from wage premiums for risky jobs",
+    "Xarajat–foyda tahlilida hayotga beriladigan pul qiymati. Topgan daromad bo'yicha emas (ishlamaydiganning hayoti nol bo'lib qoladi), balki odamlar **xavf uchun qancha qo'shimcha maosh talab qilishi** bo'yicha baholanadi: ≈ **$10 mln**.",
+    "Baland qavatli qurilish ishchilari ofis xodimlaridan xavfliroq ish uchun ko'proq maosh oladi."),
+];

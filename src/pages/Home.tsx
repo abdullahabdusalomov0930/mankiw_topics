@@ -22,7 +22,7 @@ export function Home() {
           <h1 className="mt-4 text-[2.6rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl">
             Iqtisodiyotni <span className="marker">o'ynab</span> o'rganing
           </h1>
-          <p className="mt-5 text-[17px] font-semibold">Mankiw, Principles of Economics (10e) · 1–10-boblar.</p>
+          <p className="mt-5 text-[17px] font-semibold">Mankiw, Principles of Economics (10e) · 1–{chapters.length}-boblar.</p>
           <p className="mt-2 max-w-xl text-[16px] leading-7 text-muted">
             Har bir grafikni o'zingiz torting, atamalarni inglizcha va o'zbekcha yodlang, kitobning barcha QuickQuiz va
             masalalarini bosqichma-bosqich yeching. Imtihon ingliz tilida — tushuntirish o'zbekcha.
@@ -79,7 +79,7 @@ export function Home() {
       </section>
 
       <h2 className="h-section mt-14">
-        Kitob — <span className="marker">10 ta bob</span>
+        Kitob — <span className="marker">{chapters.length} ta bob</span>
       </h2>
       <p className="mt-1 text-sm text-muted">
         Bob “o'zlashtirilgan” hisoblanadi, agar savollarning kamida 80% iga to'g'ri javob bergan va barcha kartochkalarni
