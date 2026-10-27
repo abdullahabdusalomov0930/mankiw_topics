@@ -3,6 +3,7 @@ import { formulas } from './formulas';
 import { problems, review } from './problems';
 import { questions } from './quiz';
 import { terms } from './terms';
+import { tr } from '../../../lib/lang';
 
 export const ch11: ChapterData = {
   number: 11,
@@ -17,8 +18,10 @@ export const ch11: ChapterData = {
   problems: [...review, ...problems],
   extraCards: [
     { id: 'card:ch11:grid', chapter: 11, front: "To'rt tovar turi (excludable × rival)?", back: "E+R — **private**; E, not R — **club**; R, not E — **common resource**; na E, na R — **public**." },
-    { id: 'card:ch11:problems', chapter: 11, front: "Jamoat tovarlari va umumiy resurslarning muammosi?", back: "Public — **free riders** → kam ta'minlanadi.\n\nCommon — **Tragedy of the Commons** → ortiqcha ishlatiladi." },
-    { id: 'card:ch11:vsl', chapter: 11, front: "Hayotning statistik qiymati qanday baholanadi va qancha?", back: "Xavfli va xavfsiz kasblar maoshi farqidan → ≈ **$10 mln**." },
-    { id: 'card:ch11:cow', chapter: 11, front: "Nega sigir yo'qolmaydi, fil esa xavf ostida?", back: "Sigir — **xususiy tovar** (egasi bor), fil — **umumiy resurs**." },
+    { id: 'card:ch11:problems', chapter: 11, front: tr("Jamoat tovarlari va umumiy resurslarning muammosi?", 'The problem with public goods and common resources?'), back: tr("Public — **free riders** → kam ta'minlanadi.\n\nCommon — **Tragedy of the Commons** → ortiqcha ishlatiladi.", `Public — **free riders** → underprovided.
+
+Common — **Tragedy of the Commons** → overused.`) },
+    { id: 'card:ch11:vsl', chapter: 11, front: tr("Hayotning statistik qiymati qanday baholanadi va qancha?", 'How is the statistical value of a life estimated, and what is it?'), back: tr("Xavfli va xavfsiz kasblar maoshi farqidan → ≈ **$10 mln**.", 'From the wage difference between risky and safe jobs → ≈ **$10 million**.') },
+    { id: 'card:ch11:cow', chapter: 11, front: tr("Nega sigir yo'qolmaydi, fil esa xavf ostida?", 'Why are cows not in danger of extinction while elephants are?'), back: tr("Sigir — **xususiy tovar** (egasi bor), fil — **umumiy resurs**.", 'A cow is a **private good** (it has an owner); an elephant is a **common resource**.') },
   ],
 };

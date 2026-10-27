@@ -1,48 +1,49 @@
 import type { Problem } from '../../types';
+import { tr } from '../../../lib/lang';
 
 const C = 12;
 const r = (number: number, prompt: string, steps: string[], answer: string, widget?: string): Problem => ({ id: `ch12.qr.${number}`, chapter: C, kind: 'review', number, prompt, steps, answer, widget });
 const p = (number: number, prompt: string, steps: string[], answer: string, widget?: string): Problem => ({ id: `ch12.pa.${number}`, chapter: C, kind: 'problem', number, prompt, steps, answer, widget });
 
 export const review: Problem[] = [
-  r(1, "Give two examples of externalities in the healthcare system.", ["**Emlash**: emlangan odam boshqalarni ham himoya qiladi — ijobiy tashqi effekt.", "**Tibbiy tadqiqot**: yangi davolash usuli umumiy bilimga qo'shiladi — boshqa shifokor va bemorlarga foyda."], "Vaccination and medical research (both positive)."),
-  r(2, "Explain moral hazard and adverse selection in the market for health insurance.", ["**Moral hazard**: sug'urtalangan odam xarajatni to'lamagani uchun ortiqcha foydalanadi (kichik alomatda shifokorga borish, shubhali tahlillar).", "**Adverse selection**: o'z sog'lig'ini yaxshi biladiganlar orasida kasallar ko'proq sug'urta oladi → narx oshadi → sog'lomlar chiqadi (death spiral xavfi)."], "Moral hazard = overuse once insured; adverse selection = the insured pool is sicker than average.", "spiral"),
-  r(3, "Describe the three sets of rules that are necessary in a healthcare market with an insurer.", ["**Financing**: kim sug'urta uchun qancha to'laydi (soliq yoki premium; narx bo'yicha davlat cheklovlari).", "**Access**: bemor qachon va qanday xizmat oladi (moral hazardni cheklash — yillik tekshiruv, yo'llanma).", "**Payment**: sug'urtachi qaysi muolajaga va qancha to'laydi."], "Financing, access, and payment rules."),
-  r(4, "Give three reasons why life expectancy has been increasing over time.", ["Tibbiy texnologiya (vaksinalar, davolash usullari); bolalar o'limining 10% dan 0.6% dan kamga tushishi.", "Sanitariya: toza suv va kanalizatsiya.", "Chekishning kamayishi (1960-yildan beri >50%) va avtomobil xavfsizligi (halokatdan o'lim 1950-yildagining yarmi)."], "Medical advances, sanitation, less smoking and safer cars."),
-  r(5, "How does US healthcare spending compare with 50 years ago? Give four economic forces that might help explain the trend.", ["YaIMdagi ulush: 1960-yil **5%** → 2019-yil **18%**.", "1) Baumol's cost disease; 2) qimmat yangi tibbiy texnologiyalar; 3) aholining qarishi (65+ ulushi 9% → 17%); 4) daromad o'sishi (daromad elastikligi ≈ 1.3)."], "Much higher; Baumol's cost disease, technology, aging, and rising incomes."),
-  r(6, "How does healthcare spending in the United States compare with spending in other developed nations?", ["AQSh ~**17%** YaIM, boshqa rivojlangan davlatlar **9–12%** (Italiya 8.7%, Fransiya 11.7%).", "Sabablar bahsli: tanqidchilar — samarasizlik, ma'muriy xarajatlar; himoyachilar — semizlik kabi tizimdan tashqari omillar."], "Much higher — about 17 percent versus 9 to 12 percent.", "facts"),
-  r(7, "Explain the rationale for a “Cadillac tax” on expensive health insurance plans.", ["Ish beruvchi beradigan sug'urta daromad solig'idan ozod, naqd maosh esa yo'q → ishchilar ortiqcha saxiy sug'urtani afzal ko'radi.", "Ortiqcha sug'urta kichik xarajatlarni ham qoplaydi → moral hazard → xarajatlar o'sadi.", "Qimmat rejalarga soliq bu imtiyozni tenglashtirardi (84% iqtisodchi rozi); 2019-yilda bekor qilingan."], "To remove the tax bias toward excessive insurance that worsens moral hazard."),
+  r(1, "Give two examples of externalities in the healthcare system.", [tr("**Emlash**: emlangan odam boshqalarni ham himoya qiladi — ijobiy tashqi effekt.", '**Vaccination**: a vaccinated person also protects others — a positive externality.'), tr("**Tibbiy tadqiqot**: yangi davolash usuli umumiy bilimga qo'shiladi — boshqa shifokor va bemorlarga foyda.", '**Medical research**: a new treatment adds to general knowledge — benefiting other doctors and patients.')], "Vaccination and medical research (both positive)."),
+  r(2, "Explain moral hazard and adverse selection in the market for health insurance.", [tr("**Moral hazard**: sug'urtalangan odam xarajatni to'lamagani uchun ortiqcha foydalanadi (kichik alomatda shifokorga borish, shubhali tahlillar).", "**Moral hazard**: an insured person overuses care because they don't pay the cost (seeing a doctor for a minor symptom, dubious tests)."), tr("**Adverse selection**: o'z sog'lig'ini yaxshi biladiganlar orasida kasallar ko'proq sug'urta oladi → narx oshadi → sog'lomlar chiqadi (death spiral xavfi).", '**Adverse selection**: among people who know their own health well, the sick are more likely to buy insurance → the price rises → the healthy leave (risk of a death spiral).')], "Moral hazard = overuse once insured; adverse selection = the insured pool is sicker than average.", "spiral"),
+  r(3, "Describe the three sets of rules that are necessary in a healthcare market with an insurer.", [tr("**Financing**: kim sug'urta uchun qancha to'laydi (soliq yoki premium; narx bo'yicha davlat cheklovlari).", '**Financing**: who pays how much for insurance (taxes or premiums; government limits on prices).'), tr("**Access**: bemor qachon va qanday xizmat oladi (moral hazardni cheklash — yillik tekshiruv, yo'llanma).", '**Access**: when and how a patient gets care (limiting moral hazard — an annual checkup, referrals).'), tr("**Payment**: sug'urtachi qaysi muolajaga va qancha to'laydi.", '**Payment**: how much the insurer pays for which treatment.')], "Financing, access, and payment rules."),
+  r(4, "Give three reasons why life expectancy has been increasing over time.", [tr("Tibbiy texnologiya (vaksinalar, davolash usullari); bolalar o'limining 10% dan 0.6% dan kamga tushishi.", 'Medical technology (vaccines, treatments); child mortality falling from 10% to under 0.6%.'), tr("Sanitariya: toza suv va kanalizatsiya.", 'Sanitation: clean water and sewers.'), tr("Chekishning kamayishi (1960-yildan beri >50%) va avtomobil xavfsizligi (halokatdan o'lim 1950-yildagining yarmi).", 'Less smoking (down >50% since 1960) and car safety (traffic deaths half the 1950 rate).')], "Medical advances, sanitation, less smoking and safer cars."),
+  r(5, "How does US healthcare spending compare with 50 years ago? Give four economic forces that might help explain the trend.", [tr("YaIMdagi ulush: 1960-yil **5%** → 2019-yil **18%**.", 'Share of GDP: **5%** in 1960 → **18%** in 2019.'), tr("1) Baumol's cost disease; 2) qimmat yangi tibbiy texnologiyalar; 3) aholining qarishi (65+ ulushi 9% → 17%); 4) daromad o'sishi (daromad elastikligi ≈ 1.3).", "1) Baumol's cost disease; 2) expensive new medical technologies; 3) an aging population (65+ share 9% → 17%); 4) rising incomes (income elasticity ≈ 1.3).")], "Much higher; Baumol's cost disease, technology, aging, and rising incomes."),
+  r(6, "How does healthcare spending in the United States compare with spending in other developed nations?", [tr("AQSh ~**17%** YaIM, boshqa rivojlangan davlatlar **9–12%** (Italiya 8.7%, Fransiya 11.7%).", 'The U.S. ~**17%** of GDP, other advanced countries **9–12%** (Italy 8.7%, France 11.7%).'), tr("Sabablar bahsli: tanqidchilar — samarasizlik, ma'muriy xarajatlar; himoyachilar — semizlik kabi tizimdan tashqari omillar.", 'The reasons are debated: critics — inefficiency, administrative costs; defenders — factors outside the system such as obesity.')], "Much higher — about 17 percent versus 9 to 12 percent.", "facts"),
+  r(7, "Explain the rationale for a “Cadillac tax” on expensive health insurance plans.", [tr("Ish beruvchi beradigan sug'urta daromad solig'idan ozod, naqd maosh esa yo'q → ishchilar ortiqcha saxiy sug'urtani afzal ko'radi.", "Employer-provided insurance is exempt from income tax while cash wages aren't → workers prefer overly generous insurance."), tr("Ortiqcha sug'urta kichik xarajatlarni ham qoplaydi → moral hazard → xarajatlar o'sadi.", 'Excessive insurance covers even small costs → moral hazard → spending grows.'), tr("Qimmat rejalarga soliq bu imtiyozni tenglashtirardi (84% iqtisodchi rozi); 2019-yilda bekor qilingan.", 'A tax on expensive plans would level the playing field (84% of economists agree); it was repealed in 2019.')], "To remove the tax bias toward excessive insurance that worsens moral hazard."),
 ];
 
 export const problems: Problem[] = [
   p(1, "A typical medical procedure costs $100, but an insured person pays only $20; the insurer pays $80 (recouped through premiums that do not depend on how many procedures the person has). (a) Draw demand and show the quantity at $100. (b) Show the quantity at $20. If the true social cost is $100, does this maximize total surplus? (c) Why might the use of care be viewed as “excessive”? (d) What policies might prevent it?", [
-    "(a) Pastga qaragan talab; $100 da kichik miqdor — samarali miqdor.",
-    "(b) $20 da ko'proq muolaja. **Yo'q**: qo'shimcha muolajalar qiymati $20 va $100 orasida — jamiyat xarajatidan past → DWL.",
-    "(c) Bemorlar qiymati xarajatdan past bo'lgan xizmatlarni ham iste'mol qiladi — moral hazard.",
-    "(d) Yuqori co-pay yoki deductible; kirish qoidalari (yo'llanma, cheklovlar); “Cadillac tax” kabi ortiqcha sug'urtaga soliq.",
+    tr("(a) Pastga qaragan talab; $100 da kichik miqdor — samarali miqdor.", '(a) Downward-sloping demand; a small quantity at $100 — the efficient quantity.'),
+    tr("(b) $20 da ko'proq muolaja. **Yo'q**: qo'shimcha muolajalar qiymati $20 va $100 orasida — jamiyat xarajatidan past → DWL.", '(b) More treatments at $20. **No**: the extra treatments are worth between $20 and $100 — less than their cost to society → a DWL.'),
+    tr("(c) Bemorlar qiymati xarajatdan past bo'lgan xizmatlarni ham iste'mol qiladi — moral hazard.", '(c) Patients consume services worth less than their cost — moral hazard.'),
+    tr("(d) Yuqori co-pay yoki deductible; kirish qoidalari (yo'llanma, cheklovlar); “Cadillac tax” kabi ortiqcha sug'urtaga soliq.", '(d) Higher co-pays or deductibles; access rules (referrals, limits); a tax on excessive insurance such as the “Cadillac tax.”'),
   ], "Too many procedures are performed; co-pays, deductibles and access rules can limit overuse.", "mh"),
   p(2, "The Live-Long-and-Prosper Health Insurance Company charges $5,000 for a family policy. The president suggests raising the price to $6,000 to increase profits. What economic problem might arise? Would the pool become more or less healthy? Would profits necessarily increase?", [
-    "**Adverse selection**: narx oshsa, eng sog'lom (sug'urtani kam qadrlaydigan) oilalar chiqib ketadi.",
-    "Pool **kamroq sog'lom** bo'ladi → o'rtacha xarajat oshadi.",
-    "Foyda **albatta oshmaydi**: narx oshgan, lekin xarajat ham oshgan va mijozlar kamaygan.",
+    tr("**Adverse selection**: narx oshsa, eng sog'lom (sug'urtani kam qadrlaydigan) oilalar chiqib ketadi.", '**Adverse selection**: if the price rises, the healthiest families (who value insurance least) drop out.'),
+    tr("Pool **kamroq sog'lom** bo'ladi → o'rtacha xarajat oshadi.", 'The pool becomes **less healthy** → the average cost rises.'),
+    tr("Foyda **albatta oshmaydi**: narx oshgan, lekin xarajat ham oshgan va mijozlar kamaygan.", "Profit **won't necessarily rise**: the price is higher, but costs are higher too and there are fewer customers."),
   ], "Adverse selection; the pool becomes less healthy; profits need not rise."),
   p(3, "Baumol's cost disease: two sectors (manufacturing and services); technology improves only in manufacturing. Fill in: (a) manufacturing wage ___ (b) labor supply in services ___ (c) service wage ___ (d) service costs ___ (e) service prices ___ (f) technological advances in manufacturing cause service prices to ___.", [
-    "(a) Sanoatda mehnatga talab ↑ → maosh **oshadi**.",
-    "(b) Ba'zi ishchilar sanoatga o'tadi → xizmatlarda mehnat taklifi **kamayadi**.",
-    "(c) Xizmat ishchilari maoshi **oshadi**.",
-    "(d) Xizmat ko'rsatuvchi biznes xarajatlari **oshadi**.",
-    "(e) Xizmat narxlari **oshadi**.",
-    "(f) **Oshadi**.",
+    tr("(a) Sanoatda mehnatga talab ↑ → maosh **oshadi**.", '(a) Demand for labor in manufacturing ↑ → wages **rise**.'),
+    tr("(b) Ba'zi ishchilar sanoatga o'tadi → xizmatlarda mehnat taklifi **kamayadi**.", '(b) Some workers move to manufacturing → labor supply in services **falls**.'),
+    tr("(c) Xizmat ishchilari maoshi **oshadi**.", "(c) Service workers' wages **rise**."),
+    tr("(d) Xizmat ko'rsatuvchi biznes xarajatlari **oshadi**.", "(d) Service businesses' costs **rise**."),
+    tr("(e) Xizmat narxlari **oshadi**.", '(e) Prices of services **rise**.'),
+    tr("(f) **Oshadi**.", '(f) **It rises**.'),
   ], "increases; decreases; increases; increase; increases; rise."),
   p(4, "Death spiral: five equal-size types with expected costs A $1,000, B $2,000, C $3,000, D $4,000, E $5,000. Insurers add $700 and charge everyone the same price; people forgo insurance if the price exceeds their expected cost by more than $1,000. (a)–(h) Trace the spiral. (i) Consumer surplus at the end? (j) With a mandate: each person's surplus and total? (k) Vote on the mandate? (l) Penalty needed?", [
-    "(a) Hamma: o'rtacha $3,000 + $700 = **$3,700**.",
-    "(b) Narx − xarajat ≤ 1,000 → xarajat ≥ $2,700: **C, D, E**.",
-    "(c) O'rtacha $4,000 → narx **$4,700**. (d) Xarajat ≥ $3,700: **D, E**.",
-    "(e) O'rtacha $4,500 → narx **$5,200**. (f) Xarajat ≥ $4,200: **E**.",
-    "(g) O'rtacha $5,000 → narx **$5,700**. (h) E sotib oladi (5,700 − 5,000 = 700 ≤ 1,000) → **muvozanat**.",
-    "(i) E: 1,000 + 5,000 − 5,700 = **$300** (boshqalar 0).",
-    "(j) Narx $3,700: A −$1,700, B −$700, C +$300, D +$1,300, E +$2,300 → jami **$1,500**.",
-    "(k) C, D, E (3/5) “ha” → mandate **o'tadi**.",
-    "(l) Jarima **$1,700** dan katta bo'lishi kerak (A ning yo'qotishi).",
+    tr("(a) Hamma: o'rtacha $3,000 + $700 = **$3,700**.", '(a) Everyone: average $3,000 + $700 = **$3,700**.'),
+    tr("(b) Narx − xarajat ≤ 1,000 → xarajat ≥ $2,700: **C, D, E**.", '(b) Price − cost ≤ 1,000 → cost ≥ $2,700: **C, D, E**.'),
+    tr("(c) O'rtacha $4,000 → narx **$4,700**. (d) Xarajat ≥ $3,700: **D, E**.", '(c) Average $4,000 → price **$4,700**. (d) Cost ≥ $3,700: **D, E**.'),
+    tr("(e) O'rtacha $4,500 → narx **$5,200**. (f) Xarajat ≥ $4,200: **E**.", '(e) Average $4,500 → price **$5,200**. (f) Cost ≥ $4,200: **E**.'),
+    tr("(g) O'rtacha $5,000 → narx **$5,700**. (h) E sotib oladi (5,700 − 5,000 = 700 ≤ 1,000) → **muvozanat**.", '(g) Average $5,000 → price **$5,700**. (h) E buys (5,700 − 5,000 = 700 ≤ 1,000) → **equilibrium**.'),
+    tr("(i) E: 1,000 + 5,000 − 5,700 = **$300** (boshqalar 0).", '(i) E: 1,000 + 5,000 − 5,700 = **$300** (the others 0).'),
+    tr("(j) Narx $3,700: A −$1,700, B −$700, C +$300, D +$1,300, E +$2,300 → jami **$1,500**.", '(j) Price $3,700: A −$1,700, B −$700, C +$300, D +$1,300, E +$2,300 → total **$1,500**.'),
+    tr("(k) C, D, E (3/5) “ha” → mandate **o'tadi**.", '(k) C, D, E (3/5) vote “yes” → the mandate **passes**.'),
+    tr("(l) Jarima **$1,700** dan katta bo'lishi kerak (A ning yo'qotishi).", "(l) The penalty must exceed **$1,700** (A's loss)."),
   ], "The spiral ends with only E insured at $5,700 (surplus $300); a mandate raises total surplus to $1,500.", "spiral"),
 ];
