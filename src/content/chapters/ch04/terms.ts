@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,7 +8,7 @@ export const terms: Term[] = [
     en: 'quantity demanded',
     uz: 'talab miqdori',
     defEn: 'the amount of a good that buyers are willing and able to purchase',
-    defUz: "Ma'lum bir narxda xaridorlar sotib olishni **xohlaydigan va qodir** bo'lgan miqdor. Narx o'zgarsa, talab miqdori o'zgaradi (egri chiziq bo'ylab harakat).",
+    defUz: tr("Ma'lum bir narxda xaridorlar sotib olishni **xohlaydigan va qodir** bo'lgan miqdor. Narx o'zgarsa, talab miqdori o'zgaradi (egri chiziq bo'ylab harakat).", 'The amount buyers are **willing and able** to purchase at a given price. When the price changes, quantity demanded changes (a movement along the curve).'),
   },
   {
     id: 'quantity-supplied',
@@ -15,7 +16,7 @@ export const terms: Term[] = [
     en: 'quantity supplied',
     uz: 'taklif miqdori',
     defEn: 'the amount of a good that sellers are willing and able to sell',
-    defUz: "Ma'lum bir narxda sotuvchilar sotishni **xohlaydigan va qodir** bo'lgan miqdor.",
+    defUz: tr("Ma'lum bir narxda sotuvchilar sotishni **xohlaydigan va qodir** bo'lgan miqdor.", 'The amount sellers are **willing and able** to sell at a given price.'),
   },
   {
     id: 'demand-curve',
@@ -23,7 +24,7 @@ export const terms: Term[] = [
     en: 'demand curve',
     uz: "talab egri chizig'i",
     defEn: 'a graph of the relationship between the price of a good and the quantity demanded',
-    defUz: "Narx (vertikal o'q) va talab miqdori (gorizontal o'q) orasidagi bog'liqlik grafigi. Odatda pastga qarab egilgan: narx tushsa, ko'proq sotib olinadi.",
+    defUz: tr("Narx (vertikal o'q) va talab miqdori (gorizontal o'q) orasidagi bog'liqlik grafigi. Odatda pastga qarab egilgan: narx tushsa, ko'proq sotib olinadi.", 'A graph of the relationship between the price (vertical axis) and the quantity demanded (horizontal axis). It usually slopes down: when the price falls, more is bought.'),
   },
   {
     id: 'supply-curve',
@@ -31,7 +32,7 @@ export const terms: Term[] = [
     en: 'supply curve',
     uz: "taklif egri chizig'i",
     defEn: 'a graph of the relationship between the price of a good and the quantity supplied',
-    defUz: "Narx va taklif miqdori orasidagi bog'liqlik grafigi. Odatda yuqoriga qarab egilgan: narx oshsa, ko'proq sotishga tayyor.",
+    defUz: tr("Narx va taklif miqdori orasidagi bog'liqlik grafigi. Odatda yuqoriga qarab egilgan: narx oshsa, ko'proq sotishga tayyor.", 'A graph of the relationship between the price and the quantity supplied. It usually slopes up: at a higher price sellers offer more.'),
   },
   {
     id: 'equilibrium',
@@ -39,7 +40,7 @@ export const terms: Term[] = [
     en: 'equilibrium',
     uz: 'muvozanat',
     defEn: 'a situation in which the market price has reached the level at which quantity supplied equals quantity demanded',
-    defUz: "Talab va taklif egri chiziqlari kesishgan nuqta. Bu narxda hamma xohlagancha sota oladi va sotib oladi — narxga yuqoriga ham, pastga ham bosim yo'q.",
+    defUz: tr("Talab va taklif egri chiziqlari kesishgan nuqta. Bu narxda hamma xohlagancha sota oladi va sotib oladi — narxga yuqoriga ham, pastga ham bosim yo'q.", 'The point where the supply and demand curves cross. At this price everyone can buy and sell as much as they want — there is no pressure on the price to rise or fall.'),
   },
   {
     id: 'equilibrium-price',
@@ -47,7 +48,7 @@ export const terms: Term[] = [
     en: 'equilibrium price',
     uz: 'muvozanat narxi',
     defEn: 'the price that balances quantity supplied and quantity demanded',
-    defUz: "Talab miqdori taklif miqdoriga teng bo'ladigan narx. Uni “market-clearing price” (bozorni tozalovchi narx) ham deyishadi.",
+    defUz: tr("Talab miqdori taklif miqdoriga teng bo'ladigan narx. Uni “market-clearing price” (bozorni tozalovchi narx) ham deyishadi.", 'The price at which quantity demanded equals quantity supplied. It is also called the “market-clearing price.”'),
   },
   {
     id: 'surplus',
@@ -55,8 +56,8 @@ export const terms: Term[] = [
     en: 'surplus',
     uz: 'ortiqcha taklif',
     defEn: 'a situation in which quantity supplied is greater than quantity demanded',
-    defUz: "Narx muvozanatdan yuqori bo'lganda yuzaga keladi: sotuvchilar sotmoqchi bo'lgan miqdor xaridorlar olmoqchi bo'lgandan ko'p. Boshqa nomi — **excess supply**.",
-    example: "Narx tubi (price floor) muvozanatdan yuqori bo'lsa, bozorda sotilmay qolgan tovar to'planadi.",
+    defUz: tr("Narx muvozanatdan yuqori bo'lganda yuzaga keladi: sotuvchilar sotmoqchi bo'lgan miqdor xaridorlar olmoqchi bo'lgandan ko'p. Boshqa nomi — **excess supply**.", 'Arises when the price is above equilibrium: sellers want to sell more than buyers want to buy. Also called **excess supply**.'),
+    example: tr("Narx tubi (price floor) muvozanatdan yuqori bo'lsa, bozorda sotilmay qolgan tovar to'planadi.", 'With a price floor above equilibrium, unsold goods pile up.'),
   },
   {
     id: 'shortage',
@@ -64,8 +65,8 @@ export const terms: Term[] = [
     en: 'shortage',
     uz: 'taqchillik',
     defEn: 'a situation in which quantity demanded is greater than quantity supplied',
-    defUz: "Narx muvozanatdan past bo'lganda yuzaga keladi: xaridorlar olmoqchi bo'lgan miqdor sotuvchilar taklif qilgandan ko'p. Boshqa nomi — **excess demand**.",
-    example: "Narx shifti (price ceiling) muvozanatdan past bo'lsa — navbatlar, “tanish orqali” sotuv paydo bo'ladi.",
+    defUz: tr("Narx muvozanatdan past bo'lganda yuzaga keladi: xaridorlar olmoqchi bo'lgan miqdor sotuvchilar taklif qilgandan ko'p. Boshqa nomi — **excess demand**.", 'Arises when the price is below equilibrium: buyers want to buy more than sellers offer. Also called **excess demand**.'),
+    example: tr("Narx shifti (price ceiling) muvozanatdan past bo'lsa — navbatlar, “tanish orqali” sotuv paydo bo'ladi.", 'With a price ceiling below equilibrium, queues and sales “through connections” appear.'),
   },
   {
     id: 'law-of-supply-and-demand',
@@ -73,7 +74,7 @@ export const terms: Term[] = [
     en: 'law of supply and demand',
     uz: 'talab va taklif qonuni',
     defEn: 'the claim that the price of any good adjusts to bring the quantity supplied and the quantity demanded for that good into balance',
-    defUz: "Erkin bozorda narx o'zi muvozanatga qarab harakatlanadi: ortiqcha bo'lsa tushadi, taqchillik bo'lsa ko'tariladi.",
+    defUz: tr("Erkin bozorda narx o'zi muvozanatga qarab harakatlanadi: ortiqcha bo'lsa tushadi, taqchillik bo'lsa ko'tariladi.", 'In a free market the price moves toward equilibrium on its own: it falls when there is a surplus and rises when there is a shortage.'),
   },
   {
     id: "market",
@@ -81,8 +82,8 @@ export const terms: Term[] = [
     en: "market",
     uz: "bozor",
     defEn: "a group of buyers and sellers of a particular good or service",
-    defUz: "Muayyan tovar yoki xizmatning xaridorlari va sotuvchilari guruhi. Bozor bitta joy bo'lishi shart emas: shahardagi barcha muzqaymoq do'konlari va ularning mijozlari ham bitta bozor.",
-    example: "Chorsu bozoridagi olma sotuvchilari va xaridorlari; Toshkentdagi taksi xizmati bozori.",
+    defUz: tr("Muayyan tovar yoki xizmatning xaridorlari va sotuvchilari guruhi. Bozor bitta joy bo'lishi shart emas: shahardagi barcha muzqaymoq do'konlari va ularning mijozlari ham bitta bozor.", 'A group of buyers and sellers of a particular good or service. A market need not be one place: all the ice-cream shops in a town and their customers form one market.'),
+    example: tr("Chorsu bozoridagi olma sotuvchilari va xaridorlari; Toshkentdagi taksi xizmati bozori.", 'The apple sellers and buyers at Chorsu bazaar; the market for taxi rides in Tashkent.'),
   },
   {
     id: "competitive-market",
@@ -90,7 +91,7 @@ export const terms: Term[] = [
     en: "competitive market",
     uz: "raqobatli bozor",
     defEn: "a market in which there are many buyers and many sellers so that each has a negligible impact on the market price",
-    defUz: "Xaridor va sotuvchilar shunchalik ko'pki, hech biri narxga sezilarli ta'sir qila olmaydi.",
+    defUz: tr("Xaridor va sotuvchilar shunchalik ko'pki, hech biri narxga sezilarli ta'sir qila olmaydi.", 'So many buyers and sellers that none of them can noticeably affect the price.'),
   },
   {
     id: "perfect-competition",
@@ -98,8 +99,8 @@ export const terms: Term[] = [
     en: "perfectly competitive market",
     uz: "mukammal raqobatli bozor",
     defEn: "a market where (1) the goods offered for sale are all exactly the same and (2) buyers and sellers are so numerous that no single one has any influence over the price",
-    defUz: "Ikki shart: tovarlar **bir xil** va ishtirokchilar **juda ko'p**. Hamma narxni bozordan qabul qiladi — ular **price takers** (narxni qabul qiluvchilar).",
-    example: "Bug'doy bozori: minglab fermerlar va millionlab iste'molchilar.",
+    defUz: tr("Ikki shart: tovarlar **bir xil** va ishtirokchilar **juda ko'p**. Hamma narxni bozordan qabul qiladi — ular **price takers** (narxni qabul qiluvchilar).", 'Two conditions: the goods are **identical** and there are **very many** participants. Everyone accepts the market price — they are **price takers**.'),
+    example: tr("Bug'doy bozori: minglab fermerlar va millionlab iste'molchilar.", 'The wheat market: thousands of farmers and millions of consumers.'),
   },
   {
     id: "monopoly",
@@ -107,8 +108,8 @@ export const terms: Term[] = [
     en: "monopoly",
     uz: "monopoliya",
     defEn: "a market with only one seller, which sets the price",
-    defUz: "Bozorda yagona sotuvchi bo'lib, narxni o'zi belgilaydi. Mukammal raqobatning teskarisi; aksariyat bozorlar ikkisining orasida.",
-    example: "Shaharda bitta kabel TV kompaniyasi.",
+    defUz: tr("Bozorda yagona sotuvchi bo'lib, narxni o'zi belgilaydi. Mukammal raqobatning teskarisi; aksariyat bozorlar ikkisining orasida.", 'A market with a single seller that sets the price. The opposite of perfect competition; most markets are somewhere in between.'),
+    example: tr("Shaharda bitta kabel TV kompaniyasi.", 'A town with only one cable TV company.'),
   },
   {
     id: "law-of-demand",
@@ -116,7 +117,7 @@ export const terms: Term[] = [
     en: "law of demand",
     uz: "talab qonuni",
     defEn: "the claim that, other things being equal, the quantity demanded of a good falls when the price of the good rises",
-    defUz: "Boshqa narsalar o'zgarmasa (**ceteris paribus**), narx oshsa talab miqdori kamayadi, narx tushsa — ko'payadi. Shuning uchun talab egri chizig'i pastga qarab egilgan.",
+    defUz: tr("Boshqa narsalar o'zgarmasa (**ceteris paribus**), narx oshsa talab miqdori kamayadi, narx tushsa — ko'payadi. Shuning uchun talab egri chizig'i pastga qarab egilgan.", 'Other things equal (**ceteris paribus**), when the price rises the quantity demanded falls, and when the price falls it rises. That is why the demand curve slopes down.'),
   },
   {
     id: "demand-schedule",
@@ -124,7 +125,7 @@ export const terms: Term[] = [
     en: "demand schedule",
     uz: "talab jadvali",
     defEn: "a table that shows the relationship between the price of a good and the quantity demanded",
-    defUz: "Har bir narxda qancha sotib olinishini ko'rsatuvchi jadval. Talab egri chizig'i — shu jadvalning grafigi.",
+    defUz: tr("Har bir narxda qancha sotib olinishini ko'rsatuvchi jadval. Talab egri chizig'i — shu jadvalning grafigi.", 'A table showing how much is bought at each price. The demand curve is a graph of this table.'),
   },
   {
     id: "market-demand",
@@ -132,7 +133,7 @@ export const terms: Term[] = [
     en: "market demand",
     uz: "bozor talabi",
     defEn: "the sum of all the individual demands for a particular good or service",
-    defUz: "Har bir narxda barcha xaridorlarning talab miqdorlari yig'indisi. Grafikda individual egri chiziqlar **gorizontal** qo'shiladi.",
+    defUz: tr("Har bir narxda barcha xaridorlarning talab miqdorlari yig'indisi. Grafikda individual egri chiziqlar **gorizontal** qo'shiladi.", "The sum of all buyers' quantities demanded at each price. On a graph, individual curves are added **horizontally**."),
     example: "$4 da Catherine 4 ta, Nicholas 3 ta → bozor 7 ta.",
   },
   {
@@ -141,7 +142,7 @@ export const terms: Term[] = [
     en: "normal good",
     uz: "normal tovar",
     defEn: "a good for which, other things being equal, an increase in income leads to an increase in demand",
-    defUz: "Daromad oshsa talab **oshadi** (egri chiziq o'ngga). Aksariyat tovarlar normal.",
+    defUz: tr("Daromad oshsa talab **oshadi** (egri chiziq o'ngga). Aksariyat tovarlar normal.", 'When income rises, demand **rises** (the curve shifts right). Most goods are normal.'),
   },
   {
     id: "inferior-good",
@@ -149,8 +150,8 @@ export const terms: Term[] = [
     en: "inferior good",
     uz: "past sifatli (inferior) tovar",
     defEn: "a good for which, other things being equal, an increase in income leads to a decrease in demand",
-    defUz: "Daromad oshsa talab **kamayadi**. Tovar “yomon” degani emas — shunchaki odamlar boyiganda undan kamroq foydalanadi.",
-    example: "Avtobus qatnovi: daromad oshsa, odamlar taksi yoki shaxsiy mashinaga o'tadi.",
+    defUz: tr("Daromad oshsa talab **kamayadi**. Tovar “yomon” degani emas — shunchaki odamlar boyiganda undan kamroq foydalanadi.", "When income rises, demand **falls**. It doesn't mean the good is “bad” — just that people use less of it as they get richer."),
+    example: tr("Avtobus qatnovi: daromad oshsa, odamlar taksi yoki shaxsiy mashinaga o'tadi.", 'Bus rides: as income rises, people switch to taxis or their own cars.'),
   },
   {
     id: "substitutes",
@@ -158,8 +159,8 @@ export const terms: Term[] = [
     en: "substitutes",
     uz: "o'rinbosar tovarlar",
     defEn: "two goods for which an increase in the price of one leads to an increase in the demand for the other",
-    defUz: "Bir-birining o'rniga ishlatiladigan tovarlar. Birining narxi oshsa, ikkinchisiga **talab oshadi**.",
-    example: "Choy va kofe; metro va taksi; hot dog va gamburger.",
+    defUz: tr("Bir-birining o'rniga ishlatiladigan tovarlar. Birining narxi oshsa, ikkinchisiga **talab oshadi**.", 'Goods used in place of each other. When the price of one rises, **demand for the other rises**.'),
+    example: tr("Choy va kofe; metro va taksi; hot dog va gamburger.", 'Tea and coffee; the metro and taxis; hot dogs and hamburgers.'),
   },
   {
     id: "complements",
@@ -167,8 +168,8 @@ export const terms: Term[] = [
     en: "complements",
     uz: "to'ldiruvchi tovarlar",
     defEn: "two goods for which an increase in the price of one leads to a decrease in the demand for the other",
-    defUz: "Birga ishlatiladigan tovarlar. Birining narxi oshsa, ikkinchisiga **talab kamayadi**.",
-    example: "Mashina va benzin; kompyuter va dasturlar; non va qaymoq.",
+    defUz: tr("Birga ishlatiladigan tovarlar. Birining narxi oshsa, ikkinchisiga **talab kamayadi**.", 'Goods used together. When the price of one rises, **demand for the other falls**.'),
+    example: tr("Mashina va benzin; kompyuter va dasturlar; non va qaymoq.", 'Cars and gasoline; computers and software; bread and butter.'),
   },
   {
     id: "law-of-supply",
@@ -176,7 +177,7 @@ export const terms: Term[] = [
     en: "law of supply",
     uz: "taklif qonuni",
     defEn: "the claim that, other things being equal, the quantity supplied of a good rises when the price of the good rises",
-    defUz: "Boshqa narsalar o'zgarmasa, narx oshsa taklif miqdori ham oshadi: sotish foydaliroq bo'ladi. Shuning uchun taklif egri chizig'i yuqoriga qarab egilgan.",
+    defUz: tr("Boshqa narsalar o'zgarmasa, narx oshsa taklif miqdori ham oshadi: sotish foydaliroq bo'ladi. Shuning uchun taklif egri chizig'i yuqoriga qarab egilgan.", 'Other things equal, when the price rises the quantity supplied rises too: selling becomes more profitable. That is why the supply curve slopes up.'),
   },
   {
     id: "supply-schedule",
@@ -184,7 +185,7 @@ export const terms: Term[] = [
     en: "supply schedule",
     uz: "taklif jadvali",
     defEn: "a table that shows the relationship between the price of a good and the quantity supplied",
-    defUz: "Har bir narxda sotuvchilar qancha sotmoqchi ekanini ko'rsatuvchi jadval.",
+    defUz: tr("Har bir narxda sotuvchilar qancha sotmoqchi ekanini ko'rsatuvchi jadval.", 'A table showing how much sellers want to sell at each price.'),
   },
   {
     id: "market-supply",
@@ -192,7 +193,7 @@ export const terms: Term[] = [
     en: "market supply",
     uz: "bozor taklifi",
     defEn: "the sum of the supplies of all sellers",
-    defUz: "Har bir narxda barcha sotuvchilar taklif miqdorlarining yig'indisi — individual taklif egri chiziqlarini gorizontal qo'shish.",
+    defUz: tr("Har bir narxda barcha sotuvchilar taklif miqdorlarining yig'indisi — individual taklif egri chiziqlarini gorizontal qo'shish.", "The sum of all sellers' quantities supplied at each price — individual supply curves added horizontally."),
     example: "$4 da Ben 3 ta, Jerry 4 ta → bozor 7 ta.",
   },
   {
@@ -201,7 +202,7 @@ export const terms: Term[] = [
     en: "equilibrium quantity",
     uz: "muvozanat miqdori",
     defEn: "the quantity supplied and the quantity demanded at the equilibrium price",
-    defUz: "Muvozanat narxida sotiladigan miqdor: talab miqdori ham, taklif miqdori ham shunga teng.",
+    defUz: tr("Muvozanat narxida sotiladigan miqdor: talab miqdori ham, taklif miqdori ham shunga teng.", 'The quantity sold at the equilibrium price: both quantity demanded and quantity supplied equal it.'),
   },
   {
     id: "price-taker",
@@ -209,6 +210,6 @@ export const terms: Term[] = [
     en: "price taker",
     uz: "narxni qabul qiluvchi",
     defEn: "a buyer or seller who must accept the price that the market determines",
-    defUz: "Narxga ta'sir qila olmaydigan ishtirokchi: bozor narxida xohlagancha sotadi/oladi, narxni o'zgartira olmaydi.",
+    defUz: tr("Narxga ta'sir qila olmaydigan ishtirokchi: bozor narxida xohlagancha sotadi/oladi, narxni o'zgartira olmaydi.", 'A participant who cannot affect the price: they buy or sell as much as they like at the market price but cannot change it.'),
   },
 ];

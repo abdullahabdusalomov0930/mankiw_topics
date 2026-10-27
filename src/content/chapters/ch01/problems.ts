@@ -48,10 +48,10 @@ export const problems: Problem[] = [
   ], "(a) Stronger incentive to work (b) more efficiency, less equality."),
   p(7, "Explain whether each government activity is motivated by equality or efficiency (and name the market failure): (a) regulating cable TV prices (b) food vouchers for low-income people (c) prohibiting smoking in public places (d) breaking up Standard Oil (90% of refineries) (e) higher income tax rates on higher incomes (f) laws against drunk driving", [
     tr("(a) Samaradorlik — **market power** (kabel TV monopoliyasi).", '(a) Efficiency — **market power** (a cable TV monopoly).'),
-    "(b) **Tenglik**.",
-    "(c) Samaradorlik — **externality** (passiv chekish).",
+    tr("(b) **Tenglik**.", '(b) **Equality**.'),
+    tr("(c) Samaradorlik — **externality** (passiv chekish).", '(c) Efficiency — an **externality** (secondhand smoke).'),
     "(d) Samaradorlik — **market power**.",
-    "(e) **Tenglik**.",
+    tr("(e) **Tenglik**.", '(e) **Equality**.'),
     tr("(f) Samaradorlik — **externality** (boshqalar uchun xavf).", '(f) Efficiency — an **externality** (the danger to others).'),
   ], "(a) efficiency/market power (b) equality (c) efficiency/externality (d) efficiency/market power (e) equality (f) efficiency/externality."),
   p(8, "Discuss from the standpoints of equality and efficiency: (a) “Everyone in society should be guaranteed the best healthcare possible.” (b) “Laid-off workers should be able to collect unemployment benefits until they find a new job.”", [

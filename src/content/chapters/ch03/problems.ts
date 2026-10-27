@@ -1,70 +1,71 @@
 import type { Problem } from '../../types';
+import { tr } from '../../../lib/lang';
 
 const C = 3;
 const r = (number: number, prompt: string, steps: string[], answer: string, widget?: string): Problem => ({ id: `ch03.qr.${number}`, chapter: C, kind: 'review', number, prompt, steps, answer, widget });
 const p = (number: number, prompt: string, steps: string[], answer: string, widget?: string): Problem => ({ id: `ch03.pa.${number}`, chapter: C, kind: 'problem', number, prompt, steps, answer, widget });
 
 export const review: Problem[] = [
-  r(1, "Under what conditions is the production possibilities frontier linear rather than bowed out?", ["Bir tovardan ikkinchisiga **o'zgarmas** nisbatda o'tish mumkin bo'lsa — imkoniyat xarajati doimiy.", "Frank: har bir soat doim 1 oz go'sht ↔ 4 oz kartoshka, qancha ishlab chiqarishidan qat'i nazar."], "When the opportunity cost is constant (resources equally suited to both goods).", "ca"),
-  r(2, "Explain how absolute advantage and comparative advantage differ.", ["**Absolute** — kamroq resurs (vaqt) bilan ishlab chiqarish.", "**Comparative** — kichikroq **imkoniyat xarajati** bilan ishlab chiqarish."], "Absolute compares inputs; comparative compares opportunity costs."),
-  r(3, "Give an example in which one person has an absolute advantage in doing something, but another person has a comparative advantage.", ["Naomi Osaka maysazorni 2 soatda o'radi (Hari 4 soatda) — **mutlaq** ustun.", "Osaka OC = $30,000 (reklama), Hari OC = $50 (McDonald's) → **qiyosiy** ustunlik Hari'da."], "Osaka (absolute) vs. Hari (comparative) in lawn mowing."),
-  r(4, "Is absolute advantage or comparative advantage more important for trade? Explain using your example.", ["**Qiyosiy** ustunlik: Osaka tezroq o'rsa ham, Hari'ni yollash ikkalasini yutadi.", "Savdo narxi OC lar orasida ($50 < to'lov < $30,000)."], "Comparative advantage — it determines who should do what."),
-  r(5, "If two parties trade based on comparative advantage and both gain, in what range must the price implicit in the trade lie?", ["Narx ikki tomonning imkoniyat xarajatlari **orasida** bo'lishi kerak.", "Frank–Ruby: 1 oz go'sht narxi 2 va 4 oz kartoshka orasida."], "Between the two parties' opportunity costs.", "ca"),
-  r(6, "Why do economists oppose policies that restrict trade among nations?", ["Savdo cheklovlari qiyosiy ustunlikka asoslangan ixtisoslashuvga to'sqinlik qiladi.", "Natija — umumiy ishlab chiqarish va turmush darajasi pasayadi (Smit, Ricardo; 93% iqtisodchilar)."], "Restrictions prevent the gains from specialization based on comparative advantage."),
+  r(1, "Under what conditions is the production possibilities frontier linear rather than bowed out?", [tr("Bir tovardan ikkinchisiga **o'zgarmas** nisbatda o'tish mumkin bo'lsa — imkoniyat xarajati doimiy.", 'If one good can be turned into the other at a **constant** rate, the opportunity cost is constant.'), tr("Frank: har bir soat doim 1 oz go'sht ↔ 4 oz kartoshka, qancha ishlab chiqarishidan qat'i nazar.", 'Frank: each hour always trades 1 oz of meat ↔ 4 oz of potatoes, however much he produces.')], "When the opportunity cost is constant (resources equally suited to both goods).", "ca"),
+  r(2, "Explain how absolute advantage and comparative advantage differ.", [tr("**Absolute** — kamroq resurs (vaqt) bilan ishlab chiqarish.", '**Absolute** — producing with fewer inputs (time).'), tr("**Comparative** — kichikroq **imkoniyat xarajati** bilan ishlab chiqarish.", '**Comparative** — producing at a lower **opportunity cost**.')], "Absolute compares inputs; comparative compares opportunity costs."),
+  r(3, "Give an example in which one person has an absolute advantage in doing something, but another person has a comparative advantage.", [tr("Naomi Osaka maysazorni 2 soatda o'radi (Hari 4 soatda) — **mutlaq** ustun.", 'Naomi Osaka mows the lawn in 2 hours (Hari in 4) — an **absolute** advantage.'), tr("Osaka OC = $30,000 (reklama), Hari OC = $50 (McDonald's) → **qiyosiy** ustunlik Hari'da.", "Osaka's OC = $30,000 (a commercial), Hari's OC = $50 (McDonald's) → the **comparative** advantage is Hari's.")], "Osaka (absolute) vs. Hari (comparative) in lawn mowing."),
+  r(4, "Is absolute advantage or comparative advantage more important for trade? Explain using your example.", [tr("**Qiyosiy** ustunlik: Osaka tezroq o'rsa ham, Hari'ni yollash ikkalasini yutadi.", '**Comparative** advantage: even though Osaka mows faster, hiring Hari makes both better off.'), tr("Savdo narxi OC lar orasida ($50 < to'lov < $30,000).", 'The price lies between the OCs ($50 < payment < $30,000).')], "Comparative advantage — it determines who should do what."),
+  r(5, "If two parties trade based on comparative advantage and both gain, in what range must the price implicit in the trade lie?", [tr("Narx ikki tomonning imkoniyat xarajatlari **orasida** bo'lishi kerak.", "The price must lie **between** the two parties' opportunity costs."), tr("Frank–Ruby: 1 oz go'sht narxi 2 va 4 oz kartoshka orasida.", 'Frank–Ruby: the price of 1 oz of meat is between 2 and 4 oz of potatoes.')], "Between the two parties' opportunity costs.", "ca"),
+  r(6, "Why do economists oppose policies that restrict trade among nations?", [tr("Savdo cheklovlari qiyosiy ustunlikka asoslangan ixtisoslashuvga to'sqinlik qiladi.", 'Trade restrictions block specialization based on comparative advantage.'), tr("Natija — umumiy ishlab chiqarish va turmush darajasi pasayadi (Smit, Ricardo; 93% iqtisodchilar).", 'The result: lower total production and living standards (Smith, Ricardo; 93% of economists).')], "Restrictions prevent the gains from specialization based on comparative advantage."),
 ];
 
 export const problems: Problem[] = [
   p(1, "Maria can read 20 pages of economics or 50 pages of sociology in an hour. She studies 5 hours per day. (a) Draw her PPF. (b) What is her opportunity cost of reading 100 pages of sociology?", [
-    "(a) Chekka nuqtalar: 100 bet iqtisod (5 × 20) yoki 250 bet sotsiologiya (5 × 50); to'g'ri chiziq.",
-    "(b) 100 bet sotsiologiya = 2 soat → 2 × 20 = **40 bet iqtisod**.",
+    tr("(a) Chekka nuqtalar: 100 bet iqtisod (5 × 20) yoki 250 bet sotsiologiya (5 × 50); to'g'ri chiziq.", '(a) End points: 100 pages of economics (5 × 20) or 250 pages of sociology (5 × 50); a straight line.'),
+    tr("(b) 100 bet sotsiologiya = 2 soat → 2 × 20 = **40 bet iqtisod**.", '(b) 100 pages of sociology = 2 hours → 2 × 20 = **40 pages of economics**.'),
   ], "(b) 40 pages of economics."),
   p(2, "American and Japanese workers can each produce 4 cars per year. An American worker can produce 10 tons of grain, a Japanese worker 5 tons. Each country has 100 million workers. (a) Table like Figure 1. (b) Graph PPFs. (c) Opportunity costs (Table 1). (d) Absolute advantage? (e) Comparative advantage? (f) Without trade, half the workers make each good — quantities? (g) Example of trade that makes both better off.", [
-    "(a) AQSh: 400 mln mashina yoki 1,000 mln t don; Yaponiya: 400 mln mashina yoki 500 mln t don.",
-    "(c) AQSh: 1 mashina = 2.5 t don, 1 t don = 0.4 mashina. Yaponiya: 1 mashina = 1.25 t don, 1 t don = 0.8 mashina.",
-    "(d) Mashina — hech kim (teng); don — **AQSh**.",
-    "(e) Mashina — **Yaponiya** (1.25 < 2.5); don — **AQSh** (0.4 < 0.8).",
-    "(f) AQSh: 200 mln mashina + 500 mln t don; Yaponiya: 200 mln mashina + 250 mln t don.",
-    "(g) Misol (narx 2 t don / mashina): Yaponiya faqat mashina (400 mln), AQSh 15 mln ishchini mashinaga (60 mln mashina, 850 mln t don). Yaponiya 150 mln mashinani 300 mln t donga sotadi → **Yaponiya: 250 mashina + 300 don** (oldin 200 + 250), **AQSh: 210 mashina + 550 don** (oldin 200 + 500). Ikkalasi ham yutdi.",
+    tr("(a) AQSh: 400 mln mashina yoki 1,000 mln t don; Yaponiya: 400 mln mashina yoki 500 mln t don.", '(a) U.S.: 400 million cars or 1,000 million tons of grain; Japan: 400 million cars or 500 million tons of grain.'),
+    tr("(c) AQSh: 1 mashina = 2.5 t don, 1 t don = 0.4 mashina. Yaponiya: 1 mashina = 1.25 t don, 1 t don = 0.8 mashina.", '(c) U.S.: 1 car = 2.5 tons of grain, 1 ton of grain = 0.4 car. Japan: 1 car = 1.25 tons of grain, 1 ton of grain = 0.8 car.'),
+    tr("(d) Mashina — hech kim (teng); don — **AQSh**.", '(d) Cars — neither (equal); grain — **the U.S.**'),
+    tr("(e) Mashina — **Yaponiya** (1.25 < 2.5); don — **AQSh** (0.4 < 0.8).", '(e) Cars — **Japan** (1.25 < 2.5); grain — **the U.S.** (0.4 < 0.8).'),
+    tr("(f) AQSh: 200 mln mashina + 500 mln t don; Yaponiya: 200 mln mashina + 250 mln t don.", '(f) U.S.: 200 million cars + 500 million tons of grain; Japan: 200 million cars + 250 million tons of grain.'),
+    tr("(g) Misol (narx 2 t don / mashina): Yaponiya faqat mashina (400 mln), AQSh 15 mln ishchini mashinaga (60 mln mashina, 850 mln t don). Yaponiya 150 mln mashinani 300 mln t donga sotadi → **Yaponiya: 250 mashina + 300 don** (oldin 200 + 250), **AQSh: 210 mashina + 550 don** (oldin 200 + 500). Ikkalasi ham yutdi.", '(g) An example (price 2 tons of grain per car): Japan makes only cars (400 million), the U.S. moves 15 million workers to cars (60 million cars, 850 million tons of grain). Japan sells 150 million cars for 300 million tons of grain → **Japan: 250 cars + 300 grain** (was 200 + 250), **U.S.: 210 cars + 550 grain** (was 200 + 500). Both gain.'),
   ], "Japan has comparative advantage in cars, the US in grain; any price between 1.25 and 2.5 tons per car can benefit both."),
   p(3, "Diego takes 4 hours to brew a gallon of root beer and 2 hours to make a pizza. Darnell takes 6 hours and 4 hours. (a) Each one's opportunity cost of a pizza? Absolute and comparative advantage in pizza? (b) Who trades pizza for root beer? (c) Highest and lowest price of pizza (in gallons of root beer) that makes both better off?", [
-    "(a) Diego: 1 pitsa = 2/4 = **½ gallon**; Darnell: 4/6 = **⅔ gallon**. Mutlaq ustunlik (pitsa) — Diego (2 < 4 soat); qiyosiy — **Diego** (½ < ⅔).",
-    "Root beer: Diego OC = 2 pitsa, Darnell = 1.5 pitsa → Darnell root beer'da qiyosiy ustun.",
-    "(b) **Diego** pitsani root beer'ga almashtiradi.",
-    "(c) Pitsa narxi **½ va ⅔ gallon** orasida bo'lishi kerak.",
+    tr("(a) Diego: 1 pitsa = 2/4 = **½ gallon**; Darnell: 4/6 = **⅔ gallon**. Mutlaq ustunlik (pitsa) — Diego (2 < 4 soat); qiyosiy — **Diego** (½ < ⅔).", '(a) Diego: 1 pizza = 2/4 = **½ gallon**; Darnell: 4/6 = **⅔ gallon**. Absolute advantage (pizza) — Diego (2 < 4 hours); comparative — **Diego** (½ < ⅔).'),
+    tr("Root beer: Diego OC = 2 pitsa, Darnell = 1.5 pitsa → Darnell root beer'da qiyosiy ustun.", "Root beer: Diego's OC = 2 pizzas, Darnell's = 1.5 pizzas → Darnell has the comparative advantage in root beer."),
+    tr("(b) **Diego** pitsani root beer'ga almashtiradi.", '(b) **Diego** trades pizza for root beer.'),
+    tr("(c) Pitsa narxi **½ va ⅔ gallon** orasida bo'lishi kerak.", '(c) The price of a pizza must be between **½ and ⅔ gallon**.'),
   ], "(a) Diego ½, Darnell ⅔ gallon; Diego has both advantages in pizza (b) Diego (c) between ½ and ⅔ gallon.", "ca-calc"),
   p(4, "Canada: 10 million workers, each produces 2 cars or 30 bushels of wheat per year. (a) Opportunity cost of a car and of a bushel? (b) Draw the PPF; if Canada consumes 10 million cars, how much wheat without trade? (c) The US offers to buy 10 million cars for 20 bushels per car. If Canada still consumes 10 million cars, how much wheat? Accept?", [
-    "(a) 1 mashina = **15 bushel**; 1 bushel = **1/15 mashina** — o'zaro teskari.",
-    "(b) Chekkalar: 20 mln mashina yoki 300 mln bushel. 10 mln mashina → 5 mln ishchi qoladi → **150 mln bushel**.",
-    "(c) Hammasi mashina: 20 mln; 10 mln ni sotib 200 mln bushel oladi → 10 mln mashina + **200 mln bushel**. 20 > 15 → **qabul qilish kerak**.",
+    tr("(a) 1 mashina = **15 bushel**; 1 bushel = **1/15 mashina** — o'zaro teskari.", '(a) 1 car = **15 bushels**; 1 bushel = **1/15 car** — inverses of each other.'),
+    tr("(b) Chekkalar: 20 mln mashina yoki 300 mln bushel. 10 mln mashina → 5 mln ishchi qoladi → **150 mln bushel**.", '(b) End points: 20 million cars or 300 million bushels. 10 million cars → 5 million workers left → **150 million bushels**.'),
+    tr("(c) Hammasi mashina: 20 mln; 10 mln ni sotib 200 mln bushel oladi → 10 mln mashina + **200 mln bushel**. 20 > 15 → **qabul qilish kerak**.", '(c) All cars: 20 million; selling 10 million brings 200 million bushels → 10 million cars + **200 million bushels**. 20 > 15 → **accept**.'),
   ], "(a) 15 bushels; 1/15 car (b) 150 million bushels (c) 200 million bushels — accept."),
   p(5, "An English worker can produce 50 scones or 1 sweater per hour; a Scottish worker 40 scones or 2 sweaters. (a) Absolute and comparative advantage? (b) What will Scotland export? (c) If a Scottish worker could produce only 1 sweater per hour, would both still gain?", [
-    "(a) Mutlaq: pishiriq — Angliya (50 > 40), sviter — Shotlandiya (2 > 1). OC: Angliyada 1 sviter = 50 pishiriq, Shotlandiyada 20 → qiyosiy: sviter — **Shotlandiya**, pishiriq — **Angliya**.",
-    "(b) Shotlandiya **sviter** eksport qiladi.",
-    "(c) Shotlandiyada 1 sviter = 40 pishiriq, Angliyada 50 → OC lar hali ham turlicha → **ikkalasi ham yutadi** (Shotlandiya sviter, Angliya pishiriqda qiyosiy ustun).",
+    tr("(a) Mutlaq: pishiriq — Angliya (50 > 40), sviter — Shotlandiya (2 > 1). OC: Angliyada 1 sviter = 50 pishiriq, Shotlandiyada 20 → qiyosiy: sviter — **Shotlandiya**, pishiriq — **Angliya**.", '(a) Absolute: scones — England (50 > 40), sweaters — Scotland (2 > 1). OC: in England 1 sweater = 50 scones, in Scotland 20 → comparative: sweaters — **Scotland**, scones — **England**.'),
+    tr("(b) Shotlandiya **sviter** eksport qiladi.", '(b) Scotland exports **sweaters**.'),
+    tr("(c) Shotlandiyada 1 sviter = 40 pishiriq, Angliyada 50 → OC lar hali ham turlicha → **ikkalasi ham yutadi** (Shotlandiya sviter, Angliya pishiriqda qiyosiy ustun).", '(c) In Scotland 1 sweater = 40 scones, in England 50 → the OCs still differ → **both still gain** (Scotland in sweaters, England in scones).'),
   ], "(a) England: scones; Scotland: sweaters (b) sweaters (c) yes, both still gain."),
   p(6, "Boston workers produce 3 pairs of red socks or 3 pairs of white socks per hour; Chicago workers 2 red or 1 white. (a) Price of white socks (in red) without trade in each city? (b) Absolute and comparative advantage? (c) What will each city export? (d) Range of mutually beneficial prices?", [
-    "(a) Boston: 1 oq = **1 qizil**; Chicago: 1 oq = **2 qizil**.",
-    "(b) Mutlaq — Boston ikkalasida. Qiyosiy: oq — **Boston** (1 < 2), qizil — **Chicago** (½ < 1 oq).",
-    "(c) Boston oq, Chicago qizil eksport qiladi.",
-    "(d) 1 juft oq paypoq narxi **1 va 2 juft qizil** orasida.",
+    tr("(a) Boston: 1 oq = **1 qizil**; Chicago: 1 oq = **2 qizil**.", '(a) Boston: 1 white = **1 red**; Chicago: 1 white = **2 red**.'),
+    tr("(b) Mutlaq — Boston ikkalasida. Qiyosiy: oq — **Boston** (1 < 2), qizil — **Chicago** (½ < 1 oq).", '(b) Absolute — Boston in both. Comparative: white — **Boston** (1 < 2), red — **Chicago** (½ < 1 white).'),
+    tr("(c) Boston oq, Chicago qizil eksport qiladi.", '(c) Boston exports white, Chicago red.'),
+    tr("(d) 1 juft oq paypoq narxi **1 va 2 juft qizil** orasida.", '(d) The price of a pair of white socks is between **1 and 2 pairs of red**.'),
   ], "(d) Between 1 and 2 pairs of red socks per pair of white socks.", "ca-calc"),
   p(7, "A German worker takes 400 hours to produce a car and 2 hours to produce a case of wine. A French worker takes 600 hours for a car and X hours for a case of wine. (a) For what X are gains from trade possible? (b) For what X will Germany export cars and import wine?", [
-    "Germaniya: 1 mashina = 400/2 = **200 yashik**. Fransiya: 1 mashina = 600/X yashik.",
-    "(a) OC lar turlicha bo'lsa: **X ≠ 3**.",
-    "(b) Germaniyada mashina arzonroq bo'lsa: 200 < 600/X → **X < 3**.",
+    tr("Germaniya: 1 mashina = 400/2 = **200 yashik**. Fransiya: 1 mashina = 600/X yashik.", 'Germany: 1 car = 400/2 = **200 cases**. France: 1 car = 600/X cases.'),
+    tr("(a) OC lar turlicha bo'lsa: **X ≠ 3**.", '(a) If the OCs differ: **X ≠ 3**.'),
+    tr("(b) Germaniyada mashina arzonroq bo'lsa: 200 < 600/X → **X < 3**.", '(b) If cars are cheaper in Germany: 200 < 600/X → **X < 3**.'),
   ], "(a) any X ≠ 3 (b) X < 3."),
   p(8, "An American worker can produce 100 shirts or 20 computers per year; a Chinese worker 100 shirts or 10 computers. (a) Graph PPFs; without trade each spends half time on each — mark it. (b) Who exports shirts? Numerical example; who benefits? (c) At what price might they trade? (d) China catches up (100 shirts or 20 computers). Trade pattern and welfare?", [
-    "(a) AQSh: (100 ko'ylak, 20 komp.), yarim-yarim — (50, 10). Xitoy: (100, 10), yarim — (50, 5).",
-    "OC: 1 kompyuter = 5 ko'ylak (AQSh), 10 ko'ylak (Xitoy).",
-    "(b) **Xitoy ko'ylak** eksport qiladi, AQSh kompyuter. Misol (narx 7 ko'ylak / kompyuter): Xitoy faqat ko'ylak (100), AQSh 16 kompyuter + 20 ko'ylak. AQSh 6 kompyuterni 42 ko'ylakka almashtiradi → **AQSh: 62 ko'ylak + 10 komp.** (oldin 50 + 10), **Xitoy: 58 ko'ylak + 6 komp.** (oldin 50 + 5). Ikkalasi ham yutadi.",
-    "(c) 1 kompyuter narxi **5 va 10 ko'ylak** orasida.",
-    "(d) OC lar tenglashadi (5 = 5) → savdodan yutuq **yo'qoladi**; lekin Xitoy fuqarolari ko'proq ishlab chiqaradi — ular boyiydi; amerikaliklar savdo yutug'ini yo'qotadi, lekin oldingi holatdan (savdosiz) yomonroq emas.",
+    tr("(a) AQSh: (100 ko'ylak, 20 komp.), yarim-yarim — (50, 10). Xitoy: (100, 10), yarim — (50, 5).", '(a) U.S.: (100 shirts, 20 computers), half and half — (50, 10). China: (100, 10), half — (50, 5).'),
+    tr("OC: 1 kompyuter = 5 ko'ylak (AQSh), 10 ko'ylak (Xitoy).", 'OC: 1 computer = 5 shirts (U.S.), 10 shirts (China).'),
+    tr("(b) **Xitoy ko'ylak** eksport qiladi, AQSh kompyuter. Misol (narx 7 ko'ylak / kompyuter): Xitoy faqat ko'ylak (100), AQSh 16 kompyuter + 20 ko'ylak. AQSh 6 kompyuterni 42 ko'ylakka almashtiradi → **AQSh: 62 ko'ylak + 10 komp.** (oldin 50 + 10), **Xitoy: 58 ko'ylak + 6 komp.** (oldin 50 + 5). Ikkalasi ham yutadi.", '(b) **China exports shirts**, the U.S. computers. An example (price 7 shirts per computer): China makes only shirts (100), the U.S. 16 computers + 20 shirts. The U.S. trades 6 computers for 42 shirts → **U.S.: 62 shirts + 10 computers** (was 50 + 10), **China: 58 shirts + 6 computers** (was 50 + 5). Both gain.'),
+    tr("(c) 1 kompyuter narxi **5 va 10 ko'ylak** orasida.", '(c) The price of 1 computer is between **5 and 10 shirts**.'),
+    tr("(d) OC lar tenglashadi (5 = 5) → savdodan yutuq **yo'qoladi**; lekin Xitoy fuqarolari ko'proq ishlab chiqaradi — ular boyiydi; amerikaliklar savdo yutug'ini yo'qotadi, lekin oldingi holatdan (savdosiz) yomonroq emas.", '(d) The OCs become equal (5 = 5) → the gains from trade **disappear**; but Chinese citizens produce more — they get richer; Americans lose the gains from trade but are no worse off than before (with no trade).'),
   ], "China exports shirts; the price of a computer is between 5 and 10 shirts; once productivities match, the gains from trade disappear."),
   p(9, "True or false? (a) “Two countries can achieve gains from trade even if one has an absolute advantage in all goods.” (b) “Certain talented people have a comparative advantage in everything they do.” (c) “If a certain trade is good for one person, it can't be good for the other one.” (d) “If a certain trade is good for one person, it is always good for the other one.” (e) “If trade is good for a country, it must be good for everyone in the country.”", [
-    "(a) **True** — Ruby va Frank.",
-    "(b) **False** — qiyosiy ustunlik ikkala tovarda bo'lmaydi.",
-    "(c) **False** — ixtiyoriy savdo ikkalasini yutadi.",
-    "(d) **False** — ixtiyoriy savdo odatda ikkalasiga yaxshi, lekin “doim” emas (masalan, noto'g'ri ma'lumot yoki narx OC lardan tashqarida bo'lsa).",
-    "(e) **False** — raqobatlashuvchi tarmoq ishchilari yutqazishi mumkin.",
+    tr("(a) **True** — Ruby va Frank.", '(a) **True** — Ruby and Frank.'),
+    tr("(b) **False** — qiyosiy ustunlik ikkala tovarda bo'lmaydi.", '(b) **False** — no one has a comparative advantage in both goods.'),
+    tr("(c) **False** — ixtiyoriy savdo ikkalasini yutadi.", '(c) **False** — voluntary trade benefits both.'),
+    tr("(d) **False** — ixtiyoriy savdo odatda ikkalasiga yaxshi, lekin “doim” emas (masalan, noto'g'ri ma'lumot yoki narx OC lardan tashqarida bo'lsa).", '(d) **False** — voluntary trade is usually good for both, but not “always” (e.g., with wrong information or a price outside the OCs).'),
+    tr("(e) **False** — raqobatlashuvchi tarmoq ishchilari yutqazishi mumkin.", '(e) **False** — workers in competing industries may lose.'),
   ], "(a) T (b) F (c) F (d) F (e) F."),
 ];

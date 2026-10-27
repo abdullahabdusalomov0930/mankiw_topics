@@ -454,11 +454,11 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
             <line x1={f.ml} y1={f.mt - 6} x2={f.ml} y2={f.H - f.mb} className="stroke-ink" strokeWidth={1.5} />
             <line x1={f.ml} y1={f.H - f.mb} x2={f.W - f.mr + 10} y2={f.H - f.mb} className="stroke-ink" strokeWidth={1.5} />
             <text x={f.ml + 6} y={f.mt + 2} className="fill-ink text-[12px] font-semibold">
-              <title>{config.labels?.yUz ?? 'Narx'}</title>
+              <title>{isEn ? (config.labels?.y ?? 'Price') : (config.labels?.yUz ?? 'Narx')}</title>
               {config.labels?.y ?? 'Price'}
             </text>
             <text x={f.W - f.mr + 8} y={f.H - f.mb + 32} textAnchor="end" className="fill-ink text-[12px] font-semibold">
-              <title>{config.labels?.xUz ?? 'Miqdor'}</title>
+              <title>{isEn ? (config.labels?.x ?? 'Quantity') : (config.labels?.xUz ?? 'Miqdor')}</title>
               {config.labels?.x ?? 'Quantity'}
             </text>
 

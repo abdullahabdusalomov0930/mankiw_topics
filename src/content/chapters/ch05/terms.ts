@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,7 +8,7 @@ export const terms: Term[] = [
     en: 'elasticity',
     uz: 'egiluvchanlik (elastiklik)',
     defEn: 'a measure of the responsiveness of quantity demanded or quantity supplied to a change in one of its determinants',
-    defUz: "Miqdor narxga (yoki daromad kabi boshqa omilga) qanchalik **sezgir** ekanini o'lchaydi. Egiluvchan = kuchli reaksiya, noegiluvchan = sust reaksiya.",
+    defUz: tr("Miqdor narxga (yoki daromad kabi boshqa omilga) qanchalik **sezgir** ekanini o'lchaydi. Egiluvchan = kuchli reaksiya, noegiluvchan = sust reaksiya.", 'Measures how **responsive** the quantity is to the price (or to another factor such as income). Elastic = a strong response, inelastic = a weak one.'),
   },
   {
     id: 'price-elasticity-of-demand',
@@ -15,7 +16,7 @@ export const terms: Term[] = [
     en: 'price elasticity of demand',
     uz: "talabning narx bo'yicha egiluvchanligi",
     defEn: 'a measure of how much the quantity demanded of a good responds to a change in its price: % change in quantity demanded ÷ % change in price',
-    defUz: "Narx 1% o'zgarganda talab miqdori necha foiz o'zgarishi. Grafikda: **tekisroq** talab egri chizig'i — **egiluvchanroq**.",
+    defUz: tr("Narx 1% o'zgarganda talab miqdori necha foiz o'zgarishi. Grafikda: **tekisroq** talab egri chizig'i — **egiluvchanroq**.", 'The percentage change in quantity demanded when the price changes by 1%. On a graph: the **flatter** the demand curve, the **more elastic**.'),
   },
   {
     id: 'price-elasticity-of-supply',
@@ -23,7 +24,7 @@ export const terms: Term[] = [
     en: 'price elasticity of supply',
     uz: "taklifning narx bo'yicha egiluvchanligi",
     defEn: 'a measure of how much the quantity supplied of a good responds to a change in its price: % change in quantity supplied ÷ % change in price',
-    defUz: "Narx 1% o'zgarganda taklif miqdori necha foiz o'zgarishi. Uzoq muddatda odatda qisqa muddatdagidan kattaroq.",
+    defUz: tr("Narx 1% o'zgarganda taklif miqdori necha foiz o'zgarishi. Uzoq muddatda odatda qisqa muddatdagidan kattaroq.", 'The percentage change in quantity supplied when the price changes by 1%. It is usually larger in the long run than in the short run.'),
   },
   {
     id: "elastic-inelastic",
@@ -31,7 +32,7 @@ export const terms: Term[] = [
     en: "elastic / inelastic demand",
     uz: "egiluvchan / noegiluvchan talab",
     defEn: "demand is elastic if quantity demanded responds substantially to price changes (E > 1) and inelastic if it responds only slightly (E < 1)",
-    defUz: "**Elastic**: E > 1 — miqdor narxdan ko'proq foizga o'zgaradi. **Inelastic**: E < 1 — kamroq foizga. Eslab qolish: noegiluvchan (**I**nelastic) egri chiziq “I” harfi kabi tik.",
+    defUz: tr("**Elastic**: E > 1 — miqdor narxdan ko'proq foizga o'zgaradi. **Inelastic**: E < 1 — kamroq foizga. Eslab qolish: noegiluvchan (**I**nelastic) egri chiziq “I” harfi kabi tik.", '**Elastic**: E > 1 — quantity changes by a larger percentage than the price. **Inelastic**: E < 1 — by a smaller one. A memory aid: an **I**nelastic curve is steep like the letter “I.”'),
   },
   {
     id: "unit-elastic",
@@ -39,7 +40,7 @@ export const terms: Term[] = [
     en: "unit elastic",
     uz: "birlik egiluvchanlik",
     defEn: "the percentage change in quantity equals the percentage change in price (E = 1)",
-    defUz: "Miqdor va narx aynan bir xil foizga o'zgaradi. Bu holda narx o'zgarsa ham **umumiy tushum o'zgarmaydi**.",
+    defUz: tr("Miqdor va narx aynan bir xil foizga o'zgaradi. Bu holda narx o'zgarsa ham **umumiy tushum o'zgarmaydi**.", 'Quantity and price change by exactly the same percentage. Then a price change leaves **total revenue unchanged**.'),
   },
   {
     id: "perfectly-inelastic",
@@ -47,7 +48,7 @@ export const terms: Term[] = [
     en: "perfectly inelastic",
     uz: "mutlaqo noegiluvchan",
     defEn: "elasticity equals zero: quantity does not respond to price at all; the curve is vertical",
-    defUz: "E = 0. Narx qanday bo'lmasin, miqdor bir xil — egri chiziq **vertikal**.",
+    defUz: tr("E = 0. Narx qanday bo'lmasin, miqdor bir xil — egri chiziq **vertikal**.", 'E = 0. The quantity is the same whatever the price — the curve is **vertical**.'),
   },
   {
     id: "perfectly-elastic",
@@ -55,7 +56,7 @@ export const terms: Term[] = [
     en: "perfectly elastic",
     uz: "mutlaqo egiluvchan",
     defEn: "elasticity approaches infinity: tiny price changes lead to huge changes in quantity; the curve is horizontal",
-    defUz: "E → ∞. Ozgina narx o'zgarishi miqdorni cheksiz o'zgartiradi — egri chiziq **gorizontal**.",
+    defUz: tr("E → ∞. Ozgina narx o'zgarishi miqdorni cheksiz o'zgartiradi — egri chiziq **gorizontal**.", 'E → ∞. A tiny change in price changes the quantity without limit — the curve is **horizontal**.'),
   },
   {
     id: "determinants-elasticity",
@@ -63,7 +64,7 @@ export const terms: Term[] = [
     en: "determinants of price elasticity of demand",
     uz: "talab egiluvchanligini belgilovchi omillar",
     defEn: "availability of close substitutes, necessities versus luxuries, definition of the market, and time horizon",
-    defUz: "To'rt omil: **yaqin o'rinbosarlar** bormi (bor bo'lsa — egiluvchanroq), **zarurat yoki hashamat** (hashamat — egiluvchanroq), bozor **tor yoki keng** ta'riflanganmi (tor — egiluvchanroq), **vaqt** (uzoq muddat — egiluvchanroq).",
+    defUz: tr("To'rt omil: **yaqin o'rinbosarlar** bormi (bor bo'lsa — egiluvchanroq), **zarurat yoki hashamat** (hashamat — egiluvchanroq), bozor **tor yoki keng** ta'riflanganmi (tor — egiluvchanroq), **vaqt** (uzoq muddat — egiluvchanroq).", 'Four factors: whether there are **close substitutes** (if so, more elastic), **necessity or luxury** (luxuries more elastic), whether the market is defined **narrowly or broadly** (narrow — more elastic), and **time** (the long run — more elastic).'),
   },
   {
     id: "midpoint-method",
@@ -71,7 +72,7 @@ export const terms: Term[] = [
     en: "midpoint method",
     uz: "o'rta nuqta usuli",
     defEn: "computing a percentage change by dividing the change by the midpoint (average) of the initial and final levels",
-    defUz: "Foiz o'zgarishni boshlang'ich emas, **o'rtacha** qiymatga bo'lib hisoblash. Shunda A→B va B→A yo'nalishda bir xil egiluvchanlik chiqadi.",
+    defUz: tr("Foiz o'zgarishni boshlang'ich emas, **o'rtacha** qiymatga bo'lib hisoblash. Shunda A→B va B→A yo'nalishda bir xil egiluvchanlik chiqadi.", 'Compute the percentage change by dividing by the **average** of the two values, not the starting one. Then A→B and B→A give the same elasticity.'),
     example: "$4 → $6: (6 − 4)/5 = 40%; $6 → $4: −40%.",
   },
   {
@@ -80,7 +81,7 @@ export const terms: Term[] = [
     en: "total revenue",
     uz: "umumiy tushum",
     defEn: "the amount paid by buyers and received by the sellers of a good, computed as the price of the good times the quantity sold",
-    defUz: "\\(TR = P \\times Q\\). Grafikda — talab egri chizig'i ostidagi to'rtburchak maydoni (balandligi P, kengligi Q).",
+    defUz: tr("\\(TR = P \\times Q\\). Grafikda — talab egri chizig'i ostidagi to'rtburchak maydoni (balandligi P, kengligi Q).", '\\(TR = P \\times Q\\). On a graph — the area of the rectangle under the demand curve (height P, width Q).'),
   },
   {
     id: "income-elasticity",
@@ -88,7 +89,7 @@ export const terms: Term[] = [
     en: "income elasticity of demand",
     uz: "talabning daromad bo'yicha egiluvchanligi",
     defEn: "a measure of how much the quantity demanded of a good responds to a change in consumers' income: % change in quantity demanded ÷ % change in income",
-    defUz: "Normal tovarlarda **musbat** (zarurat — kichik, hashamat — katta), inferior tovarlarda **manfiy**.",
+    defUz: tr("Normal tovarlarda **musbat** (zarurat — kichik, hashamat — katta), inferior tovarlarda **manfiy**.", '**Positive** for normal goods (small for necessities, large for luxuries), **negative** for inferior goods.'),
   },
   {
     id: "cross-price-elasticity",
@@ -96,7 +97,7 @@ export const terms: Term[] = [
     en: "cross-price elasticity of demand",
     uz: "kesishgan narx egiluvchanligi",
     defEn: "a measure of how much the quantity demanded of one good responds to a change in the price of another good",
-    defUz: "1-tovar talab miqdorining % o'zgarishi ÷ 2-tovar narxining % o'zgarishi. **Musbat** — o'rinbosarlar, **manfiy** — to'ldiruvchilar.",
+    defUz: tr("1-tovar talab miqdorining % o'zgarishi ÷ 2-tovar narxining % o'zgarishi. **Musbat** — o'rinbosarlar, **manfiy** — to'ldiruvchilar.", '% change in quantity demanded of good 1 ÷ % change in the price of good 2. **Positive** — substitutes, **negative** — complements.'),
   },
   {
     id: "engels-law",
@@ -104,7 +105,7 @@ export const terms: Term[] = [
     en: "Engel's law",
     uz: "Engel qonuni",
     defEn: "as a family's income rises, the percent of its income spent on food declines",
-    defUz: "Oila boyigan sari daromadining oziq-ovqatga ketadigan **ulushi** kamayadi — oziq-ovqatning daromad egiluvchanligi 1 dan kichik.",
+    defUz: tr("Oila boyigan sari daromadining oziq-ovqatga ketadigan **ulushi** kamayadi — oziq-ovqatning daromad egiluvchanligi 1 dan kichik.", 'As a family gets richer, the **share** of its income spent on food falls — the income elasticity of food is below 1.'),
   },
   {
     id: "econometrics",
@@ -112,6 +113,6 @@ export const terms: Term[] = [
     en: "econometrics",
     uz: "ekonometrika",
     defEn: "the part of economics that studies the statistical techniques used to estimate relationships such as elasticities",
-    defUz: "Real ma'lumotlardan egiluvchanlik kabi kattaliklarni baholaydigan statistik usullar fani. Statistika yo'nalishi talabalari uchun eng yaqin soha!",
+    defUz: tr("Real ma'lumotlardan egiluvchanlik kabi kattaliklarni baholaydigan statistik usullar fani. Statistika yo'nalishi talabalari uchun eng yaqin soha!", 'The field of statistical methods used to estimate quantities such as elasticities from real-world data. The closest field for statistics majors!'),
   },
 ];
