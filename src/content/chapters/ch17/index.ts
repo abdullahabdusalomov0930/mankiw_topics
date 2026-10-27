@@ -3,6 +3,7 @@ import { formulas } from './formulas';
 import { problems, review } from './problems';
 import { questions } from './quiz';
 import { terms } from './terms';
+import { tr } from '../../../lib/lang';
 
 export const ch17: ChapterData = {
   number: 17,
@@ -16,9 +17,9 @@ export const ch17: ChapterData = {
   questions,
   problems: [...review, ...problems],
   extraCards: [
-    { id: 'card:ch17:attrs', chapter: 17, front: "Monopolistik raqobatning uch xususiyati?", back: "Ko'p sotuvchi · mahsulot farqlanishi · erkin kirish-chiqish." },
-    { id: 'card:ch17:lr', chapter: 17, front: "Monopolistik raqobatchining uzoq muddatli muvozanati?", back: "Talab ATC ga **urinadi**: P = ATC (foyda 0), MR = MC, **P > MC**, Q < efficient scale." },
-    { id: 'card:ch17:diffs', chapter: 17, front: "Mukammal raqobatdan ikki farq?", back: "**Excess capacity** va **markup** (P > MC)." },
-    { id: 'card:ch17:externalities', chapter: 17, front: "Kirishning ikki tashqi effekti?", back: "**Product-variety** (+, iste'molchilarga) va **business-stealing** (−, mavjud firmalarga)." },
+    { id: 'card:ch17:attrs', chapter: 17, front: tr("Monopolistik raqobatning uch xususiyati?", 'The three features of monopolistic competition?'), back: tr("Ko'p sotuvchi · mahsulot farqlanishi · erkin kirish-chiqish.", 'Many sellers · product differentiation · free entry and exit.') },
+    { id: 'card:ch17:lr', chapter: 17, front: tr("Monopolistik raqobatchining uzoq muddatli muvozanati?", 'The long-run equilibrium of a monopolistic competitor?'), back: tr("Talab ATC ga **urinadi**: P = ATC (foyda 0), MR = MC, **P > MC**, Q < efficient scale.", 'Demand is **tangent** to ATC: P = ATC (profit 0), MR = MC, **P > MC**, Q < efficient scale.') },
+    { id: 'card:ch17:diffs', chapter: 17, front: tr("Mukammal raqobatdan ikki farq?", 'Two differences from perfect competition?'), back: tr("**Excess capacity** va **markup** (P > MC).", '**Excess capacity** and a **markup** (P > MC).') },
+    { id: 'card:ch17:externalities', chapter: 17, front: tr("Kirishning ikki tashqi effekti?", 'The two externalities of entry?'), back: tr("**Product-variety** (+, iste'molchilarga) va **business-stealing** (−, mavjud firmalarga).", '**Product-variety** (+, to consumers) and **business-stealing** (−, to existing firms).') },
   ],
 };
