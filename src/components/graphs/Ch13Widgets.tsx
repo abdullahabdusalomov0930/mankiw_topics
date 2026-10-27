@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 type Bracket = [number, number]; // [lower bound, rate]
 /** Book Table 2 (as printed): the second bracket is printed as 15 percent. */
@@ -42,11 +43,11 @@ export function marginalRate(brackets: Bracket[], income: number): number {
 
 type Sys = 'book' | 'simple' | 'exempt' | 'lump' | 'p2';
 const SYS: Record<Sys, { label: string; note: string }> = {
-  book: { label: 'Table 2 (2020)', note: "Kitobdagi Table 2 (yolg'iz soliq to'lovchi). Diqqat: kitobda 2-pog'ona **15%** deb chop etilgan; 2020-yil qonunida u 12% edi. Hisob kitob raqamlari bo'yicha." },
-  simple: { label: '20% / 50%', note: "Matndagi misol: $50,000 gacha 20%, undan yuqorisi 50%. $60,000 da soliq $15,000, o'rtacha 25%, marjinal 50%." },
-  exempt: { label: 'QQ 4: $20k ozod', note: "QuickQuiz 4: birinchi $20,000 soliqsiz, qolganiga 25%. $50,000 da soliq $7,500 → o'rtacha 15%, marjinal 25%." },
-  lump: { label: '$8,000 lump-sum', note: "Hamma $8,000 to'laydi: marjinal stavka **0** (eng samarali soliq — DWL yo'q), lekin o'rtacha stavka kam daromadlilarda yuqori — adolatsiz deb qaraladi." },
-  p2: { label: 'Problem 2: hammasi', note: "Problem 2: shtat solig'i 4% + payroll 15.3% + Table 2 bo'yicha federal soliq (taxable income = daromad deb olinadi)." },
+  book: { label: 'Table 2 (2020)', note: tr("Kitobdagi Table 2 (yolg'iz soliq to'lovchi). Diqqat: kitobda 2-pog'ona **15%** deb chop etilgan; 2020-yil qonunida u 12% edi. Hisob kitob raqamlari bo'yicha.", 'Table 2 in the book (single filer). Note: the book prints the second bracket as **15%**; under the 2020 law it was 12%. The calculation uses the book’s numbers.') },
+  simple: { label: '20% / 50%', note: tr("Matndagi misol: $50,000 gacha 20%, undan yuqorisi 50%. $60,000 da soliq $15,000, o'rtacha 25%, marjinal 50%.", 'The example in the text: 20% up to $50,000, 50% above that. At $60,000 the tax is $15,000, the average rate 25%, the marginal rate 50%.') },
+  exempt: { label: tr('QQ 4: $20k ozod', 'QQ 4: $20k exempt'), note: tr("QuickQuiz 4: birinchi $20,000 soliqsiz, qolganiga 25%. $50,000 da soliq $7,500 → o'rtacha 15%, marjinal 25%.", 'QuickQuiz 4: the first $20,000 is exempt, the rest is taxed at 25%. At $50,000 the tax is $7,500 → average 15%, marginal 25%.') },
+  lump: { label: '$8,000 lump-sum', note: tr("Hamma $8,000 to'laydi: marjinal stavka **0** (eng samarali soliq — DWL yo'q), lekin o'rtacha stavka kam daromadlilarda yuqori — adolatsiz deb qaraladi.", 'Everyone pays $8,000: the marginal rate is **0** (the most efficient tax — no DWL), but the average rate is high for low earners — widely seen as unfair.') },
+  p2: { label: tr('Problem 2: hammasi', 'Problem 2: all taxes'), note: tr("Problem 2: shtat solig'i 4% + payroll 15.3% + Table 2 bo'yicha federal soliq (taxable income = daromad deb olinadi).", 'Problem 2: state tax 4% + payroll tax 15.3% + federal tax from Table 2 (taxable income is taken to equal income).') },
 };
 
 function totalTax(sys: Sys, y: number) {
@@ -80,13 +81,13 @@ export function TaxRateCalc() {
     avgPts.push(`${sx(f, y)},${sy(f, Math.min(60, (totalTax(sys, y) / y) * 100))}`);
     mPts.push(`${sx(f, y)},${sy(f, mRate(sys, y) * 100)}`);
   }
-  const explain = `${SYS[sys].note}\n\nDaromad **$${fmt(income)}** → soliq **$${fmt(tax)}**. **O'rtacha stavka** = soliq / daromad = **${fmt(avg * 100, 1)}%** — to'lovchining qurbonligini o'lchaydi. **Marjinal stavka** = keyingi $1 dan soliq = **${fmt(mr * 100, 1)}%** — ko'proq ishlash rag'batiga ta'sir qiladi va **DWL ni belgilaydi**. Har bir stavka faqat o'z oralig'idagi daromadga qo'llanadi: millioner ham birinchi $9,875 dan 10% to'laydi.`;
+  const explain = tr(`${SYS[sys].note}\n\nDaromad **$${fmt(income)}** → soliq **$${fmt(tax)}**. **O'rtacha stavka** = soliq / daromad = **${fmt(avg * 100, 1)}%** — to'lovchining qurbonligini o'lchaydi. **Marjinal stavka** = keyingi $1 dan soliq = **${fmt(mr * 100, 1)}%** — ko'proq ishlash rag'batiga ta'sir qiladi va **DWL ni belgilaydi**. Har bir stavka faqat o'z oralig'idagi daromadga qo'llanadi: millioner ham birinchi $9,875 dan 10% to'laydi.`, `${SYS[sys].note}\n\nIncome **$${fmt(income)}** → tax **$${fmt(tax)}**. The **average tax rate** = tax / income = **${fmt(avg * 100, 1)}%** — it measures the taxpayer's sacrifice. The **marginal tax rate** = tax on the next $1 = **${fmt(mr * 100, 1)}%** — it affects the incentive to work more and **determines the DWL**. Each rate applies only to income within its bracket: even a millionaire pays 10% on the first $9,875.`);
   return (
     <Card
-      title="13-2c — Marginal va average tax rate kalkulyatori"
+      title={tr("13-2c — Marginal va average tax rate kalkulyatori", '13-2c — Marginal and average tax rate calculator')}
       tabs={<Segmented size="sm" value={sys} onChange={setSys} options={(Object.keys(SYS) as Sys[]).map((k) => ({ value: k, label: SYS[k].label }))} />}
       explain={explain}
-      controls={<Slider label="Daromad (taxable income)" value={income} min={5000} max={250000} step={1000} onChange={setIncome} display={`$${fmt(income)}`} />}
+      controls={<Slider label={tr('Daromad (taxable income)', 'Taxable income')} value={income} min={5000} max={250000} step={1000} onChange={setIncome} display={`$${fmt(income)}`} />}
     >
       <div className="grid gap-3 px-4 pt-3 sm:grid-cols-3">
         {[
@@ -118,7 +119,7 @@ export function TaxRateCalc() {
 
 const CASES = {
   pizza: { label: 'Khalil & Carmen (pizza)', cost: 10, base: 10, buyers: [['Khalil', 16], ['Carmen', 12]] as [string, number][], tax: 4, good: 'pizza' },
-  piano: { label: 'QQ 3: Betty (piano)', cost: 50, base: 60, buyers: [['Veronica', 90], ['Archie', 70]] as [string, number][], tax: 20, good: 'dars' },
+  piano: { label: 'QQ 3: Betty (piano)', cost: 50, base: 60, buyers: [['Veronica', 90], ['Archie', 70]] as [string, number][], tax: 20, good: tr('dars', 'lesson') },
 };
 
 /** Ch. 13-2a: where the deadweight loss comes from — the buyer who stops buying. */
@@ -136,10 +137,10 @@ export function PizzaDWL() {
   const revenue = tax * buyers.length;
   const dwl = before - cs - ps - revenue;
   const quitters = buyersBefore.filter(([, v]) => v < price).map(([n]) => n);
-  const explain = `${margin ? `Betty bir dars uchun $${k.cost} imkoniyat xarajatiga ega va $${k.base} oladi (har darsdan PS = $${margin}).` : `Taklif $${k.cost} da mukammal elastik (producer surplus 0).`} Soliqsiz total surplus **$${before}**. $${tax} soliq bilan xaridor narxi $${price}: ${buyers.length ? buyers.map(([n, v]) => `${n} (CS ${v} − ${price} = $${v - price})`).join(', ') : 'hech kim olmaydi'}. Endi CS $${cs} + PS $${ps} + tushum **$${revenue}** = $${cs + ps + revenue} → **DWL = $${dwl}**. ${quitters.length ? `DWL soliq to'lovchidan emas, **sotib olmay qo'ygan ${quitters.join(', ')}** dan keladi — u yo'qotgan savdo foydasiga mos tushum yo'q.` : "Hech kim xatti-harakatini o'zgartirmadi → DWL yo'q (soliq — sof transfer)."}`;
+  const explain = tr(`${margin ? `Betty bir dars uchun $${k.cost} imkoniyat xarajatiga ega va $${k.base} oladi (har darsdan PS = $${margin}).` : `Taklif $${k.cost} da mukammal elastik (producer surplus 0).`} Soliqsiz total surplus **$${before}**. $${tax} soliq bilan xaridor narxi $${price}: ${buyers.length ? buyers.map(([n, v]) => `${n} (CS ${v} − ${price} = $${v - price})`).join(', ') : 'hech kim olmaydi'}. Endi CS $${cs} + PS $${ps} + tushum **$${revenue}** = $${cs + ps + revenue} → **DWL = $${dwl}**. ${quitters.length ? `DWL soliq to'lovchidan emas, **sotib olmay qo'ygan ${quitters.join(', ')}** dan keladi — u yo'qotgan savdo foydasiga mos tushum yo'q.` : "Hech kim xatti-harakatini o'zgartirmadi → DWL yo'q (soliq — sof transfer)."}`, `${margin ? `Betty's opportunity cost of a lesson is $${k.cost} and she charges $${k.base} (PS = $${margin} per lesson).` : `Supply is perfectly elastic at $${k.cost} (producer surplus 0).`} Total surplus without the tax is **$${before}**. With a $${tax} tax the buyer's price is $${price}: ${buyers.length ? buyers.map(([n, v]) => `${n} (CS ${v} − ${price} = $${v - price})`).join(', ') : 'nobody buys'}. Now CS $${cs} + PS $${ps} + revenue **$${revenue}** = $${cs + ps + revenue} → **DWL = $${dwl}**. ${quitters.length ? `The DWL comes not from the taxpayer but from **${quitters.join(', ')}, who stopped buying** — there is no revenue to match the lost gains from trade.` : 'Nobody changed their behavior → no DWL (the tax is a pure transfer).'}`);
   return (
     <Card
-      title="13-2a — Deadweight loss qayerdan keladi?"
+      title={tr("13-2a — Deadweight loss qayerdan keladi?", '13-2a — Where does the deadweight loss come from?')}
       tabs={
         <Segmented
           size="sm"
@@ -152,7 +153,7 @@ export function PizzaDWL() {
         />
       }
       explain={explain}
-      controls={<Slider label="Soliq" value={tax} min={0} max={c === 'pizza' ? 8 : 50} step={1} onChange={setTax} display={`$${tax}`} color="--tax" />}
+      controls={<Slider label={tr('Soliq', 'Tax')} value={tax} min={0} max={c === 'pizza' ? 8 : 50} step={1} onChange={setTax} display={`$${tax}`} color="--tax" />}
     >
       <div className="grid gap-2 p-4 sm:grid-cols-2">
         {k.buyers.map(([n, v]) => {
@@ -160,15 +161,15 @@ export function PizzaDWL() {
           return (
             <div key={n} className={`rounded-xl border-2 border-ink p-3 text-[#111] ${buys ? 'bg-postit-green' : 'bg-postit-pink'}`}>
               <div className="font-display font-bold">{n}</div>
-              <div className="text-sm">WTP ${v} · narx ${price}</div>
-              <div className="text-sm font-semibold">{buys ? `oladi, CS = $${v - price}` : `olmaydi (savdo foydasi $${Math.max(0, v - k.cost)} yo'qoldi)`}</div>
+              <div className="text-sm">WTP ${v} · {tr('narx', 'price')} ${price}</div>
+              <div className="text-sm font-semibold">{buys ? tr(`oladi, CS = $${v - price}`, `buys, CS = $${v - price}`) : tr(`olmaydi (savdo foydasi $${Math.max(0, v - k.cost)} yo'qoldi)`, `doesn't buy (gains from trade of $${Math.max(0, v - k.cost)} lost)`)}</div>
             </div>
           );
         })}
       </div>
       <div className="grid grid-cols-3 gap-2 px-4 pb-3 text-center text-sm">
         <div className="rounded-lg border-2 border-ink p-2"><div className="text-xs text-muted">CS + PS</div><div className="num font-bold">${cs + ps}</div></div>
-        <div className="rounded-lg border-2 border-ink p-2"><div className="text-xs text-muted">Tushum</div><div className="num font-bold text-good">+${revenue}</div></div>
+        <div className="rounded-lg border-2 border-ink p-2"><div className="text-xs text-muted">{tr('Tushum', 'Revenue')}</div><div className="num font-bold text-good">+${revenue}</div></div>
         <div className="rounded-lg border-2 border-ink bg-postit-yellow p-2 text-[#111]"><div className="text-xs">DWL</div><div className="num font-bold">${dwl}</div></div>
       </div>
     </Card>
@@ -188,16 +189,16 @@ export function SavingTax() {
   const yMax = Math.max(2000, Math.ceil(grow(rate, 60) / 2000) * 2000);
   const f = makeFrame(width, 60, Math.min(yMax, 40000));
   const line = (r: number) => Array.from({ length: 61 }, (_, t) => `${sx(f, t)},${sy(f, Math.min(f.yMax, grow(r, t)))}`).join(' ');
-  const explain = `Sammy 25 yoshida $1,000 jamg'aradi. **${rate}%** foizda ${years} yilda: **$${fmt(a, 0)}**. Foiz daromadining ${taxShare}% i soliqqa olinsa, samarali stavka ${fmt(net, 2)}% → atigi **$${fmt(b, 0)}** — ${fmt((1 - b / a) * 100, 0)}% kam. Daromad solig'i jamg'armani kamroq jozibador qiladi. Muqobil — **iste'mol solig'i** (VAT, 401(k)/IRA hisoblari): jamg'arilgan daromad sarflanguncha soliqsiz qoladi. Kitob: 6% va ¼ soliq, 40 yil → $10,286 vs $5,816 (43% kam).`;
+  const explain = tr(`Sammy 25 yoshida $1,000 jamg'aradi. **${rate}%** foizda ${years} yilda: **$${fmt(a, 0)}**. Foiz daromadining ${taxShare}% i soliqqa olinsa, samarali stavka ${fmt(net, 2)}% → atigi **$${fmt(b, 0)}** — ${fmt((1 - b / a) * 100, 0)}% kam. Daromad solig'i jamg'armani kamroq jozibador qiladi. Muqobil — **iste'mol solig'i** (VAT, 401(k)/IRA hisoblari): jamg'arilgan daromad sarflanguncha soliqsiz qoladi. Kitob: 6% va ¼ soliq, 40 yil → $10,286 vs $5,816 (43% kam).`, `At age 25 Sammy saves $1,000. At **${rate}%** interest, in ${years} years it grows to **$${fmt(a, 0)}**. If ${taxShare}% of interest income is taxed, the effective rate is ${fmt(net, 2)}% → only **$${fmt(b, 0)}** — ${fmt((1 - b / a) * 100, 0)}% less. An income tax makes saving less attractive. The alternative is a **consumption tax** (a VAT, 401(k)/IRA accounts): income that is saved is not taxed until it is spent. The book: 6% and a ¼ tax for 40 years → $10,286 vs $5,816 (43% less).`);
   return (
     <Card
       title="Case Study — Should Income or Consumption Be Taxed? (Sammy Saver)"
       explain={explain}
       controls={
         <>
-          <Slider label="Foiz stavkasi" value={rate} min={1} max={10} step={0.5} onChange={setRate} display={`${fmt(rate, 1)}%`} />
-          <Slider label="Foiz daromadiga soliq" value={taxShare} min={0} max={60} step={5} onChange={setTaxShare} display={`${taxShare}%`} color="--tax" />
-          <Slider label="Yillar" value={years} min={1} max={60} step={1} onChange={setYears} display={`${years}`} />
+          <Slider label={tr('Foiz stavkasi', 'Interest rate')} value={rate} min={1} max={10} step={0.5} onChange={setRate} display={`${fmt(rate, 1)}%`} />
+          <Slider label={tr('Foiz daromadiga soliq', 'Tax on interest income')} value={taxShare} min={0} max={60} step={5} onChange={setTaxShare} display={`${taxShare}%`} color="--tax" />
+          <Slider label={tr('Yillar', 'Years')} value={years} min={1} max={60} step={1} onChange={setYears} display={`${years}`} />
         </>
       }
     >
@@ -207,8 +208,8 @@ export function SavingTax() {
           <polyline points={line(rate)} fill="none" className="stroke-good" strokeWidth={3} />
           <polyline points={line(net)} fill="none" className="stroke-bad" strokeWidth={3} />
           <line x1={sx(f, years)} x2={sx(f, years)} y1={sy(f, 0)} y2={sy(f, f.yMax)} className="stroke-muted" strokeDasharray="4 4" />
-          <text x={sx(f, 4)} y={sy(f, f.yMax * 0.92)} className="fill-good text-[11px] font-bold">soliqsiz</text>
-          <text x={sx(f, 4)} y={sy(f, f.yMax * 0.84)} className="fill-bad text-[11px] font-bold">foiz soliqqa tortilsa</text>
+          <text x={sx(f, 4)} y={sy(f, f.yMax * 0.92)} className="fill-good text-[11px] font-bold">{tr('soliqsiz', 'untaxed')}</text>
+          <text x={sx(f, 4)} y={sy(f, f.yMax * 0.84)} className="fill-bad text-[11px] font-bold">{tr('foiz soliqqa tortilsa', 'interest taxed')}</text>
         </svg>
       </div>
     </Card>
@@ -231,8 +232,8 @@ export function TaxBurden() {
   const hi = 35;
   const pos = (v: number) => ((v - lo) / (hi - lo)) * 100;
   const explain = transfers
-    ? "Transfertlar (Social Security, Medicare, Medicaid, SNAP, uy-joy yordami) **manfiy soliq** sifatida hisoblansa: eng past uch kvintil hukumatdan to'laganidan ko'proq oladi. Eng past kvintilning bozor daromadi $16,600, soliq va transfertlardan keyingi daromadi esa **$37,700**. Yuqori guruhlarda o'zgarish kichik."
-    : "Federal soliqlar (daromad, payroll, korporativ, aksiz) bozor daromadi foizida, 2018 (CBO). Tizim **progressiv**: eng past kvintil ~0% (payroll solig'i EITC bilan qoplanadi), o'rtasi 15.5%, eng yuqorisi 25.4%, top 1% — 30.3%. QuickQuiz 7: top 1% ≈ **30%**.";
+    ? tr("Transfertlar (Social Security, Medicare, Medicaid, SNAP, uy-joy yordami) **manfiy soliq** sifatida hisoblansa: eng past uch kvintil hukumatdan to'laganidan ko'proq oladi. Eng past kvintilning bozor daromadi $16,600, soliq va transfertlardan keyingi daromadi esa **$37,700**. Yuqori guruhlarda o'zgarish kichik.", "If transfers (Social Security, Medicare, Medicaid, SNAP, housing aid) are counted as **negative taxes**, the bottom three quintiles receive more from the government than they pay. The lowest quintile's market income is $16,600, but its income after taxes and transfers is **$37,700**. Higher groups change little.")
+    : tr("Federal soliqlar (daromad, payroll, korporativ, aksiz) bozor daromadi foizida, 2018 (CBO). Tizim **progressiv**: eng past kvintil ~0% (payroll solig'i EITC bilan qoplanadi), o'rtasi 15.5%, eng yuqorisi 25.4%, top 1% — 30.3%. QuickQuiz 7: top 1% ≈ **30%**.", "Federal taxes (income, payroll, corporate, excise) as a share of market income, 2018 (CBO). The system is **progressive**: the lowest quintile pays ~0% (its payroll tax is offset by the EITC), the middle 15.5%, the highest 25.4%, the top 1% 30.3%. QuickQuiz 7: the top 1% ≈ **30%**.");
   return (
     <Card
       title="Table 5 — The Burden of Federal Taxes (2018)"
@@ -258,7 +259,7 @@ export function TaxBurden() {
             </div>
           );
         })}
-        <p className="text-xs text-muted">Source: Congressional Budget Office (kitobdagi Table 5).</p>
+        <p className="text-xs text-muted">Source: Congressional Budget Office ({tr('kitobdagi Table 5', 'Table 5 in the book')}).</p>
       </div>
     </Card>
   );

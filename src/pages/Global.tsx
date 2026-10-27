@@ -6,9 +6,10 @@ import { FlashcardDeck } from '../components/quiz/FlashcardDeck';
 import { QuestionView } from '../components/quiz/QuestionView';
 import { Segmented } from '../components/ui/Kit';
 import { RichText } from '../components/ui/RichText';
-import { glossary } from '../content/glossary';
+import { getGlossary } from '../content/glossary';
 import type { Question } from '../content/types';
 import { buildDeck } from '../lib/cards';
+import { isEn, tr } from '../lib/lang';
 import { useProgress } from '../lib/progress';
 import { FormulaCard } from './ChapterPage';
 
@@ -28,6 +29,7 @@ export function GlossaryPage() {
   const q = params.get('q') ?? '';
   const [ch, setCh] = useState<string>('all');
   const norm = (s: string) => s.toLowerCase().replace(/[‘’ʻʼ`]/g, "'");
+  const glossary = getGlossary();
   const list = glossary.filter(
     (t) =>
       (ch === 'all' || String(t.chapter) === ch) &&
@@ -36,11 +38,14 @@ export function GlossaryPage() {
   const chs = [...new Set(glossary.map((t) => t.chapter))].sort((a, b) => a - b);
   return (
     <div className="mx-auto max-w-5xl px-4 pb-10">
-      <PageHead title="Lug'at (Glossary)" sub="Inglizcha yoki o'zbekcha qidiring. Har bir atama kitobdagi ta'rif va o'zbekcha tushuntirish bilan." />
+      <PageHead
+        title={tr("Lug'at (Glossary)", 'Glossary')}
+        sub={tr("Inglizcha yoki o'zbekcha qidiring. Har bir atama kitobdagi ta'rif va o'zbekcha tushuntirish bilan.", "Search any term. Each comes with the book's definition and a plain-English explanation.")}
+      />
       <input
         value={q}
         onChange={(e) => setParams(e.target.value ? { q: e.target.value } : {}, { replace: true })}
-        placeholder="Masalan: price ceiling yoki taqchillik"
+        placeholder={tr('Masalan: price ceiling yoki taqchillik', 'For example: price ceiling or shortage')}
         className="w-full rounded-[0.95rem] border-2 border-ink bg-surface px-4 py-3 text-[15px] shadow-hard outline-none focus:ring-4 focus:ring-pen/30"
       />
       <div className="mt-3">
@@ -48,23 +53,23 @@ export function GlossaryPage() {
           size="sm"
           value={ch}
           onChange={setCh}
-          options={[{ value: 'all', label: 'Hammasi' }, ...chs.map((c) => ({ value: String(c), label: `${c}-bob` }))]}
+          options={[{ value: 'all', label: tr('Hammasi', 'All') }, ...chs.map((c) => ({ value: String(c), label: tr(`${c}-bob`, `Ch. ${c}`) }))]}
         />
       </div>
-      <p className="mt-3 text-sm text-muted">{list.length} ta atama</p>
+      <p className="mt-3 text-sm text-muted">{tr(`${list.length} ta atama`, `${list.length} terms`)}</p>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         {list.map((t) => (
           <div key={t.id} className="card p-4">
             <div className="flex items-baseline justify-between gap-2">
               <span className="font-display text-lg font-bold">{t.en}</span>
-              <span className="chip">{t.chapter}-bob</span>
+              <span className="chip">{tr(`${t.chapter}-bob`, `Ch. ${t.chapter}`)}</span>
             </div>
-            <div className="font-hand text-[16px] font-semibold text-pen">{t.uz}</div>
+            {!isEn && <div className="font-hand text-[16px] font-semibold text-pen">{t.uz}</div>}
             <p className="mt-2 text-[13px] italic text-muted">“{t.defEn}”</p>
             <RichText text={t.defUz} block className="prose-uz mt-2 text-[15px] leading-6" />
             {t.example && (
               <p className="mt-2 rounded-lg bg-surface2 p-2 text-sm">
-                <b>Misol: </b>
+                <b>{tr('Misol: ', 'Example: ')}</b>
                 <RichText text={t.example} />
               </p>
             )}
@@ -81,15 +86,15 @@ export function FormulasPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 pb-10">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <PageHead title="Formulalar varag'i" sub="Barcha boblardagi formulalar bir joyda. Chop etish mumkin." />
+        <PageHead title={tr("Formulalar varag'i", 'Formula sheet')} sub={tr('Barcha boblardagi formulalar bir joyda. Chop etish mumkin.', 'Every formula from every chapter in one place. Printable.')} />
         <button className="btn-ghost mb-8 print:hidden" onClick={() => window.print()}>
-          🖨 Chop etish
+          🖨 {tr('Chop etish', 'Print')}
         </button>
       </div>
       {readyChapters().map((c) => (
         <section key={c.number} className="mb-10 break-inside-avoid">
           <h2 className="h-section mb-3">
-            {c.number}-bob · {c.titleEn}
+            {tr(`${c.number}-bob`, `Chapter ${c.number}`)} · {c.titleEn}
           </h2>
           <div className="space-y-4">
             {c.formulas.map((f) => (
@@ -108,7 +113,7 @@ type GalleryItem = { key: string; ch: number; title: string; render: () => JSX.E
 
 export function GraphsPage() {
   const sd: GalleryItem[] = useMemo(
-    () => readyChapters().flatMap((c) => (c.graphs ?? []).map((g, i) => ({ key: `${c.number}-sd-${i}`, ch: c.number, title: g.title ?? 'Grafik', render: () => <SupplyDemandGraph config={g} /> }))),
+    () => readyChapters().flatMap((c) => (c.graphs ?? []).map((g, i) => ({ key: `${c.number}-sd-${i}`, ch: c.number, title: g.title ?? tr('Grafik', 'Graph'), render: () => <SupplyDemandGraph config={g} /> }))),
     [],
   );
   const [widgets, setWidgets] = useState<GalleryItem[]>([]);
@@ -130,23 +135,26 @@ export function GraphsPage() {
   const cur = all.find((x) => x.key === pick) ?? shown[0];
   return (
     <div className="mx-auto max-w-5xl px-4 pb-10">
-      <PageHead title="Grafiklar galereyasi" sub={`Barcha interaktiv grafiklar va laboratoriyalar, 1–${chapters.length}-boblar. Tanlang va o'ynab ko'ring.`} />
+      <PageHead
+        title={tr('Grafiklar galereyasi', 'Graph gallery')}
+        sub={tr(`Barcha interaktiv grafiklar va laboratoriyalar, 1–${chapters.length}-boblar. Tanlang va o'ynab ko'ring.`, `Every interactive graph and lab, Chapters 1–${chapters.length}. Pick one and play.`)}
+      />
       <div className="mb-3 flex flex-wrap gap-1.5">
         {(['all', ...readyChapters().map((c) => c.number)] as const).map((n) => (
           <button key={n} className={chFilter === n ? 'btn-primary btn-sm' : 'btn-ghost btn-sm'} onClick={() => setChFilter(n)}>
-            {n === 'all' ? 'Hammasi' : `${n}-bob`}
+            {n === 'all' ? tr('Hammasi', 'All') : tr(`${n}-bob`, `Ch. ${n}`)}
           </button>
         ))}
       </div>
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((x) => (
           <button key={x.key} onClick={() => setPick(x.key)} className={`card card-lift p-3 text-left text-sm ${cur?.key === x.key ? 'bg-marker text-[#111]' : ''}`}>
-            <span className="chip mr-2">{x.ch}-bob</span>
+            <span className="chip mr-2">{tr(`${x.ch}-bob`, `Ch. ${x.ch}`)}</span>
             <RichText text={x.title} />
           </button>
         ))}
       </div>
-      {widgets.length === 0 && <p className="mt-4 text-sm text-muted">Laboratoriyalar yuklanmoqda…</p>}
+      {widgets.length === 0 && <p className="mt-4 text-sm text-muted">{tr('Laboratoriyalar yuklanmoqda…', 'Loading labs…')}</p>}
       {cur && <div key={cur.key}>{cur.render()}</div>}
     </div>
   );
@@ -158,8 +166,8 @@ export function ReviewPage() {
   const deck = useMemo(() => readyChapters().flatMap(buildDeck), []);
   return (
     <div className="mx-auto max-w-2xl px-4 pb-10">
-      <PageHead title="Kartochkalar" sub="Bugun takrorlanishi kerak bo'lgan barcha kartochkalar (Leitner tizimi)." />
-      <FlashcardDeck cards={deck} title="Barcha boblar" />
+      <PageHead title={tr('Kartochkalar', 'Flashcards')} sub={tr("Bugun takrorlanishi kerak bo'lgan barcha kartochkalar (Leitner tizimi).", 'All cards due for review today (Leitner system).')} />
+      <FlashcardDeck cards={deck} title={tr('Barcha boblar', 'All chapters')} />
     </div>
   );
 }
@@ -174,15 +182,15 @@ export function MistakesPage() {
   const items = ids.map((id) => all.get(id)).filter(Boolean) as Question[];
   return (
     <div className="mx-auto max-w-3xl px-4 pb-10">
-      <PageHead title="Xatolar ustida ishlash" sub="Noto'g'ri javob bergan savollaringiz. To'g'ri javob bersangiz, ro'yxatdan chiqadi." />
+      <PageHead title={tr('Xatolar ustida ishlash', 'Work on your mistakes')} sub={tr("Noto'g'ri javob bergan savollaringiz. To'g'ri javob bersangiz, ro'yxatdan chiqadi.", 'Questions you got wrong. Answer one correctly and it leaves the list.')} />
       {items.length === 0 ? (
-        <div className="card p-8 text-center text-muted">Hozircha xato yo'q. 🎉</div>
+        <div className="card p-8 text-center text-muted">{tr("Hozircha xato yo'q. 🎉", 'No mistakes so far. 🎉')}</div>
       ) : (
         <div className="space-y-4">
           {items.map((q, i) => (
             <div key={q.id} className={state.mistakes[q.id] ? '' : 'opacity-60'}>
               <QuestionView q={q} index={i + 1} />
-              {!state.mistakes[q.id] && <p className="mt-1 text-sm text-good">✓ Tuzatildi</p>}
+              {!state.mistakes[q.id] && <p className="mt-1 text-sm text-good">{tr('✓ Tuzatildi', '✓ Fixed')}</p>}
             </div>
           ))}
         </div>
@@ -218,7 +226,7 @@ export function ExamPage() {
     saved.current = true;
     const byTopic: Record<string, { total: number; correct: number }> = {};
     for (const q of run.qs) {
-      const k = `${q.chapter}-bob · ${q.topic}`;
+      const k = `${tr(`${q.chapter}-bob`, `Ch. ${q.chapter}`)} · ${q.topic}`;
       byTopic[k] ??= { total: 0, correct: 0 };
       byTopic[k].total++;
       if (run.answers[q.id]) byTopic[k].correct++;
@@ -238,10 +246,10 @@ export function ExamPage() {
   if (!run) {
     return (
       <div className="mx-auto max-w-2xl px-4 pb-10">
-        <PageHead title="Imtihon rejimi" sub="Tasodifiy aralash test. Javoblar va izohlar oxirida ko'rsatiladi." />
+        <PageHead title={tr('Imtihon rejimi', 'Exam mode')} sub={tr("Tasodifiy aralash test. Javoblar va izohlar oxirida ko'rsatiladi.", 'A random mixed test. Answers and explanations are shown at the end.')} />
         <div className="card space-y-5 p-5">
           <div>
-            <div className="kicker mb-2">Boblar</div>
+            <div className="kicker mb-2">{tr('Boblar', 'Chapters')}</div>
             <div className="flex flex-wrap gap-2">
               {chapters.map((c) => (
                 <button
@@ -250,14 +258,14 @@ export function ExamPage() {
                   onClick={() => setSel((s) => (s.includes(c.number) ? s.filter((x) => x !== c.number) : [...s, c.number]))}
                   className={`btn-sm btn border ${sel.includes(c.number) ? 'border-accent bg-accent/10 text-accent' : 'border-line'}`}
                 >
-                  {c.number}-bob
+                  {tr(`${c.number}-bob`, `Ch. ${c.number}`)}
                 </button>
               ))}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <label className="text-sm">
-              <div className="kicker mb-1">Savollar soni</div>
+              <div className="kicker mb-1">{tr('Savollar soni', 'Number of questions')}</div>
               <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full rounded-lg border border-line bg-surface p-2">
                 {[5, 10, 15, 20, 30].map((n) => (
                   <option key={n}>{n}</option>
@@ -265,23 +273,23 @@ export function ExamPage() {
               </select>
             </label>
             <label className="text-sm">
-              <div className="kicker mb-1">Vaqt (daqiqa)</div>
+              <div className="kicker mb-1">{tr('Vaqt (daqiqa)', 'Time (minutes)')}</div>
               <select value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full rounded-lg border border-line bg-surface p-2">
                 {[0, 5, 10, 15, 20, 30].map((n) => (
                   <option key={n} value={n}>
-                    {n === 0 ? 'Cheklovsiz' : n}
+                    {n === 0 ? tr('Cheklovsiz', 'No limit') : n}
                   </option>
                 ))}
               </select>
             </label>
           </div>
           <button className="btn-primary w-full" disabled={sel.length === 0} onClick={start}>
-            Boshlash
+            {tr('Boshlash', 'Start')}
           </button>
         </div>
         {state.exams.length > 0 && (
           <div className="mt-6">
-            <div className="kicker mb-2">Oldingi natijalar</div>
+            <div className="kicker mb-2">{tr('Oldingi natijalar', 'Previous results')}</div>
             <ul className="space-y-1 text-sm">
               {state.exams.slice(0, 8).map((e) => (
                 <li key={e.at} className="card flex justify-between p-3">
@@ -306,26 +314,26 @@ export function ExamPage() {
     <div className="mx-auto max-w-3xl px-4 pb-10">
       <div className="sticky top-16 z-30 -mx-4 mb-4 flex items-center justify-between border-b-2 border-ink bg-bg/95 px-4 py-2 backdrop-blur">
         <span className="num text-sm">
-          {answered}/{run.qs.length} javob
+          {answered}/{run.qs.length} {tr('javob', 'answered')}
         </span>
         {!done && minutes > 0 && <span className={`num font-semibold ${left < 60 ? 'text-bad' : ''}`}>⏱ {Math.floor(left / 60)}:{String(left % 60).padStart(2, '0')}</span>}
         {!done ? (
           <button className="btn-primary btn-sm" onClick={() => setDone(true)}>
-            Yakunlash
+            {tr('Yakunlash', 'Finish')}
           </button>
         ) : (
           <button className="btn-ghost btn-sm" onClick={() => setRun(null)}>
-            Yangi imtihon
+            {tr('Yangi imtihon', 'New exam')}
           </button>
         )}
       </div>
       {done && (
         <div className="card animate-pop mb-6 p-5">
           <div className="text-2xl font-bold">
-            Natija: {correct}/{run.qs.length} ({Math.round((100 * correct) / run.qs.length)}%)
+            {tr('Natija:', 'Score:')} {correct}/{run.qs.length} ({Math.round((100 * correct) / run.qs.length)}%)
           </div>
           <ExamReport qs={run.qs} answers={run.answers} />
-          <p className="mt-3 text-sm text-muted">Pastda har bir savolning izohini ko'ring.</p>
+          <p className="mt-3 text-sm text-muted">{tr("Pastda har bir savolning izohini ko'ring.", 'See the explanation for each question below.')}</p>
         </div>
       )}
       <div className="space-y-4">
@@ -346,7 +354,7 @@ export function ExamPage() {
 function ExamReport({ qs, answers }: { qs: Question[]; answers: Record<string, boolean> }) {
   const groups = new Map<string, { t: number; c: number }>();
   for (const q of qs) {
-    const k = `${q.chapter}-bob · ${q.topic}`;
+    const k = `${tr(`${q.chapter}-bob`, `Ch. ${q.chapter}`)} · ${q.topic}`;
     const g = groups.get(k) ?? { t: 0, c: 0 };
     g.t++;
     if (answers[q.id]) g.c++;
@@ -356,8 +364,8 @@ function ExamReport({ qs, answers }: { qs: Question[]; answers: Record<string, b
     <table className="mt-4 w-full text-sm">
       <thead>
         <tr className="text-left text-muted">
-          <th className="py-1">Mavzu</th>
-          <th className="py-1 text-right">Natija</th>
+          <th className="py-1">{tr('Mavzu', 'Topic')}</th>
+          <th className="py-1 text-right">{tr('Natija', 'Score')}</th>
         </tr>
       </thead>
       <tbody>

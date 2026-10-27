@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { isEn, setLang, tr } from '../lib/lang';
 import { useProgress } from '../lib/progress';
 import { XPBurst } from './ui/Kit';
 
 const NAV = [
-  { to: '/', label: 'Bosh sahifa', end: true },
-  { to: '/glossary', label: "Lug'at" },
-  { to: '/formulas', label: 'Formulalar' },
-  { to: '/graphs', label: 'Grafiklar' },
-  { to: '/exam', label: 'Imtihon' },
-  { to: '/mistakes', label: 'Xatolar' },
-  { to: '/review', label: 'Kartochkalar' },
+  { to: '/', label: tr('Bosh sahifa', 'Home'), end: true },
+  { to: '/glossary', label: tr("Lug'at", 'Glossary') },
+  { to: '/formulas', label: tr('Formulalar', 'Formulas') },
+  { to: '/graphs', label: tr('Grafiklar', 'Graphs') },
+  { to: '/exam', label: tr('Imtihon', 'Exam') },
+  { to: '/mistakes', label: tr('Xatolar', 'Mistakes') },
+  { to: '/review', label: tr('Kartochkalar', 'Flashcards') },
 ];
 
 function useTheme() {
@@ -56,7 +57,7 @@ export function Layout() {
                 <path d="M4 17 L18 5" stroke="#e86828" strokeWidth="2.6" strokeLinecap="round" />
               </svg>
             </span>
-            <span className="hidden font-display text-[17px] font-bold tracking-tight sm:inline">iqtisodiyot</span>
+            <span className="hidden font-display text-[17px] font-bold tracking-tight sm:inline">{tr('iqtisodiyot', 'economics')}</span>
           </Link>
           <nav className="ml-4 hidden items-center gap-1 lg:flex">
             {NAV.map((n) => (
@@ -76,21 +77,39 @@ export function Layout() {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
-            <div className="relative flex items-center gap-2 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-1.5 text-sm" title="Tajriba ballari va kunlik seriya">
+            <div className="relative flex items-center gap-2 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-1.5 text-sm" title={tr('Tajriba ballari va kunlik seriya', 'Experience points and daily streak')}>
               <span className="num font-semibold">{state.xp} XP</span>
               <span className="text-muted">·</span>
-              <span title="Kunlik seriya (streak)">🔥 <span className="num">{state.streak.count}</span></span>
+              <span title={tr('Kunlik seriya (streak)', 'Daily streak')}>🔥 <span className="num">{state.streak.count}</span></span>
               {lastGain && <XPBurst key={lastGain.key} amount={lastGain.amount} />}
+            </div>
+            <div className="flex rounded-[0.8rem] border-2 border-ink bg-surface p-0.5 text-xs font-bold" role="group" aria-label={tr('Til', 'Language')}>
+              <button
+                className={`rounded-[0.55rem] px-2 py-1 ${!isEn ? 'bg-marker text-[#111]' : 'text-muted hover:text-ink'}`}
+                aria-pressed={!isEn}
+                title="English terms + o'zbekcha tushuntirish"
+                onClick={() => isEn && setLang('uz')}
+              >
+                EN+UZ
+              </button>
+              <button
+                className={`rounded-[0.55rem] px-2 py-1 ${isEn ? 'bg-marker text-[#111]' : 'text-muted hover:text-ink'}`}
+                aria-pressed={isEn}
+                title="Full English"
+                onClick={() => !isEn && setLang('en')}
+              >
+                EN
+              </button>
             </div>
             <button
               className="btn-ghost btn-sm h-9 w-9 !p-0"
               onClick={() => setDark((d) => !d)}
-              aria-label={dark ? "Yorug' rejim" : "Qorong'i rejim"}
-              title={dark ? "Yorug' rejim" : "Qorong'i rejim"}
+              aria-label={dark ? tr("Yorug' rejim", 'Light mode') : tr("Qorong'i rejim", 'Dark mode')}
+              title={dark ? tr("Yorug' rejim", 'Light mode') : tr("Qorong'i rejim", 'Dark mode')}
             >
               {dark ? '☀︎' : '☾'}
             </button>
-            <button className="btn-ghost btn-sm h-9 w-9 !p-0 lg:hidden" onClick={() => setMenu((m) => !m)} aria-label="Menyu" aria-expanded={menu}>
+            <button className="btn-ghost btn-sm h-9 w-9 !p-0 lg:hidden" onClick={() => setMenu((m) => !m)} aria-label={tr('Menyu', 'Menu')} aria-expanded={menu}>
               {menu ? '✕' : '☰'}
             </button>
           </div>
@@ -115,8 +134,17 @@ export function Layout() {
         <Outlet />
       </main>
       <footer className="mx-auto max-w-7xl px-4 py-10 text-center font-hand text-sm text-muted print:hidden">
-        N. Gregory Mankiw, <i>Principles of Economics</i>, 10th ed. asosida o'quv qo'llanma. Grafiklar va matnlar qayta
-        ishlangan; kitob o'rnini bosmaydi.
+        {isEn ? (
+          <>
+            A study companion based on N. Gregory Mankiw, <i>Principles of Economics</i>, 10th ed. Graphs and text are rewritten; it does not
+            replace the book.
+          </>
+        ) : (
+          <>
+            N. Gregory Mankiw, <i>Principles of Economics</i>, 10th ed. asosida o'quv qo'llanma. Grafiklar va matnlar qayta ishlangan; kitob
+            o'rnini bosmaydi.
+          </>
+        )}
       </footer>
     </div>
   );

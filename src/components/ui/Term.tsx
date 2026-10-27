@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { getTerm } from '../../content/glossary';
+import { isEn, tr } from '../../lib/lang';
 import { renderInline } from './RichText';
 
 interface Props {
@@ -75,7 +76,7 @@ export function T({ id, label }: Props) {
       >
         {label ?? term.en}
       </span>
-      {!label && <span className="text-muted"> ({term.uz})</span>}
+      {!label && !isEn && <span className="text-muted"> ({term.uz})</span>}
       {open && (
         <Popover
           anchor={ref.current}
@@ -84,13 +85,13 @@ export function T({ id, label }: Props) {
         >
           <div className="flex items-baseline justify-between gap-3">
             <span className="font-display font-bold">{term.en}</span>
-            <span className="chip">{term.chapter}-bob</span>
+            <span className="chip">{tr(`${term.chapter}-bob`, `Ch. ${term.chapter}`)}</span>
           </div>
-          <div className="mt-0.5 font-hand text-[15px] font-semibold text-[#1f4fb8]">{term.uz}</div>
+          {!isEn && <div className="mt-0.5 font-hand text-[15px] font-semibold text-[#1f4fb8]">{term.uz}</div>}
           <p className="mt-2 text-[13px] italic leading-snug text-muted">“{term.defEn}”</p>
           <p className="mt-2 text-sm leading-snug">{renderInline(term.defUz)}</p>
           <Link to={`/glossary?q=${encodeURIComponent(term.en)}`} className="mt-2 inline-block text-xs font-semibold text-[#1f4fb8] underline">
-            Lug'atda ochish →
+            {tr("Lug'atda ochish →", 'Open in glossary →')}
           </Link>
         </Popover>
       )}

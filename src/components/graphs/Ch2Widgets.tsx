@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { ix, iy, makeFrame, svgPoint, sx, sy } from './plot';
 import { Axes, Card } from './WidgetCard';
 import { useWidth } from './useWidth';
+import { tr } from '../../lib/lang';
 
 // ---------- PPF ----------
 
@@ -50,26 +51,26 @@ export function PPFExplorer() {
   const tangent = (dx: number) => [xf + dx, yf - oc * dx] as const;
   const t1 = tangent(-150);
   const t2 = tangent(150);
-  const statusUz = { efficient: 'samarali (efficient)', inefficient: 'samarasiz (inefficient)', unattainable: 'erishib bo‘lmaydigan (unattainable)' }[status];
+  const statusUz = tr({ efficient: 'samarali (efficient)', inefficient: 'samarasiz (inefficient)', unattainable: 'erishib bo‘lmaydigan (unattainable)' }, { efficient: 'efficient', inefficient: 'inefficient', unattainable: 'unattainable' })[status];
   const explain =
     status === 'efficient'
-      ? `Nuqta (${fmt(pt.x)} mashina, ${fmt(pt.y)} kompyuter) chegara **ustida** — **samarali**: bitta tovarni ko'paytirish uchun ikkinchisini kamaytirish shart (trade-off). Shu yerda bir mashinaning **imkoniyat xarajati** ≈ **${fmt(oc, 2)} kompyuter** — bu chegaraning nishabi. Chegara bo'rtib chiqqan (bowed out): mashina ko'p bo'lgan sari (E nuqtasi) u qimmatlashadi, chunki kompyuterga mohir ishchilar ham mashina yasashga o'tkaziladi.`
+      ? tr(`Nuqta (${fmt(pt.x)} mashina, ${fmt(pt.y)} kompyuter) chegara **ustida** — **samarali**: bitta tovarni ko'paytirish uchun ikkinchisini kamaytirish shart (trade-off). Shu yerda bir mashinaning **imkoniyat xarajati** ≈ **${fmt(oc, 2)} kompyuter** — bu chegaraning nishabi. Chegara bo'rtib chiqqan (bowed out): mashina ko'p bo'lgan sari (E nuqtasi) u qimmatlashadi, chunki kompyuterga mohir ishchilar ham mashina yasashga o'tkaziladi.`, `The point (${fmt(pt.x)} cars, ${fmt(pt.y)} computers) lies **on** the frontier, so it is **efficient**: producing more of one good means producing less of the other (a trade-off). Here the **opportunity cost** of one car ≈ **${fmt(oc, 2)} computers** — the slope of the frontier. The frontier is bowed out: the more cars the economy makes (point E), the costlier each extra car, because workers who are better at building computers are moved to cars.`)
       : status === 'inefficient'
-        ? `Nuqta chegara **ichida** — **samarasiz** (masalan, keng ishsizlik): mavjud resurslar bilan ikkala tovarni ham ko'paytirish mumkin. D (300, 1000) dan A (600, 2200) ga o'tish — ikkalasi ham oshadi.`
-        : `Nuqta chegaradan **tashqarida** — mavjud resurslar va texnologiya bilan **erishib bo'lmaydi** (C nuqtasi). Faqat iqtisodiy o'sish (texnologik yutuq yoki ko'proq resurs) chegarani tashqariga siljitib, unga yetish imkonini beradi.`;
+        ? tr(`Nuqta chegara **ichida** — **samarasiz** (masalan, keng ishsizlik): mavjud resurslar bilan ikkala tovarni ham ko'paytirish mumkin. D (300, 1000) dan A (600, 2200) ga o'tish — ikkalasi ham oshadi.`, `The point lies **inside** the frontier, so it is **inefficient** (for example, widespread unemployment): with the resources available the economy could make more of both goods. Moving from D (300, 1000) to A (600, 2200) raises both.`)
+        : tr(`Nuqta chegaradan **tashqarida** — mavjud resurslar va texnologiya bilan **erishib bo'lmaydi** (C nuqtasi). Faqat iqtisodiy o'sish (texnologik yutuq yoki ko'proq resurs) chegarani tashqariga siljitib, unga yetish imkonini beradi.`, `The point lies **outside** the frontier: it is **unattainable** with the existing resources and technology (point C). Only economic growth (better technology or more resources) can shift the frontier out so the economy can reach it.`);
   return (
     <Card
-      title="Figures 2–3 — Production possibilities frontier (mashina va kompyuter)"
+      title={tr("Figures 2–3 — Production possibilities frontier (mashina va kompyuter)", 'Figures 2–3 — Production possibilities frontier (cars and computers)')}
       tabs={
         <>
           <button className="btn-ghost btn-sm" onClick={() => setPpf({ ...ppf, Y: ppf.Y === 4000 ? 3000 : 4000 })}>
-            {ppf.Y === 4000 ? '✓ ' : ''}Kompyuter texnologiyasi yaxshilandi
+            {ppf.Y === 4000 ? '✓ ' : ''}{tr('Kompyuter texnologiyasi yaxshilandi', 'Better computer technology')}
           </button>
           <button className="btn-ghost btn-sm" onClick={() => setPpf({ ...ppf, X: ppf.X === 1300 ? 1000 : 1300 })}>
-            {ppf.X === 1300 ? '✓ ' : ''}Mashina texnologiyasi yaxshilandi
+            {ppf.X === 1300 ? '✓ ' : ''}{tr('Mashina texnologiyasi yaxshilandi', 'Better car technology')}
           </button>
           <button className="btn-ghost btn-sm" onClick={() => setShowBook((b) => !b)}>
-            {showBook ? '✓ ' : ''}Kitob nuqtalari A–F
+            {showBook ? '✓ ' : ''}{tr('Kitob nuqtalari A–F', 'Book points A–F')}
           </button>
           <button
             className="btn-ghost btn-sm"
@@ -126,15 +127,15 @@ export function PPFExplorer() {
           </svg>
         </div>
         <div className="border-t-2 border-dashed border-ink/30 p-4 text-sm md:border-l-2 md:border-t-0">
-          <div className="kicker mb-2">Tanlangan nuqta</div>
+          <div className="kicker mb-2">{tr('Tanlangan nuqta', 'Selected point')}</div>
           <div className="space-y-1.5">
-            <div className="flex justify-between"><span className="text-muted">Mashinalar</span><span className="num font-semibold">{fmt(pt.x)}</span></div>
-            <div className="flex justify-between"><span className="text-muted">Kompyuterlar</span><span className="num font-semibold">{fmt(pt.y)}</span></div>
+            <div className="flex justify-between"><span className="text-muted">{tr('Mashinalar', 'Cars')}</span><span className="num font-semibold">{fmt(pt.x)}</span></div>
+            <div className="flex justify-between"><span className="text-muted">{tr('Kompyuterlar', 'Computers')}</span><span className="num font-semibold">{fmt(pt.y)}</span></div>
             <div className={`mt-2 rounded-lg border-2 border-ink px-2 py-1 text-center font-bold text-[#111] ${status === 'efficient' ? 'bg-postit-green' : status === 'inefficient' ? 'bg-postit-yellow' : 'bg-postit-pink'}`}>{statusUz}</div>
-            <div className="flex justify-between pt-2"><span className="text-muted">1 mashinaning OC</span><span className="num font-semibold text-tax">{fmt(oc, 2)} komp.</span></div>
-            <div className="flex justify-between"><span className="text-muted">Chegaradagi kompyuter</span><span className="num">{fmt(yf, 0)}</span></div>
+            <div className="flex justify-between pt-2"><span className="text-muted">{tr('1 mashinaning OC', 'OC of 1 car')}</span><span className="num font-semibold text-tax">{fmt(oc, 2)} {tr('komp.', 'comp.')}</span></div>
+            <div className="flex justify-between"><span className="text-muted">{tr('Chegaradagi kompyuter', 'Computers on the frontier')}</span><span className="num">{fmt(yf, 0)}</span></div>
           </div>
-          <p className="mt-3 font-hand text-sm font-semibold text-pen">Grafikka bosing yoki torting — nuqta ko'chadi ✎</p>
+          <p className="mt-3 font-hand text-sm font-semibold text-pen">{tr("Grafikka bosing yoki torting — nuqta ko'chadi ✎", 'Click or drag on the graph to move the point ✎')}</p>
         </div>
       </div>
     </Card>
@@ -144,7 +145,7 @@ export function PPFExplorer() {
 // ---------- circular flow ----------
 
 type FlowKey = 'spending' | 'revenue' | 'goods-bought' | 'goods-sold' | 'factors' | 'labor' | 'wages' | 'income';
-const FLOW_TEXT: Record<FlowKey, string> = {
+const FLOW_TEXT: Record<FlowKey, string> = tr({
   spending: "**Spending** — uy xo'jaliklari tovar va xizmatlar uchun pul sarflaydi (siz qahvaxonada kofe uchun $1 to'laysiz).",
   revenue: "**Revenue** — shu pul firmalarga tushum bo'ladi (dollar qahvaxona kassasiga tushadi).",
   'goods-bought': "**Goods and services bought** — uy xo'jaliklari tovar bozorida sotib olgan narsalar (kofe).",
@@ -153,7 +154,16 @@ const FLOW_TEXT: Record<FlowKey, string> = {
   labor: "**Labor, land, and capital** — uy xo'jaliklari ular egalik qiladigan omillarni sotadi (barista o'z mehnatini).",
   wages: "**Wages, rent, and profit** — firmalar omillar uchun to'laydi: ish haqi, ijara, foyda (qahvaxona barista maoshi va ijarani to'laydi, qolgani — egasining foydasi).",
   income: "**Income** — bu pul uy xo'jaliklarining daromadiga aylanadi va dollar yana kimningdir hamyoniga qaytadi — doira yopiladi.",
-};
+}, {
+  spending: '**Spending** — households spend money on goods and services (you pay $1 for a coffee at a café).',
+  revenue: "**Revenue** — that money becomes firms' revenue (the dollar goes into the café's till).",
+  'goods-bought': '**Goods and services bought** — what households buy in the market for goods and services (the coffee).',
+  'goods-sold': '**Goods and services sold** — the output firms sell in the market for goods and services.',
+  factors: '**Factors of production** — firms buy labor, land, and capital in the markets for the factors of production.',
+  labor: '**Labor, land, and capital** — households sell the factors they own (the barista sells his labor).',
+  wages: "**Wages, rent, and profit** — firms pay for the factors: wages, rent, profit (the café pays the barista's wage and the rent; what's left is the owner's profit).",
+  income: "**Income** — this money becomes households' income, and the dollar ends up in someone's wallet again — the circle closes.",
+});
 
 /** Ch. 2 Figure 1: the circular-flow diagram with animated money and real flows. */
 export function CircularFlow() {
@@ -184,20 +194,20 @@ export function CircularFlow() {
     ));
   return (
     <Card
-      title="Figure 1 — Circular-flow diagram (aylanma oqim)"
+      title={tr("Figure 1 — Circular-flow diagram (aylanma oqim)", 'Figure 1 — Circular-flow diagram')}
       tabs={
         <Segmented
           size="sm"
           value={view}
           onChange={setView}
           options={[
-            { value: 'both', label: 'Ikkalasi' },
-            { value: 'money', label: 'Pul oqimi (tashqi halqa)' },
-            { value: 'real', label: 'Tovar va omillar (ichki halqa)' },
+            { value: 'both', label: tr('Ikkalasi', 'Both') },
+            { value: 'money', label: tr('Pul oqimi (tashqi halqa)', 'Flow of money (outer loop)') },
+            { value: 'real', label: tr('Tovar va omillar (ichki halqa)', 'Goods and factors (inner loop)') },
           ]}
         />
       }
-      explain={`${FLOW_TEXT[sel]}\n\nModel faqat ikki qaror qabul qiluvchini ko'radi: **households** (uy xo'jaliklari) va **firms**. Tovar bozorida uy xo'jaliklari — xaridor, firmalar — sotuvchi; omillar bozorida — aksincha. Ichki halqa — **real oqim** (tovarlar va omillar), tashqi halqa — **pul oqimi**. Murakkabroq modelga davlat va xalqaro savdo qo'shiladi. Yorliqlarni bosing.`}
+      explain={tr(`${FLOW_TEXT[sel]}\n\nModel faqat ikki qaror qabul qiluvchini ko'radi: **households** (uy xo'jaliklari) va **firms**. Tovar bozorida uy xo'jaliklari — xaridor, firmalar — sotuvchi; omillar bozorida — aksincha. Ichki halqa — **real oqim** (tovarlar va omillar), tashqi halqa — **pul oqimi**. Murakkabroq modelga davlat va xalqaro savdo qo'shiladi. Yorliqlarni bosing.`, `${FLOW_TEXT[sel]}\n\nThe model has just two decision makers: **households** and **firms**. In the markets for goods and services households are buyers and firms are sellers; in the markets for the factors of production it is the other way round. The inner loop is the **flow of inputs and outputs**, the outer loop the **flow of dollars**. A richer model adds government and international trade. Click the labels.`)}
     >
       <div className="overflow-x-auto p-2">
         <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto block w-full max-w-[640px]" role="img" aria-label="circular flow diagram">
@@ -300,7 +310,7 @@ export function GraphingSandbox() {
     const f = makeFrame(width, 40, 4);
     const data = neg ? STUDENTS.map(([x, y]) => [x, 5.6 - y] as [number, number]) : STUDENTS;
     const r = correlation(data.map((d) => d[0]), data.map((d) => d[1]));
-    explain = `Har bir nuqta — bitta talaba: **ordered pair** (x, y). x-koordinata — ${neg ? 'ziyofatlarga sarflangan soat' : "o'qishga sarflangan soat"}, y-koordinata — GPA. Bu **scatterplot**. Korrelyatsiya koeffitsienti r = **${fmt(r, 2)}**: ${r > 0 ? '**positive correlation** — o\'zgaruvchilar bir yo\'nalishda harakatlanadi' : '**negative correlation** — qarama-qarshi yo\'nalishda'}. (Statistika talabasi sifatida: r −1 dan 1 gacha. Kitob r ni hisoblamaydi, faqat yo'nalishni aytadi.)`;
+    explain = tr(`Har bir nuqta — bitta talaba: **ordered pair** (x, y). x-koordinata — ${neg ? 'ziyofatlarga sarflangan soat' : "o'qishga sarflangan soat"}, y-koordinata — GPA. Bu **scatterplot**. Korrelyatsiya koeffitsienti r = **${fmt(r, 2)}**: ${r > 0 ? '**positive correlation** — o\'zgaruvchilar bir yo\'nalishda harakatlanadi' : '**negative correlation** — qarama-qarshi yo\'nalishda'}. (Statistika talabasi sifatida: r −1 dan 1 gacha. Kitob r ni hisoblamaydi, faqat yo'nalishni aytadi.)`, `Each dot is one student: an **ordered pair** (x, y). The x-coordinate is ${neg ? 'hours spent partying' : 'hours spent studying'}, the y-coordinate is GPA. This is a **scatterplot**. The correlation coefficient r = **${fmt(r, 2)}**: ${r > 0 ? '**positive correlation** — the variables move in the same direction' : '**negative correlation** — they move in opposite directions'}. (For statistics students: r runs from −1 to 1. The book does not compute r, only the direction.)`);
     content = (
       <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="scatterplot">
         <Axes f={f} x={neg ? 'Party time (hours/week)' : 'Study time (hours/week)'} y="GPA" />
@@ -321,7 +331,7 @@ export function GraphingSandbox() {
     const prices = [10, 9, 8, 7, 6, 5];
     const q = curves[income][prices.indexOf(price)];
     const name = { 30: 'D3', 40: 'D1', 50: 'D2' }[income];
-    explain = `Table A-1: Emma $${income},000 daromadda, roman narxi $${price} bo'lsa, **${q} ta** roman oladi. **Narxni** o'zgartirsangiz — nuqta o'sha egri chiziq bo'ylab yuradi (**movement along the curve**). **Daromadni** o'zgartirsangiz — butun egri chiziq siljiydi (**shift**): $50,000 → D2 o'ngga, $30,000 → D3 chapga. Qoida: **o'qlarda yo'q** o'zgaruvchi (daromad, kutubxona yopilishi, kino narxi) o'zgarsa — egri chiziq siljiydi; o'qdagi o'zgaruvchi (narx) o'zgarsa — egri bo'ylab harakat.`;
+    explain = tr(`Table A-1: Emma $${income},000 daromadda, roman narxi $${price} bo'lsa, **${q} ta** roman oladi. **Narxni** o'zgartirsangiz — nuqta o'sha egri chiziq bo'ylab yuradi (**movement along the curve**). **Daromadni** o'zgartirsangiz — butun egri chiziq siljiydi (**shift**): $50,000 → D2 o'ngga, $30,000 → D3 chapga. Qoida: **o'qlarda yo'q** o'zgaruvchi (daromad, kutubxona yopilishi, kino narxi) o'zgarsa — egri chiziq siljiydi; o'qdagi o'zgaruvchi (narx) o'zgarsa — egri bo'ylab harakat.`, `Table A-1: with income $${income},000 and a novel price of $${price}, Emma buys **${q}** novels. Change the **price** and the point moves along the same curve (a **movement along the curve**). Change **income** and the whole curve **shifts**: $50,000 → D2 to the right, $30,000 → D3 to the left. Rule: when a variable **not on the axes** changes (income, the library closing, the price of movies), the curve shifts; when a variable on an axis (price) changes, we move along the curve.`);
     content = (
       <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="movement vs shift">
         <Axes f={f} x="Quantity of Novels Purchased" y="Price of Novels" money />
@@ -342,7 +352,7 @@ export function GraphingSandbox() {
     const a = EMMA[Math.min(i1, i2)];
     const b = EMMA[Math.max(i1, i2)];
     const m = slope(a[0], a[1], b[0], b[1]);
-    explain = `Emma'ning talab egri chizig'i (daromad $40,000). Ikki nuqta: (${a[0]}, $${a[1]}) va (${b[0]}, $${b[1]}).\n\n\\[\\text{slope} = \\frac{\\Delta y}{\\Delta x} = \\frac{${b[1]} - ${a[1]}}{${b[0]} - ${a[0]}} = \\frac{${b[1] - a[1]}}{${b[0] - a[0]}} = ${fmt(m, 3)}\\]\n\nIstalgan ikki nuqtani tanlang — to'g'ri chiziqda nishab **har doim bir xil** (−1/4). Manfiy nishab — narx va miqdor teskari bog'langan; kichik (nolga yaqin) manfiy son — yotiq chiziq, Emma narxga kuchli javob beradi.`;
+    explain = tr(`Emma'ning talab egri chizig'i (daromad $40,000). Ikki nuqta: (${a[0]}, $${a[1]}) va (${b[0]}, $${b[1]}).\n\n\\[\\text{slope} = \\frac{\\Delta y}{\\Delta x} = \\frac{${b[1]} - ${a[1]}}{${b[0]} - ${a[0]}} = \\frac{${b[1] - a[1]}}{${b[0] - a[0]}} = ${fmt(m, 3)}\\]\n\nIstalgan ikki nuqtani tanlang — to'g'ri chiziqda nishab **har doim bir xil** (−1/4). Manfiy nishab — narx va miqdor teskari bog'langan; kichik (nolga yaqin) manfiy son — yotiq chiziq, Emma narxga kuchli javob beradi.`, `Emma's demand curve (income $40,000). Two points: (${a[0]}, $${a[1]}) and (${b[0]}, $${b[1]}).\n\n\\[\\text{slope} = \\frac{\\Delta y}{\\Delta x} = \\frac{${b[1]} - ${a[1]}}{${b[0]} - ${a[0]}} = \\frac{${b[1] - a[1]}}{${b[0] - a[0]}} = ${fmt(m, 3)}\\]\n\nPick any two points: on a straight line the slope is **always the same** (−1/4). A negative slope means price and quantity move in opposite directions; a small negative number (close to zero) means a flat line — Emma responds strongly to the price.`);
     content = (
       <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="slope">
         <Axes f={f} x="Quantity of Novels Purchased" y="Price of Novels" money />
@@ -366,8 +376,8 @@ export function GraphingSandbox() {
       [0, 6, false], [1, 9, false], [1, 12, false], [2, 14, false], [2, 30, true], [3, 34, true], [3, 18, false], [4, 40, true], [4, 42, true], [5, 48, true], [5, 21, false], [6, 52, true],
     ] as [number, number, boolean][];
     explain = showSmokers
-      ? "Endi **omitted variable** (tushirib qoldirilgan o'zgaruvchi) ko'rindi: qizil nuqtalar — chekadigan uylar. Saraton xavfini zajigalkalar emas, **sigaretalar** oshiradi; zajigalkasi ko'p uylarda ko'proq chekishadi. Grafik sabab-oqibatni isbotlamaydi."
-      : '“Big Brother Statistical Services”: uyda zajigalka qancha ko\'p bo\'lsa, saraton xavfi shuncha yuqori. Zajigalkalarga soliq solish kerakmi? “Chekuvchilarni ko\'rsatish” tugmasini bosing.';
+      ? tr("Endi **omitted variable** (tushirib qoldirilgan o'zgaruvchi) ko'rindi: qizil nuqtalar — chekadigan uylar. Saraton xavfini zajigalkalar emas, **sigaretalar** oshiradi; zajigalkasi ko'p uylarda ko'proq chekishadi. Grafik sabab-oqibatni isbotlamaydi.", 'Now the **omitted variable** appears: the red dots are homes where someone smokes. It is **cigarettes**, not lighters, that raise the risk of cancer; homes with many lighters are homes where people smoke more. A graph alone does not prove cause and effect.')
+      : tr('“Big Brother Statistical Services”: uyda zajigalka qancha ko\'p bo\'lsa, saraton xavfi shuncha yuqori. Zajigalkalarga soliq solish kerakmi? “Chekuvchilarni ko\'rsatish” tugmasini bosing.', '“Big Brother Statistical Services”: the more lighters in a house, the higher the risk of cancer. Should lighters be taxed? Press “Show smokers”.');
     content = (
       <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="omitted variable">
         <Axes f={f} x="Number of Lighters in House" y="Risk of Cancer (%)" />
@@ -381,7 +391,7 @@ export function GraphingSandbox() {
     const cities = [
       [1, 8], [1.5, 12], [2, 15], [2.5, 20], [3, 24], [3.5, 30], [4, 33], [4.5, 38], [5, 44],
     ] as [number, number][];
-    explain = "“Anarxistlar assotsiatsiyasi” grafigi: politsiyachi ko'p shaharlarda jinoyat ham ko'p — demak politsiya jinoyatga sabab? Yo'q, ehtimol teskarisi: **jinoyati ko'p shaharlar ko'proq politsiya yollaydi** — bu **reverse causality**. Qaysi o'zgaruvchi oldin o'zgarganiga qarash ham yetmaydi: odamlar kutishlarga javob beradi — er-xotin bola tug'ilishini kutib miniven sotib oladi, lekin miniven bola tug'ilishiga sabab emas! Yechim — nazorat qilinadigan tajriba (randomized experiment).";
+    explain = tr("“Anarxistlar assotsiatsiyasi” grafigi: politsiyachi ko'p shaharlarda jinoyat ham ko'p — demak politsiya jinoyatga sabab? Yo'q, ehtimol teskarisi: **jinoyati ko'p shaharlar ko'proq politsiya yollaydi** — bu **reverse causality**. Qaysi o'zgaruvchi oldin o'zgarganiga qarash ham yetmaydi: odamlar kutishlarga javob beradi — er-xotin bola tug'ilishini kutib miniven sotib oladi, lekin miniven bola tug'ilishiga sabab emas! Yechim — nazorat qilinadigan tajriba (randomized experiment).", 'The “Association of American Anarchists” graph: cities with more police have more crime — so do police cause crime? No; more likely the reverse: **cities with a lot of crime hire more police** — **reverse causality**. Looking at which variable moves first is not enough either: people respond to expectations — a couple buys a minivan expecting a baby, but the minivan does not cause the baby! The fix is a controlled (randomized) experiment.');
     content = (
       <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="reverse causality">
         <Axes f={f} x="Police Officers (per 1,000 people)" y="Violent Crimes (per 1,000 people)" />
@@ -411,12 +421,12 @@ export function GraphingSandbox() {
           />
           {tab === 'scatter' && (
             <button className="btn-ghost btn-sm" onClick={() => setNeg((n) => !n)}>
-              {neg ? "O'qish vaqti" : 'Ziyofat vaqti (negative)'}
+              {neg ? tr("O'qish vaqti", 'Study time') : tr('Ziyofat vaqti (negative)', 'Party time (negative)')}
             </button>
           )}
           {tab === 'omitted' && (
             <button className="btn-ghost btn-sm" onClick={() => setShowSmokers((v) => !v)}>
-              {showSmokers ? '✓ ' : ''}Chekuvchilarni ko'rsatish
+              {showSmokers ? '✓ ' : ''}{tr("Chekuvchilarni ko'rsatish", 'Show smokers')}
             </button>
           )}
         </>
@@ -425,16 +435,16 @@ export function GraphingSandbox() {
       controls={
         tab === 'shift' ? (
           <>
-            <Slider label="Roman narxi (o'qda)" value={price} min={5} max={10} step={1} onChange={setPrice} display={`$${price}`} color="--demand" />
+            <Slider label={tr("Roman narxi (o'qda)", 'Price of novels (on an axis)')} value={price} min={5} max={10} step={1} onChange={setPrice} display={`$${price}`} color="--demand" />
             <div>
-              <div className="mb-1 text-xs font-medium text-muted">Daromad (o'qda emas)</div>
+              <div className="mb-1 text-xs font-medium text-muted">{tr("Daromad (o'qda emas)", 'Income (not on an axis)')}</div>
               <Segmented size="sm" value={String(income)} onChange={(v) => setIncome(Number(v) as 30 | 40 | 50)} options={[{ value: '30', label: '$30,000' }, { value: '40', label: '$40,000' }, { value: '50', label: '$50,000' }]} />
             </div>
           </>
         ) : tab === 'slope' ? (
           <>
-            <Slider label="1-nuqta" value={i1} min={0} max={5} step={1} onChange={setI1} display={`(${EMMA[i1][0]}, $${EMMA[i1][1]})`} />
-            <Slider label="2-nuqta" value={i2} min={0} max={5} step={1} onChange={setI2} display={`(${EMMA[i2][0]}, $${EMMA[i2][1]})`} />
+            <Slider label={tr('1-nuqta', 'Point 1')} value={i1} min={0} max={5} step={1} onChange={setI1} display={`(${EMMA[i1][0]}, $${EMMA[i1][1]})`} />
+            <Slider label={tr('2-nuqta', 'Point 2')} value={i2} min={0} max={5} step={1} onChange={setI2} display={`(${EMMA[i2][0]}, $${EMMA[i2][1]})`} />
           </>
         ) : undefined
       }

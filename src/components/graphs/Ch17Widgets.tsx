@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 /** Problem 7 model: each of N firms faces P = 100/N − Q, MR = 100/N − 2Q, TC = 50 + Q², MC = 2Q. */
 export function monopCompFirm(n: number) {
@@ -33,22 +34,22 @@ export function MonopCompLab() {
     return pts.join(' ');
   };
   const lr = Math.abs(o.profit) < 0.05;
-  const explain = `Bozorda **${n}** firma. Har biri farqli mahsulot sotadi — talab egri chizig'i pastga qaragan: P = 100/N − Q. MR = MC: Q = **${fmt(o.q, 2)}**, P = **$${fmt(o.p, 2)}**, ATC = $${fmt(o.atc, 2)} → foyda **$${fmt(o.profit, 2)}**. ${lr ? `**Uzoq muddatli muvozanat**: talab ATC ga **urinadi** (P = ATC = $${fmt(o.p, 2)}), foyda 0. Lekin P > MC ($${fmt(o.mc, 2)}) — **markup**, va Q (${fmt(o.q, 2)}) < efficient scale (${fmt(effQ, 2)}) — **excess capacity**.` : o.profit > 0 ? 'Foyda → yangi firmalar kiradi → har bir firmaning talabi **chapga** siljiydi. N ni oshiring yoki “Uzoq muddat” tugmasini bosing.' : 'Zarar → ba\'zi firmalar chiqadi → qolganlarining talabi **o\'ngga** siljiydi.'} Problem 7: foyda = 1,250/N² − 50 = 0 → **N = 5**.${compare ? ` Mukammal raqobatda esa firma efficient scale da: Q = ${fmt(effQ, 2)}, P = MC = min ATC = $${fmt(effP, 2)}.` : ''}`;
+  const explain = tr(`Bozorda **${n}** firma. Har biri farqli mahsulot sotadi — talab egri chizig'i pastga qaragan: P = 100/N − Q. MR = MC: Q = **${fmt(o.q, 2)}**, P = **$${fmt(o.p, 2)}**, ATC = $${fmt(o.atc, 2)} → foyda **$${fmt(o.profit, 2)}**. ${lr ? `**Uzoq muddatli muvozanat**: talab ATC ga **urinadi** (P = ATC = $${fmt(o.p, 2)}), foyda 0. Lekin P > MC ($${fmt(o.mc, 2)}) — **markup**, va Q (${fmt(o.q, 2)}) < efficient scale (${fmt(effQ, 2)}) — **excess capacity**.` : o.profit > 0 ? 'Foyda → yangi firmalar kiradi → har bir firmaning talabi **chapga** siljiydi. N ni oshiring yoki “Uzoq muddat” tugmasini bosing.' : 'Zarar → ba\'zi firmalar chiqadi → qolganlarining talabi **o\'ngga** siljiydi.'} Problem 7: foyda = 1,250/N² − 50 = 0 → **N = 5**.${compare ? ` Mukammal raqobatda esa firma efficient scale da: Q = ${fmt(effQ, 2)}, P = MC = min ATC = $${fmt(effP, 2)}.` : ''}`, `There are **${n}** firms in the market. Each sells a differentiated product, so its demand curve slopes down: P = 100/N − Q. MR = MC: Q = **${fmt(o.q, 2)}**, P = **$${fmt(o.p, 2)}**, ATC = $${fmt(o.atc, 2)} → profit **$${fmt(o.profit, 2)}**. ${lr ? `**Long-run equilibrium**: demand is **tangent** to ATC (P = ATC = $${fmt(o.p, 2)}), profit 0. But P > MC ($${fmt(o.mc, 2)}) — a **markup**, and Q (${fmt(o.q, 2)}) < the efficient scale (${fmt(effQ, 2)}) — **excess capacity**.` : o.profit > 0 ? 'Profit → new firms enter → each firm’s demand shifts **left**. Raise N or press “Long run”.' : 'Losses → some firms exit → the remaining firms’ demand shifts **right**.'} Problem 7: profit = 1,250/N² − 50 = 0 → **N = 5**.${compare ? ` Under perfect competition the firm would be at its efficient scale: Q = ${fmt(effQ, 2)}, P = MC = min ATC = $${fmt(effP, 2)}.` : ''}`);
   return (
     <Card
-      title="Figures 2–4 — Monopolistik raqobat: qisqa va uzoq muddat (Problem 7 modeli)"
+      title={tr("Figures 2–4 — Monopolistik raqobat: qisqa va uzoq muddat (Problem 7 modeli)", 'Figures 2–4 — Monopolistic competition: the short and long run (Problem 7 model)')}
       tabs={
         <>
           <button className="btn-primary btn-sm" onClick={() => setN(5)}>
-            ⏩ Uzoq muddat (N = 5)
+            {tr('⏩ Uzoq muddat (N = 5)', '⏩ Long run (N = 5)')}
           </button>
           <button className="btn-ghost btn-sm" onClick={() => setCompare((c) => !c)}>
-            {compare ? '✓ ' : ''}Mukammal raqobat bilan solishtirish
+            {compare ? '✓ ' : ''}{tr('Mukammal raqobat bilan solishtirish', 'Compare with perfect competition')}
           </button>
         </>
       }
       explain={explain}
-      controls={<Slider label="Firmalar soni N" value={n} min={2} max={9} step={0.5} onChange={setN} display={fmt(n, 1)} />}
+      controls={<Slider label={tr('Firmalar soni N', 'Number of firms N')} value={n} min={2} max={9} step={0.5} onChange={setN} display={fmt(n, 1)} />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="monopolistic competition">
@@ -95,20 +96,20 @@ const STRUCT: Record<Structure, string> = {
   perfect: 'Perfect competition',
 };
 const MARKETS: { name: string; s: Structure; why: string }[] = [
-  { name: "Vodoprovod suvi", s: 'monopoly', why: 'Bitta firma — tabiiy monopoliya (quvurlar tarmog‘i).' },
-  { name: "Shisha suv", s: 'monopolistic', why: 'Ko‘p brend, biroz farqli mahsulot, erkin kirish.' },
-  { name: 'Kola', s: 'oligopoly', why: 'Asosan ikki-uch yirik ishlab chiqaruvchi (Coca-Cola, PepsiCo).' },
-  { name: 'Pivo', s: 'oligopoly', why: "Bir necha yirik firma bozorning katta qismini egallaydi (ko'p kichik pivoxonalar bo'lsa ham — bahsli)." },
-  { name: '2-raqamli yog‘och qalam', s: 'perfect', why: 'Ko‘p ishlab chiqaruvchi, deyarli bir xil mahsulot.' },
-  { name: 'Mis', s: 'perfect', why: 'Bir xil xom ashyo, ko‘p sotuvchi, jahon narxi.' },
-  { name: 'Mahalliy elektr ta’minoti', s: 'monopoly', why: 'Tabiiy monopoliya.' },
-  { name: 'Yeryong‘oq pastasi', s: 'monopolistic', why: 'Ko‘p brend, farqli ta’m va o‘ram.' },
-  { name: 'Lab bo‘yog‘i', s: 'monopolistic', why: 'Ko‘p firma, kuchli farqlanish (rang, brend).' },
-  { name: 'Bug‘doy', s: 'perfect', why: 'QQ 2: ko‘p fermer, bir xil mahsulot.' },
-  { name: 'Sartaroshxona', s: 'monopolistic', why: 'QQ 2: ko‘p sartarosh, xizmati va joylashuvi farqli.' },
-  { name: 'Kitoblar', s: 'monopolistic', why: 'Bob boshidagi misol: har bir nom noyob, lekin minglab muallif raqobatlashadi.' },
-  { name: 'Samolyot ishlab chiqarish', s: 'oligopoly', why: "To'rt firma konsentratsiyasi 90% dan yuqori." },
-  { name: 'Restoranlar', s: 'monopolistic', why: 'Ko‘p restoran, har biri farqli menyu va muhit.' },
+  { name: tr("Vodoprovod suvi", 'Tap water'), s: 'monopoly', why: tr('Bitta firma — tabiiy monopoliya (quvurlar tarmog‘i).', 'One firm — a natural monopoly (the pipe network).') },
+  { name: tr("Shisha suv", 'Bottled water'), s: 'monopolistic', why: tr('Ko‘p brend, biroz farqli mahsulot, erkin kirish.', 'Many brands, slightly different products, free entry.') },
+  { name: tr('Kola', 'Cola'), s: 'oligopoly', why: tr('Asosan ikki-uch yirik ishlab chiqaruvchi (Coca-Cola, PepsiCo).', 'Mainly two or three big producers (Coca-Cola, PepsiCo).') },
+  { name: tr('Pivo', 'Beer'), s: 'oligopoly', why: tr("Bir necha yirik firma bozorning katta qismini egallaydi (ko'p kichik pivoxonalar bo'lsa ham — bahsli).", 'A few big firms hold most of the market (even with many small breweries — debatable).') },
+  { name: tr('2-raqamli yog‘och qalam', 'No. 2 pencils'), s: 'perfect', why: tr('Ko‘p ishlab chiqaruvchi, deyarli bir xil mahsulot.', 'Many producers, nearly identical products.') },
+  { name: tr('Mis', 'Copper'), s: 'perfect', why: tr('Bir xil xom ashyo, ko‘p sotuvchi, jahon narxi.', 'An identical raw material, many sellers, a world price.') },
+  { name: tr('Mahalliy elektr ta’minoti', 'Local electricity'), s: 'monopoly', why: tr('Tabiiy monopoliya.', 'A natural monopoly.') },
+  { name: tr('Yeryong‘oq pastasi', 'Peanut butter'), s: 'monopolistic', why: tr('Ko‘p brend, farqli ta’m va o‘ram.', 'Many brands, different tastes and packaging.') },
+  { name: tr('Lab bo‘yog‘i', 'Lipstick'), s: 'monopolistic', why: tr('Ko‘p firma, kuchli farqlanish (rang, brend).', 'Many firms, strong differentiation (color, brand).') },
+  { name: tr('Bug‘doy', 'Wheat'), s: 'perfect', why: tr('QQ 2: ko‘p fermer, bir xil mahsulot.', 'QQ 2: many farmers, an identical product.') },
+  { name: tr('Sartaroshxona', 'Barbershop'), s: 'monopolistic', why: tr('QQ 2: ko‘p sartarosh, xizmati va joylashuvi farqli.', 'QQ 2: many barbers, different service and location.') },
+  { name: tr('Kitoblar', 'Books'), s: 'monopolistic', why: tr('Bob boshidagi misol: har bir nom noyob, lekin minglab muallif raqobatlashadi.', 'The example from the start of the chapter: each title is unique, but thousands of authors compete.') },
+  { name: tr('Samolyot ishlab chiqarish', 'Aircraft manufacturing'), s: 'oligopoly', why: tr("To'rt firma konsentratsiyasi 90% dan yuqori.", 'The four-firm concentration ratio is above 90%.') },
+  { name: tr('Restoranlar', 'Restaurants'), s: 'monopolistic', why: tr('Ko‘p restoran, har biri farqli menyu va muhit.', 'Many restaurants, each with its own menu and atmosphere.') },
 ];
 
 /** Ch. 17 Figure 1: the four types of market structure. */
@@ -123,10 +124,10 @@ export function MarketStructureQuiz() {
     setScore((x) => ({ ok: x.ok + (s === m.s ? 1 : 0), n: x.n + 1 }));
   };
   const explain = ans
-    ? `${ans === m.s ? "✓ To'g'ri." : `✗ To'g'ri javob: **${STRUCT[m.s]}**.`} ${m.why}`
-    : "Figure 1 savollari: (1) **Firmalar soni?** Bitta → monopoly; bir nechta → oligopoly; ko'p → (2) **Mahsulot turi?** Bir xil → perfect competition; farqli → monopolistic competition. Chegaralar ba'zan bahsli (AQShdagi ~12 avtomobil kompaniyasi — oligopolmi?).";
+    ? `${ans === m.s ? tr("✓ To'g'ri.", '✓ Correct.') : `${tr("✗ To'g'ri javob", '✗ The right answer')}: **${STRUCT[m.s]}**.`} ${m.why}`
+    : tr("Figure 1 savollari: (1) **Firmalar soni?** Bitta → monopoly; bir nechta → oligopoly; ko'p → (2) **Mahsulot turi?** Bir xil → perfect competition; farqli → monopolistic competition. Chegaralar ba'zan bahsli (AQShdagi ~12 avtomobil kompaniyasi — oligopolmi?).", "Figure 1's questions: (1) **How many firms?** One → monopoly; a few → oligopoly; many → (2) **What type of product?** Identical → perfect competition; differentiated → monopolistic competition. The lines are sometimes debatable (are the ~12 U.S. car companies an oligopoly?).");
   return (
-    <Card title="Figure 1 — The Four Types of Market Structure: bozorni tasniflang" explain={explain}>
+    <Card title={tr("Figure 1 — The Four Types of Market Structure: bozorni tasniflang", 'Figure 1 — The Four Types of Market Structure: classify the market')} explain={explain}>
       <div className="p-4">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div className="rounded-xl border-2 border-ink bg-surface2 px-4 py-2 font-display text-lg font-bold">{m.name}</div>
@@ -136,7 +137,7 @@ export function MarketStructureQuiz() {
         </div>
         <div className="grid gap-2 text-sm sm:grid-cols-2">
           <div className="rounded-xl border-2 border-dashed border-ink/40 p-2">
-            <div className="mb-1 text-xs font-bold text-muted">Firmalar soni: bitta / bir nechta</div>
+            <div className="mb-1 text-xs font-bold text-muted">{tr('Firmalar soni: bitta / bir nechta', 'Number of firms: one / a few')}</div>
             <div className="grid grid-cols-2 gap-2">
               {(['monopoly', 'oligopoly'] as Structure[]).map((s) => (
                 <button key={s} onClick={() => pick(s)} className={`rounded-lg border-2 border-ink p-2 font-semibold ${ans && s === m.s ? 'bg-postit-green text-[#111]' : ans === s ? 'bg-postit-pink text-[#111]' : 'bg-surface'}`}>
@@ -146,7 +147,7 @@ export function MarketStructureQuiz() {
             </div>
           </div>
           <div className="rounded-xl border-2 border-dashed border-ink/40 p-2">
-            <div className="mb-1 text-xs font-bold text-muted">Ko‘p firma: farqli / bir xil mahsulot</div>
+            <div className="mb-1 text-xs font-bold text-muted">{tr('Ko‘p firma: farqli / bir xil mahsulot', 'Many firms: differentiated / identical products')}</div>
             <div className="grid grid-cols-2 gap-2">
               {(['monopolistic', 'perfect'] as Structure[]).map((s) => (
                 <button key={s} onClick={() => pick(s)} className={`rounded-lg border-2 border-ink p-2 font-semibold ${ans && s === m.s ? 'bg-postit-green text-[#111]' : ans === s ? 'bg-postit-pink text-[#111]' : 'bg-surface'}`}>
@@ -164,7 +165,7 @@ export function MarketStructureQuiz() {
               setI((v) => v + 1);
             }}
           >
-            Keyingi bozor →
+            {tr('Keyingi bozor →', 'Next market →')}
           </button>
         )}
       </div>
@@ -184,32 +185,32 @@ export function AdSignal() {
   const badAds = badRevenue > adCost;
   const goodAds = goodRevenue > adCost;
   const separating = goodAds && !badAds;
-  const explain = `Reklama $${adCost} mln turadi va 1 mln iste'molchini bir quti sinab ko'rishga undaydi ($${price}, MC = 0). **General Mills** donini yomon (gazetaga shakar sepilgandek) biladi: har kim faqat 1 quti oladi → $${badRevenue} mln ${badAds ? '>' : '<'} $${adCost} mln → ${badAds ? '**reklama qiladi**' : 'reklama **qilmaydi**'}. **Kellogg** donini a'lo biladi: har kim ${repeat} quti oladi → $${goodRevenue} mln ${goodAds ? '>' : '<'} $${adCost} mln → ${goodAds ? '**reklama qiladi**' : 'reklama qilmaydi'}. ${separating ? "**Signal ishlaydi**: faqat yaxshi mahsulot reklama qilinadi, shuning uchun reklama qilingan donni sinab ko'rish **ratsional** — reklama mazmuni emas, uning **qimmatligi** axborot beradi (mashhur aktyorlarga katta haq to'lash shuning uchun)." : badAds ? "Reklama **juda arzon** — yaxshi ham, yomon ham reklama qiladi, signal ishlamaydi; iste'molchilar bunday reklamani e'tiborsiz qoldirishni o'rganadi." : "Reklama juda qimmat — hech kim reklama qilmaydi."} QQ 8: signal yaxshi mahsulot uchun mijoz jalb qilish foydasi kattaroq bo'lsa ishlaydi.`;
+  const explain = tr(`Reklama $${adCost} mln turadi va 1 mln iste'molchini bir quti sinab ko'rishga undaydi ($${price}, MC = 0). **General Mills** donini yomon (gazetaga shakar sepilgandek) biladi: har kim faqat 1 quti oladi → $${badRevenue} mln ${badAds ? '>' : '<'} $${adCost} mln → ${badAds ? '**reklama qiladi**' : 'reklama **qilmaydi**'}. **Kellogg** donini a'lo biladi: har kim ${repeat} quti oladi → $${goodRevenue} mln ${goodAds ? '>' : '<'} $${adCost} mln → ${goodAds ? '**reklama qiladi**' : 'reklama qilmaydi'}. ${separating ? "**Signal ishlaydi**: faqat yaxshi mahsulot reklama qilinadi, shuning uchun reklama qilingan donni sinab ko'rish **ratsional** — reklama mazmuni emas, uning **qimmatligi** axborot beradi (mashhur aktyorlarga katta haq to'lash shuning uchun)." : badAds ? "Reklama **juda arzon** — yaxshi ham, yomon ham reklama qiladi, signal ishlamaydi; iste'molchilar bunday reklamani e'tiborsiz qoldirishni o'rganadi." : "Reklama juda qimmat — hech kim reklama qilmaydi."} QQ 8: signal yaxshi mahsulot uchun mijoz jalb qilish foydasi kattaroq bo'lsa ishlaydi.`, `The ad campaign costs $${adCost} million and gets 1 million consumers to try one box ($${price}, MC = 0). **General Mills** knows its cereal is bad (like sugar sprinkled on newspaper): each person buys only 1 box → $${badRevenue} million ${badAds ? '>' : '<'} $${adCost} million → ${badAds ? 'it **advertises**' : 'it does **not** advertise'}. **Kellogg** knows its cereal is great: each person buys ${repeat} boxes → $${goodRevenue} million ${goodAds ? '>' : '<'} $${adCost} million → ${goodAds ? 'it **advertises**' : 'it does not advertise'}. ${separating ? '**The signal works**: only the good product is advertised, so trying an advertised cereal is **rational** — the information is not in the ad’s content but in its **expense** (which is why firms pay famous actors so much).' : badAds ? 'Advertising is **too cheap** — good and bad firms both advertise, so the signal fails; consumers learn to ignore such ads.' : 'Advertising is too expensive — nobody advertises.'} QQ 8: the signal works when attracting a customer pays off more for the good product.`);
   return (
     <Card
       title="17-3b — Advertising as a Signal of Quality"
-      tabs={<Segmented size="sm" value={mode} onChange={(v) => { setMode(v); if (v === 'book') { setAdCost(20); setPrice(5); setRepeat(12); } }} options={[{ value: 'book', label: 'Kitob raqamlari' }, { value: 'custom', label: "O'zgartiring" }]} />}
+      tabs={<Segmented size="sm" value={mode} onChange={(v) => { setMode(v); if (v === 'book') { setAdCost(20); setPrice(5); setRepeat(12); } }} options={[{ value: 'book', label: tr('Kitob raqamlari', "The book's numbers") }, { value: 'custom', label: tr("O'zgartiring", 'Change them') }]} />}
       explain={explain}
       controls={
         mode === 'custom' ? (
           <>
-            <Slider label="Reklama kampaniyasi (mln $)" value={adCost} min={1} max={80} step={1} onChange={setAdCost} display={`$${adCost} mln`} color="--tax" />
-            <Slider label="Yaxshi don: yiliga necha quti" value={repeat} min={1} max={24} step={1} onChange={setRepeat} display={`${repeat}`} color="--good" />
+            <Slider label={tr('Reklama kampaniyasi (mln $)', 'Ad campaign ($ million)')} value={adCost} min={1} max={80} step={1} onChange={setAdCost} display={`$${adCost} ${tr('mln', 'm')}`} color="--tax" />
+            <Slider label={tr('Yaxshi don: yiliga necha quti', 'Good cereal: boxes per year')} value={repeat} min={1} max={24} step={1} onChange={setRepeat} display={`${repeat}`} color="--good" />
           </>
         ) : undefined
       }
     >
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         {[
-          ['General Mills (yomon don)', badRevenue, badAds],
-          ['Kellogg (yaxshi don)', goodRevenue, goodAds],
+          [tr('General Mills (yomon don)', 'General Mills (bad cereal)'), badRevenue, badAds],
+          [tr('Kellogg (yaxshi don)', 'Kellogg (good cereal)'), goodRevenue, goodAds],
         ].map(([name, rev, ads]) => (
           <div key={name as string} className={`rounded-xl border-2 border-ink p-3 text-[#111] ${ads ? 'bg-postit-green' : 'bg-postit-pink'}`}>
             <div className="font-display font-bold">{name as string}</div>
             <div className="num text-sm">
-              Sotuv ${rev as number} mln vs reklama ${adCost} mln
+              {tr('Sotuv', 'Sales')} ${rev as number} {tr('mln vs reklama', 'm vs ads')} ${adCost} {tr('mln', 'm')}
             </div>
-            <div className="font-semibold">{ads ? '📣 Reklama qiladi' : '🤫 Reklama qilmaydi'}</div>
+            <div className="font-semibold">{ads ? tr('📣 Reklama qiladi', '📣 Advertises') : tr('🤫 Reklama qilmaydi', "🤫 Doesn't advertise")}</div>
           </div>
         ))}
       </div>

@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 const TYPES = ['A', 'B', 'C', 'D', 'E'];
 
@@ -30,11 +31,11 @@ export function DeathSpiral() {
   const surplus = (i: number, price: number) => certainty + costs[i] - price;
   const totalCS = final.pool.reduce((s, i) => s + surplus(i, final.price), 0);
   const explain = mandate
-    ? `**Majburiy sug'urta (mandate)**: hamma sotib oladi, narx = o'rtacha xarajat $${fmt(rounds[0].price - load)} + $${load} = **$${fmt(rounds[0].price)}**. Har bir turning surplusi = $${certainty} (noaniqlikdan qutulish) + kutilgan xarajat − narx: ${TYPES.map((t, i) => `${t} ${surplus(i, rounds[0].price) >= 0 ? '+' : '−'}$${fmt(Math.abs(surplus(i, rounds[0].price)))}`).join(', ')}. Jami **$${fmt(TYPES.reduce((s, _, i) => s + surplus(i, rounds[0].price), 0))}**. Sog'lomlar (A, B) sog'lom bo'lmaganlarni subsidiyalaydi; ularni majburlash uchun jarima ular yo'qotishidan katta bo'lishi kerak (A uchun $${fmt(Math.max(0, -surplus(0, rounds[0].price)))} dan ko'p).`
-    : `Kompaniya hammaga bir xil narx qo'yishi shart. ${step + 1}-qadam: sug'urtalanganlar **${shown.pool.map((i) => TYPES[i]).join(', ') || "hech kim"}**, narx **$${fmt(shown.price)}** (o'rtacha xarajat + $${load}). Odam faqat narx o'z kutilgan xarajatidan $${certainty} dan ko'p oshmasa sotib oladi → eng sog'lomlar chiqib ketadi, pool kasalroq bo'ladi, narx yana oshadi — **death spiral**. Yakun: faqat **${final.pool.map((i) => TYPES[i]).join(', ') || 'hech kim'}**, narx $${fmt(final.price)}, consumer surplus jami **$${fmt(totalCS)}**. Mandate tugmasini bosib solishtiring.`;
+    ? tr(`**Majburiy sug'urta (mandate)**: hamma sotib oladi, narx = o'rtacha xarajat $${fmt(rounds[0].price - load)} + $${load} = **$${fmt(rounds[0].price)}**. Har bir turning surplusi = $${certainty} (noaniqlikdan qutulish) + kutilgan xarajat − narx: ${TYPES.map((t, i) => `${t} ${surplus(i, rounds[0].price) >= 0 ? '+' : '−'}$${fmt(Math.abs(surplus(i, rounds[0].price)))}`).join(', ')}. Jami **$${fmt(TYPES.reduce((s, _, i) => s + surplus(i, rounds[0].price), 0))}**. Sog'lomlar (A, B) sog'lom bo'lmaganlarni subsidiyalaydi; ularni majburlash uchun jarima ular yo'qotishidan katta bo'lishi kerak (A uchun $${fmt(Math.max(0, -surplus(0, rounds[0].price)))} dan ko'p).`, `**Mandatory insurance (a mandate)**: everyone buys, and the price = average cost $${fmt(rounds[0].price - load)} + $${load} = **$${fmt(rounds[0].price)}**. Each type's surplus = $${certainty} (value of certainty) + expected cost − price: ${TYPES.map((t, i) => `${t} ${surplus(i, rounds[0].price) >= 0 ? '+' : '−'}$${fmt(Math.abs(surplus(i, rounds[0].price)))}`).join(', ')}. Total **$${fmt(TYPES.reduce((s, _, i) => s + surplus(i, rounds[0].price), 0))}**. The healthy (A, B) subsidize the less healthy; to make them buy, the penalty must exceed what they lose (more than $${fmt(Math.max(0, -surplus(0, rounds[0].price)))} for A).`)
+    : tr(`Kompaniya hammaga bir xil narx qo'yishi shart. ${step + 1}-qadam: sug'urtalanganlar **${shown.pool.map((i) => TYPES[i]).join(', ') || "hech kim"}**, narx **$${fmt(shown.price)}** (o'rtacha xarajat + $${load}). Odam faqat narx o'z kutilgan xarajatidan $${certainty} dan ko'p oshmasa sotib oladi → eng sog'lomlar chiqib ketadi, pool kasalroq bo'ladi, narx yana oshadi — **death spiral**. Yakun: faqat **${final.pool.map((i) => TYPES[i]).join(', ') || 'hech kim'}**, narx $${fmt(final.price)}, consumer surplus jami **$${fmt(totalCS)}**. Mandate tugmasini bosib solishtiring.`, `The company must charge everyone the same price. Step ${step + 1}: insured **${shown.pool.map((i) => TYPES[i]).join(', ') || 'nobody'}**, price **$${fmt(shown.price)}** (average cost + $${load}). A person buys only if the price exceeds their expected cost by no more than $${certainty} → the healthiest drop out, the pool gets sicker, the price rises again — a **death spiral**. End: only **${final.pool.map((i) => TYPES[i]).join(', ') || 'nobody'}**, price $${fmt(final.price)}, total consumer surplus **$${fmt(totalCS)}**. Press the mandate button to compare.`);
   return (
     <Card
-      title="Problem 4 — Adverse selection va death spiral"
+      title={tr("Problem 4 — Adverse selection va death spiral", 'Problem 4 — Adverse selection and the death spiral')}
       tabs={
         <>
           <Segmented
@@ -45,17 +46,17 @@ export function DeathSpiral() {
               setStep(0);
             }}
             options={[
-              { value: 'free', label: 'Ixtiyoriy sug‘urta' },
-              { value: 'mandate', label: 'Majburiy (mandate)' },
+              { value: 'free', label: tr('Ixtiyoriy sug‘urta', 'Voluntary insurance') },
+              { value: 'mandate', label: tr('Majburiy (mandate)', 'Mandate') },
             ]}
           />
           {!mandate && (
             <>
               <button className="btn-ghost btn-sm" disabled={step === 0} onClick={() => setStep((s) => Math.max(0, s - 1))}>
-                ← Oldingi
+                {tr('← Oldingi', '← Previous')}
               </button>
               <button className="btn-primary btn-sm" disabled={step >= rounds.length - 1} onClick={() => setStep((s) => s + 1)}>
-                Keyingi qadam →
+                {tr('Keyingi qadam →', 'Next step →')}
               </button>
             </>
           )}
@@ -64,8 +65,8 @@ export function DeathSpiral() {
       explain={explain}
       controls={
         <>
-          <Slider label="Ma'muriy xarajat + foyda" value={load} min={0} max={2000} step={100} onChange={(v) => { setLoad(v); setStep(0); }} display={`$${load}`} color="--tax" />
-          <Slider label="Noaniqlikdan qutulish qiymati" value={certainty} min={0} max={3000} step={100} onChange={(v) => { setCertainty(v); setStep(0); }} display={`$${certainty}`} color="--good" />
+          <Slider label={tr("Ma'muriy xarajat + foyda", 'Administrative cost + profit')} value={load} min={0} max={2000} step={100} onChange={(v) => { setLoad(v); setStep(0); }} display={`$${load}`} color="--tax" />
+          <Slider label={tr('Noaniqlikdan qutulish qiymati', 'Value of certainty')} value={certainty} min={0} max={3000} step={100} onChange={(v) => { setCertainty(v); setStep(0); }} display={`$${certainty}`} color="--good" />
         </>
       }
     >
@@ -88,13 +89,13 @@ export function DeathSpiral() {
                 className="num mt-1 w-full rounded-md border border-ink/40 bg-white/70 px-1 text-center text-xs"
                 aria-label={`${t} expected cost`}
               />
-              <div className="mt-1 text-[11px]">{inPool ? 'sug‘urtada' : 'chiqdi'}</div>
+              <div className="mt-1 text-[11px]">{inPool ? tr('sug‘urtada', 'insured') : tr('chiqdi', 'dropped out')}</div>
             </div>
           );
         })}
       </div>
       <div className="px-4 pb-3 text-sm">
-        <span className="font-semibold">Narx tarixi: </span>
+        <span className="font-semibold">{tr('Narx tarixi: ', 'Price history: ')}</span>
         <span className="num">{(mandate ? [rounds[0]] : rounds.slice(0, step + 1)).map((r) => `$${fmt(r.price)}`).join(' → ')}</span>
       </div>
     </Card>
@@ -113,12 +114,12 @@ export function MoralHazardGraph() {
   const qIns = q(copay);
   const dwl = 0.5 * (qIns - qEff) * (cost - copay);
   const f = makeFrame(width, 100, 220);
-  const explain = `Muolaja jamiyatga **$${cost}** turadi, lekin sug'urtalangan bemor faqat **$${copay}** to'laydi (qolganini sug'urta to'laydi, premium esa muolajalar soniga bog'liq emas). Bemor ${fmt(qEff)} emas, **${fmt(qIns)}** ta muolaja oladi. ${fmt(qEff)} dan ${fmt(qIns)} gacha bo'lgan muolajalarning qiymati (talab) $${cost} dan past — ular total surplusni **$${fmt(dwl)}** ga kamaytiradi (qizil uchburchak). Bu **moral hazard**: sug'urta xarajatni kamaytirish rag'batini susaytiradi. Yechimlar: co-pay va deductibles, kirish qoidalari (yiliga bitta tekshiruv, mutaxassisga yo'llanma).`;
+  const explain = tr(`Muolaja jamiyatga **$${cost}** turadi, lekin sug'urtalangan bemor faqat **$${copay}** to'laydi (qolganini sug'urta to'laydi, premium esa muolajalar soniga bog'liq emas). Bemor ${fmt(qEff)} emas, **${fmt(qIns)}** ta muolaja oladi. ${fmt(qEff)} dan ${fmt(qIns)} gacha bo'lgan muolajalarning qiymati (talab) $${cost} dan past — ular total surplusni **$${fmt(dwl)}** ga kamaytiradi (qizil uchburchak). Bu **moral hazard**: sug'urta xarajatni kamaytirish rag'batini susaytiradi. Yechimlar: co-pay va deductibles, kirish qoidalari (yiliga bitta tekshiruv, mutaxassisga yo'llanma).`, `A procedure costs society **$${cost}**, but an insured patient pays only **$${copay}** (insurance pays the rest, and the premium does not depend on the number of procedures). The patient gets **${fmt(qIns)}** procedures instead of ${fmt(qEff)}. Procedures between ${fmt(qEff)} and ${fmt(qIns)} are worth less than $${cost} to the patient (the demand curve) — they reduce total surplus by **$${fmt(dwl)}** (red triangle). This is **moral hazard**: insurance weakens the incentive to economize. Remedies: co-pays and deductibles, and access rules (one check-up a year, referrals to specialists).`);
   return (
     <Card
-      title="Problem 1 — Sug'urta va moral hazard (model)"
+      title={tr("Problem 1 — Sug'urta va moral hazard (model)", 'Problem 1 — Insurance and moral hazard (model)')}
       explain={explain}
-      controls={<Slider label="Bemor to'laydigan qism (co-pay)" value={copay} min={0} max={100} step={5} onChange={setCopay} display={`$${copay}`} color="--demand" />}
+      controls={<Slider label={tr("Bemor to'laydigan qism (co-pay)", 'What the patient pays (co-pay)')} value={copay} min={0} max={100} step={5} onChange={setCopay} display={`$${copay}`} color="--demand" />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="moral hazard">
@@ -149,32 +150,32 @@ export function InsuranceCalc() {
   const [n, setN] = useState(100);
   const sick = (prob / 100) * n;
   const premium = (prob / 100) * cost;
-  const explain = `Kasallik aholining **${prob}%** ini uradi, davolash **$${fmt(cost)}**. Har ${n} kishidan o'rtacha ${fmt(sick, 1)} kishi kasallanadi → jami $${fmt(sick * cost)}, ya'ni kishi boshiga **$${fmt(premium)}**. **Risk averse** odam ${prob}% ehtimol bilan $${fmt(cost)} to'lashdan ko'ra aniq $${fmt(premium)} to'lashni afzal ko'radi — sug'urta kompaniyasi shu (yoki biroz ko'proq) **premium** oladi. Bu bozorni ikki muammo buzadi: **moral hazard** va **adverse selection**.`;
+  const explain = tr(`Kasallik aholining **${prob}%** ini uradi, davolash **$${fmt(cost)}**. Har ${n} kishidan o'rtacha ${fmt(sick, 1)} kishi kasallanadi → jami $${fmt(sick * cost)}, ya'ni kishi boshiga **$${fmt(premium)}**. **Risk averse** odam ${prob}% ehtimol bilan $${fmt(cost)} to'lashdan ko'ra aniq $${fmt(premium)} to'lashni afzal ko'radi — sug'urta kompaniyasi shu (yoki biroz ko'proq) **premium** oladi. Bu bozorni ikki muammo buzadi: **moral hazard** va **adverse selection**.`, `An illness strikes **${prob}%** of people, and treatment costs **$${fmt(cost)}**. Out of every ${n} people, on average ${fmt(sick, 1)} get sick → $${fmt(sick * cost)} in total, or **$${fmt(premium)}** per person. A **risk-averse** person prefers paying a certain $${fmt(premium)} to a ${prob}% chance of paying $${fmt(cost)} — the insurer charges that (or a little more) as a **premium**. Two problems disrupt this market: **moral hazard** and **adverse selection**.`);
   return (
     <Card
-      title="12-1c — Sug'urtaning qiymati (risk aversion)"
+      title={tr("12-1c — Sug'urtaning qiymati (risk aversion)", '12-1c — The value of insurance (risk aversion)')}
       explain={explain}
       controls={
         <>
-          <Slider label="Kasallanish ehtimoli" value={prob} min={0.5} max={20} step={0.5} onChange={setProb} display={`${fmt(prob, 1)}%`} color="--bad" />
-          <Slider label="Davolash narxi" value={cost} min={1000} max={100000} step={1000} onChange={setCost} display={`$${fmt(cost)}`} />
-          <Slider label="Guruhdagi odamlar" value={n} min={10} max={1000} step={10} onChange={setN} display={`${n}`} />
+          <Slider label={tr('Kasallanish ehtimoli', 'Probability of illness')} value={prob} min={0.5} max={20} step={0.5} onChange={setProb} display={`${fmt(prob, 1)}%`} color="--bad" />
+          <Slider label={tr('Davolash narxi', 'Cost of treatment')} value={cost} min={1000} max={100000} step={1000} onChange={setCost} display={`$${fmt(cost)}`} />
+          <Slider label={tr('Guruhdagi odamlar', 'People in the group')} value={n} min={10} max={1000} step={10} onChange={setN} display={`${n}`} />
         </>
       }
     >
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div className="rounded-xl border-2 border-ink bg-surface2 p-3">
-          <div className="text-xs font-semibold text-muted">Sug'urtasiz</div>
+          <div className="text-xs font-semibold text-muted">{tr("Sug'urtasiz", 'Without insurance')}</div>
           <div className="mt-1 text-sm">
-            {fmt(100 - prob, 1)}% ehtimol: <b className="num">$0</b>
+            {fmt(100 - prob, 1)}% {tr('ehtimol', 'chance')}: <b className="num">$0</b>
             <br />
-            {fmt(prob, 1)}% ehtimol: <b className="num text-bad">${fmt(cost)}</b>
+            {fmt(prob, 1)}% {tr('ehtimol', 'chance')}: <b className="num text-bad">${fmt(cost)}</b>
           </div>
         </div>
         <div className="rounded-xl border-2 border-ink bg-postit-green p-3 text-[#111]">
-          <div className="text-xs font-semibold">Sug'urta bilan (adolatli premium)</div>
+          <div className="text-xs font-semibold">{tr("Sug'urta bilan (adolatli premium)", 'With insurance (fair premium)')}</div>
           <div className="num mt-1 font-display text-2xl font-bold">${fmt(premium)}</div>
-          <div className="text-xs">aniq, har yili</div>
+          <div className="text-xs">{tr('aniq, har yili', 'certain, every year')}</div>
         </div>
       </div>
     </Card>
@@ -197,12 +198,12 @@ export function HealthFacts() {
   const max = 20;
   const explain =
     tab === 'intl'
-      ? "Figure 4 (World Bank, 2019): ko'p rivojlangan davlatlar YaIMning 9–12% ini, AQSh esa ~**17%** ini sog'liqqa sarflaydi. Tanqidchilar: Kanada, Fransiya, Yaponiyada umr uzunroq, xarajat kam — single-payer tizim ma'muriy xarajat va foydani tejaydi. Himoyachilar: AQShda semizlik ko'p — farqlar tizimni emas, turmush tarzini aks ettirishi mumkin. Kanadaliklar dorilarga ~30% kam sarflaydi (narx nazorati) — himoyachilar: bu yangi dorilar tadqiqotiga rag'batni kamaytiradi va boshqa davlatlar AQSh moliyalagan tadqiqotdan free ride qiladi."
-      : "Figure 2: umr ko'rish davomiyligi 1900-yil **47.3**, 1950-yil **68.2**, 2019-yil **78.8** yil (1918 gripp pandemiyasida 10 yildan ko'p tushgan; 2020-yilda COVID-19 tufayli 1.5 yilga kamaygan). Figure 3: sog'liq xarajatlari YaIMning **5%** (1960) → **18%** (2019). Figure 5: cho'ntakdan to'lov ulushi **55%** (1960) → **13%** (2019); qolgani — xususiy sug'urta (yarmidan biroz kami) va davlat dasturlari (Medicare, Medicaid).";
+      ? tr("Figure 4 (World Bank, 2019): ko'p rivojlangan davlatlar YaIMning 9–12% ini, AQSh esa ~**17%** ini sog'liqqa sarflaydi. Tanqidchilar: Kanada, Fransiya, Yaponiyada umr uzunroq, xarajat kam — single-payer tizim ma'muriy xarajat va foydani tejaydi. Himoyachilar: AQShda semizlik ko'p — farqlar tizimni emas, turmush tarzini aks ettirishi mumkin. Kanadaliklar dorilarga ~30% kam sarflaydi (narx nazorati) — himoyachilar: bu yangi dorilar tadqiqotiga rag'batni kamaytiradi va boshqa davlatlar AQSh moliyalagan tadqiqotdan free ride qiladi.", "Figure 4 (World Bank, 2019): most advanced countries spend 9–12% of GDP on health care; the United States ~**17%**. Critics: Canada, France, and Japan have longer life expectancy at lower cost — a single-payer system saves on administration and profit. Defenders: obesity is more common in the U.S., so the gaps may reflect lifestyles rather than the system. Canadians spend ~30% less on drugs (price controls) — defenders reply that this weakens the incentive to research new drugs and lets other countries free ride on U.S.-funded research.")
+      : tr("Figure 2: umr ko'rish davomiyligi 1900-yil **47.3**, 1950-yil **68.2**, 2019-yil **78.8** yil (1918 gripp pandemiyasida 10 yildan ko'p tushgan; 2020-yilda COVID-19 tufayli 1.5 yilga kamaygan). Figure 3: sog'liq xarajatlari YaIMning **5%** (1960) → **18%** (2019). Figure 5: cho'ntakdan to'lov ulushi **55%** (1960) → **13%** (2019); qolgani — xususiy sug'urta (yarmidan biroz kami) va davlat dasturlari (Medicare, Medicaid).", "Figure 2: life expectancy was **47.3** years in 1900, **68.2** in 1950, and **78.8** in 2019 (it fell by more than 10 years in the 1918 flu pandemic and by 1.5 years in 2020 because of COVID-19). Figure 3: health spending rose from **5%** of GDP (1960) to **18%** (2019). Figure 5: the out-of-pocket share fell from **55%** (1960) to **13%** (2019); the rest is private insurance (a little under half) and government programs (Medicare, Medicaid).");
   return (
     <Card
-      title="Figures 2–5 — AQSh sog'liqni saqlash tizimi: asosiy faktlar"
-      tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'intl', label: 'Figure 4: davlatlar' }, { value: 'time', label: 'Figures 2, 3, 5: vaqt bo‘yicha' }]} />}
+      title={tr("Figures 2–5 — AQSh sog'liqni saqlash tizimi: asosiy faktlar", 'Figures 2–5 — U.S. health care: the key facts')}
+      tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'intl', label: tr('Figure 4: davlatlar', 'Figure 4: countries') }, { value: 'time', label: tr('Figures 2, 3, 5: vaqt bo‘yicha', 'Figures 2, 3, 5: over time') }]} />}
       explain={explain}
     >
       {tab === 'intl' ? (
@@ -217,14 +218,14 @@ export function HealthFacts() {
               </div>
             </div>
           ))}
-          <p className="text-xs text-muted">Health spending, percent of GDP, 2019. Source: The World Bank (kitobdagi Figure 4).</p>
+          <p className="text-xs text-muted">Health spending, percent of GDP, 2019. Source: The World Bank ({tr('kitobdagi Figure 4', 'Figure 4 in the book')}).</p>
         </div>
       ) : (
         <div className="grid gap-3 p-4 sm:grid-cols-3">
           {[
-            ['Umr ko‘rish (yil)', '47.3 → 68.2 → 78.8', '1900 · 1950 · 2019'],
-            ['Sog‘liq xarajati, % YaIM', '5% → 18%', '1960 → 2019'],
-            ['Cho‘ntakdan to‘lov ulushi', '55% → 13%', '1960 → 2019'],
+            [tr('Umr ko‘rish (yil)', 'Life expectancy (years)'), '47.3 → 68.2 → 78.8', '1900 · 1950 · 2019'],
+            [tr('Sog‘liq xarajati, % YaIM', 'Health spending, % of GDP'), '5% → 18%', '1960 → 2019'],
+            [tr('Cho‘ntakdan to‘lov ulushi', 'Out-of-pocket share'), '55% → 13%', '1960 → 2019'],
           ].map(([a, b, c]) => (
             <div key={a} className="rounded-xl border-2 border-ink bg-surface2 p-3">
               <div className="text-xs font-semibold text-muted">{a}</div>
@@ -232,7 +233,9 @@ export function HealthFacts() {
               <div className="text-xs text-muted">{c}</div>
             </div>
           ))}
-          <p className="text-xs text-muted sm:col-span-3">Kitobda Figures 2, 3, 5 grafik sifatida berilgan; bu yerda faqat matnda keltirilgan raqamlar ko'rsatilgan.</p>
+          <p className="text-xs text-muted sm:col-span-3">
+            {tr("Kitobda Figures 2, 3, 5 grafik sifatida berilgan; bu yerda faqat matnda keltirilgan raqamlar ko'rsatilgan.", 'The book shows Figures 2, 3, and 5 as charts; only the numbers quoted in the text are shown here.')}
+          </p>
         </div>
       )}
     </Card>

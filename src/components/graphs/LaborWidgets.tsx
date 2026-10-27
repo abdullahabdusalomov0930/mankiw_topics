@@ -4,11 +4,12 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 const SCHEDULES = {
-  apples: { label: 'Olma bog‘i (Table 1)', input: 'ishchi', output: 'bushel', q: [0, 100, 180, 240, 280, 300], price: 10, factorPrice: 500, factor: 'Ish haqi (haftalik)' },
-  p3: { label: 'Problem 3', input: 'kun', output: 'birlik', q: [0, 7, 13, 19, 25, 28, 29, 29], price: 10, factorPrice: 50, factor: 'Kunlik ish haqi' },
-  robots: { label: 'Smiling Cow robotlari (P4)', input: 'robot', output: 'gallon', q: [0, 50, 85, 115, 140, 150, 155], price: 4, factorPrice: 100, factor: 'Robot ijarasi (kunlik)' },
+  apples: { label: tr('Olma bog‘i (Table 1)', 'Apple orchard (Table 1)'), input: tr('ishchi', 'worker'), output: 'bushel', q: [0, 100, 180, 240, 280, 300], price: 10, factorPrice: 500, factor: tr('Ish haqi (haftalik)', 'Wage (weekly)') },
+  p3: { label: 'Problem 3', input: tr('kun', 'day'), output: tr('birlik', 'units'), q: [0, 7, 13, 19, 25, 28, 29, 29], price: 10, factorPrice: 50, factor: tr('Kunlik ish haqi', 'Daily wage') },
+  robots: { label: tr('Smiling Cow robotlari (P4)', 'Smiling Cow robots (P4)'), input: 'robot', output: 'gallon', q: [0, 50, 85, 115, 140, 150, 155], price: 4, factorPrice: 100, factor: tr('Robot ijarasi (kunlik)', 'Robot rental (daily)') },
 };
 
 /** Ch. 19 Table 1 / Figure 3: the value of the marginal product and the demand for a factor. */
@@ -25,15 +26,15 @@ export function VMPLab() {
   const n = mp.length;
   const yMax = Math.max(vmp[0] * 1.15, w * 1.2, 1);
   const f = makeFrame(width, n + 0.5, yMax);
-  const explain = `Narx $${price}, ${s.factor.toLowerCase()} $${w}. Har bir ${s.input}ning qiymati: **VMP = P × MP** (${vmp.map((v) => `$${fmt(v)}`).join(', ')}). Raqobatchi firma VMP ≥ narx bo'lguncha yollaydi → **${hire} ${s.input}**; shu yollashdan qo'shimcha foyda $${fmt(profit)}. VMP egri chizig'i — firmaning **resursga talab egri chizig'i** (derived demand). Mahsulot narxi oshsa — VMP va talab yuqoriga siljiydi; texnologiya MP ni oshirsa ham shunday.${key === 'apples' ? ' Kitob: $10 va $500 da 3 ishchi (4-ishchi VMP $400 < $500).' : key === 'robots' ? " P4: 4-robotda VMP = $100 = ijara — 3 yoki 4 robot farqsiz." : ''}`;
+  const explain = tr(`Narx $${price}, ${s.factor.toLowerCase()} $${w}. Har bir ${s.input}ning qiymati: **VMP = P × MP** (${vmp.map((v) => `$${fmt(v)}`).join(', ')}). Raqobatchi firma VMP ≥ narx bo'lguncha yollaydi → **${hire} ${s.input}**; shu yollashdan qo'shimcha foyda $${fmt(profit)}. VMP egri chizig'i — firmaning **resursga talab egri chizig'i** (derived demand). Mahsulot narxi oshsa — VMP va talab yuqoriga siljiydi; texnologiya MP ni oshirsa ham shunday.${key === 'apples' ? ' Kitob: $10 va $500 da 3 ishchi (4-ishchi VMP $400 < $500).' : key === 'robots' ? " P4: 4-robotda VMP = $100 = ijara — 3 yoki 4 robot farqsiz." : ''}`, `Price $${price}, ${s.factor.toLowerCase()} $${w}. The value of each ${s.input}: **VMP = P × MP** (${vmp.map((v) => `$${fmt(v)}`).join(', ')}). A competitive firm hires while VMP ≥ the factor price → **${hire} ${s.input}${hire === 1 ? '' : 's'}**; this hiring adds $${fmt(profit)} of profit. The VMP curve is the firm's **demand curve for the factor** (derived demand). A higher output price shifts VMP and demand up; so does technology that raises MP.${key === 'apples' ? ' The book: at $10 and $500, 3 workers (the 4th worker’s VMP of $400 < $500).' : key === 'robots' ? ' P4: the 4th robot’s VMP = $100 = the rental price — 3 or 4 robots are equally good.' : ''}`);
   return (
     <Card
-      title="Table 1 / Figure 3 — Value of the marginal product va resursga talab"
+      title={tr("Table 1 / Figure 3 — Value of the marginal product va resursga talab", 'Table 1 / Figure 3 — The value of the marginal product and the demand for a factor')}
       tabs={<Segmented size="sm" value={key} onChange={(v) => { setKey(v); setPrice(SCHEDULES[v].price); setW(SCHEDULES[v].factorPrice); }} options={Object.entries(SCHEDULES).map(([v, x]) => ({ value: v as keyof typeof SCHEDULES, label: x.label }))} />}
       explain={explain}
       controls={
         <>
-          <Slider label="Mahsulot narxi" value={price} min={1} max={s.price * 2} step={key === 'robots' ? 0.5 : 1} onChange={setPrice} display={`$${price}`} color="--demand" />
+          <Slider label={tr('Mahsulot narxi', 'Output price')} value={price} min={1} max={s.price * 2} step={key === 'robots' ? 0.5 : 1} onChange={setPrice} display={`$${price}`} color="--demand" />
           <Slider label={s.factor} value={w} min={0} max={Math.round(s.q[1] * s.price * 1.6)} step={key === 'apples' ? 25 : 5} onChange={setW} display={`$${w}`} color="--supply" />
         </>
       }
@@ -81,11 +82,11 @@ export function VMPLab() {
 
 type Ev = 'none' | 'immigration' | 'price' | 'ladders' | 'plague';
 const EVENTS: Record<Ev, { label: string; dD: number; dS: number; text: string }> = {
-  none: { label: 'Boshlang‘ich', dD: 0, dS: 0, text: "Muvozanatda ish haqi = VMP: har bir firma VMP = W gacha yollagan." },
-  immigration: { label: 'Immigratsiya', dD: 0, dS: 40, text: "**Figure 5**: olma teruvchilar ko'paydi → taklif o'ngga → ish haqi tushadi, bandlik oshadi; har bog'da ishchi ko'p → MP va VMP tushadi. (Isroil, 1988: falastinlik ishchilar yarmiga kamaygach, qolganlarining maoshi ~50% oshgan — teskari yo'nalish.)" },
-  price: { label: 'Olma narxi oshdi', dD: 40, dS: 0, text: "**Figure 6**: olma qimmatladi → har bir ishchining VMP i oshdi → talab o'ngga → ish haqi va bandlik oshadi. Soha firmalari va ishchilari farovonligi bog'liq (neft konchilari maoshi neft narxiga bog'liq)." },
-  ladders: { label: 'Bo‘ron narvonlarni buzdi', dD: -40, dS: 0, text: "Narvonlar kam → olma teruvchilarning MP i tushadi → mehnatga talab chapga → ish haqi tushadi. Narvon ijarasi esa oshadi. **Bir omil taklifi o'zgarsa, barcha omillar daromadi o'zgaradi.**" },
-  plague: { label: 'Qora o‘lim (vabo)', dD: 0, dS: -40, text: "**Black Death** (XIV asr): aholining ~⅓ i nobud bo'ldi → ishchilar kam → mehnatning MP i oshdi → ish haqi **~2 barobar**; yerning MP i tushdi → ijara **50%+ kamaydi**." },
+  none: { label: tr('Boshlang‘ich', 'Start'), dD: 0, dS: 0, text: tr('Muvozanatda ish haqi = VMP: har bir firma VMP = W gacha yollagan.', 'In equilibrium the wage = VMP: every firm has hired until VMP = W.') },
+  immigration: { label: tr('Immigratsiya', 'Immigration'), dD: 0, dS: 40, text: tr("**Figure 5**: olma teruvchilar ko'paydi → taklif o'ngga → ish haqi tushadi, bandlik oshadi; har bog'da ishchi ko'p → MP va VMP tushadi. (Isroil, 1988: falastinlik ishchilar yarmiga kamaygach, qolganlarining maoshi ~50% oshgan — teskari yo'nalish.)", '**Figure 5**: more apple pickers → supply shifts right → the wage falls and employment rises; more workers per orchard → MP and VMP fall. (Israel, 1988: when Palestinian workers were halved, the wages of those who remained rose ~50% — the reverse direction.)') },
+  price: { label: tr('Olma narxi oshdi', 'Apple price rises'), dD: 40, dS: 0, text: tr("**Figure 6**: olma qimmatladi → har bir ishchining VMP i oshdi → talab o'ngga → ish haqi va bandlik oshadi. Soha firmalari va ishchilari farovonligi bog'liq (neft konchilari maoshi neft narxiga bog'liq).", '**Figure 6**: apples got pricier → every worker’s VMP rose → demand shifts right → the wage and employment rise. The prosperity of firms and workers in an industry is linked (oil workers’ wages track the price of oil).') },
+  ladders: { label: tr('Bo‘ron narvonlarni buzdi', 'A storm destroys ladders'), dD: -40, dS: 0, text: tr("Narvonlar kam → olma teruvchilarning MP i tushadi → mehnatga talab chapga → ish haqi tushadi. Narvon ijarasi esa oshadi. **Bir omil taklifi o'zgarsa, barcha omillar daromadi o'zgaradi.**", 'Fewer ladders → apple pickers’ MP falls → labor demand shifts left → the wage falls. The rental price of ladders rises. **A change in the supply of one factor changes the earnings of all factors.**') },
+  plague: { label: tr('Qora o‘lim (vabo)', 'The Black Death'), dD: 0, dS: -40, text: tr("**Black Death** (XIV asr): aholining ~⅓ i nobud bo'ldi → ishchilar kam → mehnatning MP i oshdi → ish haqi **~2 barobar**; yerning MP i tushdi → ijara **50%+ kamaydi**.", '**The Black Death** (14th century): ~⅓ of the population died → fewer workers → labor’s MP rose → wages roughly **doubled**; land’s MP fell → rents fell **50% or more**.') },
 };
 
 /** Ch. 19-3 Figures 4–6 and Problem 5: shifts in labor supply and demand; the Ectenia orchards. */
@@ -102,25 +103,25 @@ export function LaborMarketLab() {
     const Q = 100 * Lper - Lper * Lper;
     const profit = pApple * Q - W * Lper;
     const total = orchards * pApple * Q;
-    const explain = `Problem 5: ${orchards} bog', olma $${pApple}, Q = 100L − L², MPL = 100 − 2L, 200 ishchi (taklif inelastik). Bog' talabi: ${pApple}(100 − 2L) = W → L = 50 − W/${2 * pApple}; bozor: ${orchards} × L = 200 → **W = $${fmt(W)}**, har bog' **${fmt(Lper)}** ishchi, ${fmt(Q)} olma, egasi foydasi **$${fmt(profit)}**. Ectenia daromadi: $${fmt(total)} (ishchilar $${fmt(W * 200)}, egalar $${fmt(profit * orchards)}). Kitob holatlari: $2 va 20 bog' → W = 160, foyda 200; narx $4 → ikkalasi ikki barobar (320, 400); bo'ron yarim bog'ni buzsa (10 bog') → W = 120, qolgan egalar foydasi 800, Ectenia jami daromadi 36,000 dan 32,000 ga tushadi.`;
+    const explain = tr(`Problem 5: ${orchards} bog', olma $${pApple}, Q = 100L − L², MPL = 100 − 2L, 200 ishchi (taklif inelastik). Bog' talabi: ${pApple}(100 − 2L) = W → L = 50 − W/${2 * pApple}; bozor: ${orchards} × L = 200 → **W = $${fmt(W)}**, har bog' **${fmt(Lper)}** ishchi, ${fmt(Q)} olma, egasi foydasi **$${fmt(profit)}**. Ectenia daromadi: $${fmt(total)} (ishchilar $${fmt(W * 200)}, egalar $${fmt(profit * orchards)}). Kitob holatlari: $2 va 20 bog' → W = 160, foyda 200; narx $4 → ikkalasi ikki barobar (320, 400); bo'ron yarim bog'ni buzsa (10 bog') → W = 120, qolgan egalar foydasi 800, Ectenia jami daromadi 36,000 dan 32,000 ga tushadi.`, `Problem 5: ${orchards} orchards, apples at $${pApple}, Q = 100L − L², MPL = 100 − 2L, 200 workers (inelastic supply). An orchard's demand: ${pApple}(100 − 2L) = W → L = 50 − W/${2 * pApple}; the market: ${orchards} × L = 200 → **W = $${fmt(W)}**, **${fmt(Lper)}** workers per orchard, ${fmt(Q)} apples, owner's profit **$${fmt(profit)}**. Ectenia's income: $${fmt(total)} (workers $${fmt(W * 200)}, owners $${fmt(profit * orchards)}). The book's cases: $2 and 20 orchards → W = 160, profit 200; price $4 → both double (320, 400); a hurricane destroys half the orchards (10 left) → W = 120, surviving owners' profit 800, and Ectenia's total income falls from 36,000 to 32,000.`);
     return (
       <Card
-        title="Problem 5 — Ectenia olma bog'lari"
-        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'shift', label: 'Siljishlar (Figures 4–6)' }, { value: 'ectenia', label: 'Ectenia (P5)' }]} />}
+        title={tr("Problem 5 — Ectenia olma bog'lari", 'Problem 5 — The apple orchards of Ectenia')}
+        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'shift', label: tr('Siljishlar (Figures 4–6)', 'Shifts (Figures 4–6)') }, { value: 'ectenia', label: 'Ectenia (P5)' }]} />}
         explain={explain}
         controls={
           <>
-            <Segmented size="sm" value={String(pApple)} onChange={(v) => setPApple(Number(v))} options={[{ value: '2', label: 'Olma $2' }, { value: '4', label: 'Olma $4' }]} />
-            <Segmented size="sm" value={String(orchards)} onChange={(v) => setOrchards(Number(v))} options={[{ value: '20', label: '20 bog‘' }, { value: '10', label: '10 bog‘ (bo‘ron)' }]} />
+            <Segmented size="sm" value={String(pApple)} onChange={(v) => setPApple(Number(v))} options={[{ value: '2', label: tr('Olma $2', 'Apples $2') }, { value: '4', label: tr('Olma $4', 'Apples $4') }]} />
+            <Segmented size="sm" value={String(orchards)} onChange={(v) => setOrchards(Number(v))} options={[{ value: '20', label: tr('20 bog‘', '20 orchards') }, { value: '10', label: tr('10 bog‘ (bo‘ron)', '10 orchards (hurricane)') }]} />
           </>
         }
       >
         <div className="grid gap-2 p-4 sm:grid-cols-4">
           {[
-            ['Ish haqi (kunlik)', `$${fmt(W)}`],
-            ['Ishchi / bog‘', fmt(Lper)],
-            ['Ega foydasi', `$${fmt(profit)}`],
-            ['Ectenia daromadi', `$${fmt(total)}`],
+            [tr('Ish haqi (kunlik)', 'Wage (daily)'), `$${fmt(W)}`],
+            [tr('Ishchi / bog‘', 'Workers / orchard'), fmt(Lper)],
+            [tr('Ega foydasi', "Owner's profit"), `$${fmt(profit)}`],
+            [tr('Ectenia daromadi', "Ectenia's income"), `$${fmt(total)}`],
           ].map(([a, b]) => (
             <div key={a} className="rounded-xl border-2 border-ink bg-surface2 p-3 text-center">
               <div className="text-xs font-semibold text-muted">{a}</div>
@@ -139,13 +140,13 @@ export function LaborMarketLab() {
   const L0 = 50;
   const W0 = 70;
   const f = makeFrame(width, 120, 160);
-  const explain = `${e.text} Model: muvozanat ${ev === 'none' ? '' : `L ${fmt(L0)} → **${fmt(L)}**, W $${fmt(W0)} → **$${fmt(W)}**. `}Har doim **W = VMP** — ish haqi va VMP birga o'zgaradi.`;
+  const explain = tr(`${e.text} Model: muvozanat ${ev === 'none' ? '' : `L ${fmt(L0)} → **${fmt(L)}**, W $${fmt(W0)} → **$${fmt(W)}**. `}Har doim **W = VMP** — ish haqi va VMP birga o'zgaradi.`, `${e.text} Model: equilibrium ${ev === 'none' ? '' : `L ${fmt(L0)} → **${fmt(L)}**, W $${fmt(W0)} → **$${fmt(W)}**. `}Always **W = VMP** — the wage and VMP move together.`);
   return (
     <Card
-      title="Figures 4–6 — Mehnat bozori muvozanati va siljishlar (model)"
+      title={tr("Figures 4–6 — Mehnat bozori muvozanati va siljishlar (model)", 'Figures 4–6 — Equilibrium in the labor market and its shifts (model)')}
       tabs={
         <>
-          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'shift', label: 'Siljishlar (Figures 4–6)' }, { value: 'ectenia', label: 'Ectenia (P5)' }]} />
+          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'shift', label: tr('Siljishlar (Figures 4–6)', 'Shifts (Figures 4–6)') }, { value: 'ectenia', label: 'Ectenia (P5)' }]} />
           <Segmented size="sm" value={ev} onChange={setEv} options={(Object.keys(EVENTS) as Ev[]).map((k) => ({ value: k, label: EVENTS[k].label }))} />
         </>
       }
@@ -183,13 +184,13 @@ export function CobbDouglasLab() {
   const MPL = (2 / 3) * A * Math.cbrt(K / L);
   const W = P * MPL;
   const share = (W * L) / (P * Y);
-  const explain = `Y = A·K^⅓·L^⅔ = **${fmt(Y)}**, PY = $${fmt(P * Y)}. MPL = (2/3)·A·(K/L)^⅓ = ${fmt(MPL, 2)} → raqobatda **W = P × MPL = $${fmt(W, 2)}**, real ish haqi W/P = **${fmt(MPL, 2)}**. Mehnat ulushi WL/PY = **${fmt(share * 100, 1)}%** — har qanday P, A, K, L da ⅔! Kitob holatlari: (i) P 2 → 3: Y va W/P o'zgarmaydi, W 40 → 60; (ii) A 3 → 9: Y, W, W/P uch barobar; (iii) K 1 mln → 8 mln: Y va W/P ikki barobar; (iv) L 1,000 → 125 (vabo): Y 30,000 → 7,500, W/P ikki barobar (20 → 40). AQShda mehnat ulushi barqarorligi Cobb–Douglas bilan mos.`;
+  const explain = tr(`Y = A·K^⅓·L^⅔ = **${fmt(Y)}**, PY = $${fmt(P * Y)}. MPL = (2/3)·A·(K/L)^⅓ = ${fmt(MPL, 2)} → raqobatda **W = P × MPL = $${fmt(W, 2)}**, real ish haqi W/P = **${fmt(MPL, 2)}**. Mehnat ulushi WL/PY = **${fmt(share * 100, 1)}%** — har qanday P, A, K, L da ⅔! Kitob holatlari: (i) P 2 → 3: Y va W/P o'zgarmaydi, W 40 → 60; (ii) A 3 → 9: Y, W, W/P uch barobar; (iii) K 1 mln → 8 mln: Y va W/P ikki barobar; (iv) L 1,000 → 125 (vabo): Y 30,000 → 7,500, W/P ikki barobar (20 → 40). AQShda mehnat ulushi barqarorligi Cobb–Douglas bilan mos.`, `Y = A·K^⅓·L^⅔ = **${fmt(Y)}**, PY = $${fmt(P * Y)}. MPL = (2/3)·A·(K/L)^⅓ = ${fmt(MPL, 2)} → under competition **W = P × MPL = $${fmt(W, 2)}**, real wage W/P = **${fmt(MPL, 2)}**. Labor's share WL/PY = **${fmt(share * 100, 1)}%** — ⅔ for any P, A, K, L! The book's cases: (i) P 2 → 3: Y and W/P unchanged, W 40 → 60; (ii) A 3 → 9: Y, W, W/P triple; (iii) K 1 million → 8 million: Y and W/P double; (iv) L 1,000 → 125 (a plague): Y 30,000 → 7,500, W/P doubles (20 → 40). The stable U.S. labor share is consistent with Cobb–Douglas.`);
   return (
     <Card
-      title="Problem 9 — Cobb–Douglas ishlab chiqarish funksiyasi"
+      title={tr("Problem 9 — Cobb–Douglas ishlab chiqarish funksiyasi", 'Problem 9 — The Cobb–Douglas production function')}
       tabs={
         <>
-          <button className="btn-ghost btn-sm" onClick={() => { setP(2); setA(3); setK(1_000_000); setL(1000); }}>Boshlang'ich</button>
+          <button className="btn-ghost btn-sm" onClick={() => { setP(2); setA(3); setK(1_000_000); setL(1000); }}>{tr("Boshlang'ich", 'Start')}</button>
           <button className="btn-ghost btn-sm" onClick={() => setP(3)}>(i) P = 3</button>
           <button className="btn-ghost btn-sm" onClick={() => setA(9)}>(ii) A = 9</button>
           <button className="btn-ghost btn-sm" onClick={() => setK(8_000_000)}>(iii) K = 8 mln</button>
@@ -199,10 +200,10 @@ export function CobbDouglasLab() {
       explain={explain}
       controls={
         <>
-          <Slider label="Narx P" value={P} min={1} max={5} step={0.5} onChange={setP} display={fmt(P, 1)} />
-          <Slider label="Texnologiya A" value={A} min={1} max={12} step={1} onChange={setA} display={`${A}`} />
-          <Slider label="Kapital K" value={K} min={125_000} max={8_000_000} step={125_000} onChange={setK} display={fmt(K)} />
-          <Slider label="Mehnat L" value={L} min={125} max={8000} step={125} onChange={setL} display={fmt(L)} />
+          <Slider label={tr('Narx P', 'Price P')} value={P} min={1} max={5} step={0.5} onChange={setP} display={fmt(P, 1)} />
+          <Slider label={tr('Texnologiya A', 'Technology A')} value={A} min={1} max={12} step={1} onChange={setA} display={`${A}`} />
+          <Slider label={tr('Kapital K', 'Capital K')} value={K} min={125_000} max={8_000_000} step={125_000} onChange={setK} display={fmt(K)} />
+          <Slider label={tr('Mehnat L', 'Labor L')} value={L} min={125} max={8000} step={125} onChange={setL} display={fmt(L)} />
         </>
       }
     >
@@ -232,7 +233,7 @@ const FIG7 = [
 
 /** Ch. 19 Figure 7: growth in productivity and real wages by period. */
 export function ProductivityWages() {
-  const explain = "Figure 7 (BLS): unumdorlik tez o'sgan davrlarda real ish haqi ham tez o'sgan, sekin o'sganda — sekin. 1960–2020: unumdorlik yiliga ~2.0%, real ish haqi ~1.9% — 35 yilda ikki barobar. QuickQuiz 8: 1973-yil atrofida unumdorlik o'sishi **sekinlashgan** va real ish haqi o'sishi ham **sekinlashgan**. (Ma'lumotlar rasm sifatida; juftliklar matn qatlamidan tiklangan.)";
+  const explain = tr("Figure 7 (BLS): unumdorlik tez o'sgan davrlarda real ish haqi ham tez o'sgan, sekin o'sganda — sekin. 1960–2020: unumdorlik yiliga ~2.0%, real ish haqi ~1.9% — 35 yilda ikki barobar. QuickQuiz 8: 1973-yil atrofida unumdorlik o'sishi **sekinlashgan** va real ish haqi o'sishi ham **sekinlashgan**. (Ma'lumotlar rasm sifatida; juftliklar matn qatlamidan tiklangan.)", "Figure 7 (BLS): when productivity grew fast, real wages grew fast too; when it grew slowly, so did wages. 1960–2020: productivity ~2.0% a year, real wages ~1.9% — doubling in about 35 years. QuickQuiz 8: around 1973 productivity growth **slowed** and real-wage growth **slowed** too. (The data are in a chart; the pairs were recovered from the text layer.)");
   const max = 3.5;
   return (
     <Card title="Figure 7 — Growth in Productivity and Real Wages" explain={explain}>

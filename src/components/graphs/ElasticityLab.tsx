@@ -12,8 +12,11 @@ import { Math as M } from '../ui/Math';
 import { RichText } from '../ui/RichText';
 import { makeFrame, sx, sy, ticks, type Frame } from './plot';
 import { useWidth } from './useWidth';
+import { isEn, tr } from '../../lib/lang';
 
-const CLASS_UZ: Record<ElasticityClass, string> = {
+const CLASS_UZ: Record<ElasticityClass, string> = isEn
+  ? { 'perfectly inelastic': 'perfectly inelastic', inelastic: 'inelastic', 'unit elastic': 'unit elastic', elastic: 'elastic', 'perfectly elastic': 'perfectly elastic' }
+  : {
   'perfectly inelastic': 'mutlaqo noegiluvchan',
   inelastic: 'noegiluvchan',
   'unit elastic': 'birlik egiluvchan',
@@ -69,7 +72,7 @@ export function ElasticityLab({
   slope = 0.5,
   qMax = 14,
   start = [4, 5],
-  title = 'Elasticity Lab — talab egiluvchanligi va umumiy tushum',
+  title = tr('Elasticity Lab — talab egiluvchanligi va umumiy tushum', 'Elasticity Lab — elasticity of demand and total revenue'),
 }: {
   /** demand P = a − slope·Q */
   a?: number;
@@ -146,7 +149,7 @@ export function ElasticityLab({
             <M tex={`E_d = \\left|\\frac{${fmt(dq, 1)}}{${fmt(dp, 1)}}\\right| = ${Number.isFinite(e) ? fmt(e, 2) : '\\infty'}`} />
           </div>
           <div className="mt-3 rounded-lg border-2 border-ink bg-marker px-2 py-1 text-center font-bold text-[#111]">
-            {cls} — {CLASS_UZ[cls]}
+            {cls}{isEn ? '' : ` — ${CLASS_UZ[cls]}`}
           </div>
           <div className="kicker mb-1 mt-4">Total revenue = P × Q</div>
           <div className="flex justify-between">
@@ -158,36 +161,38 @@ export function ElasticityLab({
             <span className="num font-semibold">${fmt(tr2, 1)}</span>
           </div>
           <div className="mt-1 text-xs text-muted">
-            {Math.abs(tr2 - tr1) < 1e-6 ? "Tushum o'zgarmadi." : `Tushum ${tr2 > tr1 ? 'oshdi' : 'kamaydi'}: $${fmt(Math.abs(tr2 - tr1), 1)}.`}
+            {Math.abs(tr2 - tr1) < 1e-6 ? tr("Tushum o'zgarmadi.", 'Revenue unchanged.') : tr(`Tushum ${tr2 > tr1 ? 'oshdi' : 'kamaydi'}: $${fmt(Math.abs(tr2 - tr1), 1)}.`, `Revenue ${tr2 > tr1 ? 'rose' : 'fell'}: $${fmt(Math.abs(tr2 - tr1), 1)}.`)}
           </div>
         </div>
       </div>
       <div className="grid gap-x-6 gap-y-2 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">
-        <Slider label="A nuqta narxi (P₁)" value={p1} min={0.25} max={a - 0.25} step={0.25} onChange={setP1} display={`$${fmt(p1)}`} color="--demand" />
-        <Slider label="B nuqta narxi (P₂)" value={p2} min={0.25} max={a - 0.25} step={0.25} onChange={setP2} display={`$${fmt(p2)}`} color="--supply" />
+        <Slider label={tr('A nuqta narxi (P₁)', 'Price at point A (P₁)')} value={p1} min={0.25} max={a - 0.25} step={0.25} onChange={setP1} display={`$${fmt(p1)}`} color="--demand" />
+        <Slider label={tr('B nuqta narxi (P₂)', 'Price at point B (P₂)')} value={p2} min={0.25} max={a - 0.25} step={0.25} onChange={setP2} display={`$${fmt(p2)}`} color="--supply" />
         <label className="flex items-center gap-2 text-sm font-medium">
           <input type="checkbox" checked={showZones} onChange={(e) => setShowZones(e.target.checked)} className="h-4 w-4 accent-[rgb(var(--pen))]" />
-          Egiluvchan / noegiluvchan qismlarni ko'rsatish
+          {tr("Egiluvchan / noegiluvchan qismlarni ko'rsatish", 'Show the elastic / inelastic parts')}
         </label>
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3 text-[15px]">
-        <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
         <p>
-          Narx ${fmt(p1)} → ${fmt(p2)} bo'lganda talab miqdori {fmt(q1, 1)} → {fmt(q2, 1)}. Egiluvchanlik{' '}
+          {tr('Narx', 'When the price goes')} ${fmt(p1)} → ${fmt(p2)}{tr(" bo'lganda talab miqdori", ', quantity demanded goes')} {fmt(q1, 1)} → {fmt(q2, 1)}. {tr('Egiluvchanlik', 'Elasticity')}{' '}
           <b>{Number.isFinite(e) ? fmt(e, 2) : '∞'}</b> — <b>{CLASS_UZ[cls]}</b>.{' '}
           <RichText
             text={
               cls === 'unit elastic'
-                ? "Narx va miqdor bir xil foizga o'zgardi — tushum o'zgarmaydi."
+                ? tr("Narx va miqdor bir xil foizga o'zgardi — tushum o'zgarmaydi.", 'Price and quantity changed by the same percentage — revenue does not change.')
                 : cls === 'elastic'
-                  ? "Miqdor narxdan ko'proq foizga o'zgardi, shuning uchun narx va tushum **qarama-qarshi** yo'nalishda harakat qiladi."
+                  ? tr("Miqdor narxdan ko'proq foizga o'zgardi, shuning uchun narx va tushum **qarama-qarshi** yo'nalishda harakat qiladi.", 'Quantity changed by a larger percentage than price, so price and revenue move in **opposite** directions.')
                   : cls === 'inelastic'
-                    ? "Miqdor narxdan kamroq foizga o'zgardi — narx va tushum **bir xil** yo'nalishda harakat qiladi."
+                    ? tr("Miqdor narxdan kamroq foizga o'zgardi — narx va tushum **bir xil** yo'nalishda harakat qiladi.", 'Quantity changed by a smaller percentage than price — price and revenue move in the **same** direction.')
                     : ''
             }
           />{' '}
-          Chiziq to'g'ri (nishabi bir xil), lekin egiluvchanlik har joyda boshqa: yuqorida (narx baland, miqdor kam) — egiluvchan,
-          pastda — noegiluvchan, o'rtada (P = ${fmt(unitP)}) — birlik.
+          {tr(
+            `Chiziq to'g'ri (nishabi bir xil), lekin egiluvchanlik har joyda boshqa: yuqorida (narx baland, miqdor kam) — egiluvchan, pastda — noegiluvchan, o'rtada (P = $${fmt(unitP)}) — birlik.`,
+            `The line is straight (constant slope), but elasticity differs along it: elastic at the top (high price, low quantity), inelastic at the bottom, unit elastic in the middle (P = $${fmt(unitP)}).`,
+          )}
         </p>
       </div>
     </Frame>
@@ -198,11 +203,11 @@ export function ElasticityLab({
 
 type Cat = 'pi' | 'in' | 'unit' | 'el' | 'pe';
 const CATS: { id: Cat; label: string; demand: { q2: number; text: string }; supply: { q2: number; text: string } }[] = [
-  { id: 'pi', label: 'E = 0', demand: { q2: 100, text: "Narx 22% oshdi, talab miqdori o'zgarmadi — vertikal chiziq (insulin, hayotiy dori)." }, supply: { q2: 100, text: "Narx oshsa ham taklif miqdori o'zgarmaydi — vertikal (sohildagi yer, stadion o'rinlari)." } },
-  { id: 'in', label: 'E < 1', demand: { q2: 90, text: '22% narx oshishi talab miqdorini atigi 11% kamaytirdi — tik chiziq.' }, supply: { q2: 110, text: "22% narx oshishi taklifni 10% oshirdi — tik chiziq." } },
-  { id: 'unit', label: 'E = 1', demand: { q2: 80, text: '22% narx oshishi talab miqdorini 22% kamaytirdi.' }, supply: { q2: 125, text: "22% narx oshishi taklifni 22% oshirdi." } },
-  { id: 'el', label: 'E > 1', demand: { q2: 50, text: "22% narx oshishi talab miqdorini 67% kamaytirdi — yotiq chiziq." }, supply: { q2: 200, text: "22% narx oshishi taklifni 67% oshirdi — yotiq chiziq." } },
-  { id: 'pe', label: 'E = ∞', demand: { q2: 0, text: "$4 dan yuqorida hech kim sotib olmaydi, $4 da istalgan miqdor, pastda — cheksiz. Gorizontal chiziq." }, supply: { q2: 0, text: "$4 da istalgan miqdorni sotishga tayyor, pastda — nol. Gorizontal chiziq." } },
+  { id: 'pi', label: 'E = 0', demand: { q2: 100, text: tr("Narx 22% oshdi, talab miqdori o'zgarmadi — vertikal chiziq (insulin, hayotiy dori).", 'The price rose 22% and quantity demanded did not change — a vertical line (insulin, a life-saving drug).') }, supply: { q2: 100, text: tr("Narx oshsa ham taklif miqdori o'zgarmaydi — vertikal (sohildagi yer, stadion o'rinlari).", 'Quantity supplied does not change when the price rises — vertical (beachfront land, stadium seats).') } },
+  { id: 'in', label: 'E < 1', demand: { q2: 90, text: tr('22% narx oshishi talab miqdorini atigi 11% kamaytirdi — tik chiziq.', 'A 22% price increase cut quantity demanded by only 11% — a steep line.') }, supply: { q2: 110, text: tr('22% narx oshishi taklifni 10% oshirdi — tik chiziq.', 'A 22% price increase raised quantity supplied by 10% — a steep line.') } },
+  { id: 'unit', label: 'E = 1', demand: { q2: 80, text: tr('22% narx oshishi talab miqdorini 22% kamaytirdi.', 'A 22% price increase cut quantity demanded by 22%.') }, supply: { q2: 125, text: tr('22% narx oshishi taklifni 22% oshirdi.', 'A 22% price increase raised quantity supplied by 22%.') } },
+  { id: 'el', label: 'E > 1', demand: { q2: 50, text: tr('22% narx oshishi talab miqdorini 67% kamaytirdi — yotiq chiziq.', 'A 22% price increase cut quantity demanded by 67% — a flat line.') }, supply: { q2: 200, text: tr('22% narx oshishi taklifni 67% oshirdi — yotiq chiziq.', 'A 22% price increase raised quantity supplied by 67% — a flat line.') } },
+  { id: 'pe', label: 'E = ∞', demand: { q2: 0, text: tr('$4 dan yuqorida hech kim sotib olmaydi, $4 da istalgan miqdor, pastda — cheksiz. Gorizontal chiziq.', 'Above $4 nobody buys; at $4 any quantity; below $4, an infinite quantity. A horizontal line.') }, supply: { q2: 0, text: tr("$4 da istalgan miqdorni sotishga tayyor, pastda — nol. Gorizontal chiziq.", 'At $4 sellers will sell any quantity; below $4, none. A horizontal line.') } },
 ];
 
 /** Ch. 5 Figures 1 and 5: the variety of demand and supply curves. */
@@ -229,7 +234,7 @@ export function ElasticityCategories() {
     return [qa, P(qa), qb, P(qb)];
   }, [cat, q2]);
   return (
-    <Frame title="Figures 1 & 5 — Egri chiziqlar va egiluvchanlik turlari">
+    <Frame title={tr('Figures 1 & 5 — Egri chiziqlar va egiluvchanlik turlari', 'Figures 1 & 5 — The variety of demand and supply curves')}>
       <div className="flex flex-wrap gap-3 px-4 pt-3">
         <Segmented size="sm" value={side} onChange={setSide} options={[{ value: 'demand', label: 'Demand' }, { value: 'supply', label: 'Supply' }]} />
         <Segmented size="sm" value={cat} onChange={setCat} options={CATS.map((x) => ({ value: x.id, label: x.label }))} />
@@ -254,8 +259,8 @@ export function ElasticityCategories() {
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3 text-[15px]">
         <b>{CLASS_UZ[classifyElasticity(cat === 'pi' ? 0 : cat === 'pe' ? Infinity : midpointElasticity(q1, q2, p1, p2), 0.02)]}</b>: {info.text}{' '}
-        <span className="text-muted">(Barcha foizlar midpoint usulida.)</span>
-        {side === 'supply' && <span className="text-muted"> Taklif uchun raqamlar — namunaviy (kitob rasmida aniq son yo'q).</span>}
+        <span className="text-muted">{tr('(Barcha foizlar midpoint usulida.)', '(All percentages use the midpoint method.)')}</span>
+        {side === 'supply' && <span className="text-muted">{tr(" Taklif uchun raqamlar — namunaviy (kitob rasmida aniq son yo'q).", ' The supply numbers are illustrative (the book figure gives none).')}</span>}
       </div>
     </Frame>
   );
@@ -274,9 +279,9 @@ export function ElasticityCalculator() {
   const abs = Math.abs(signed);
   const xName = kind === 'income' ? 'Income' : kind === 'cross' ? 'Price of good 2' : 'Price';
   let verdict = '';
-  if (kind === 'ped' || kind === 'pes') verdict = `${classifyElasticity(abs, 0.02)} — ${CLASS_UZ[classifyElasticity(abs, 0.02)]}`;
-  if (kind === 'income') verdict = signed < 0 ? 'Manfiy → inferior good' : signed < 1 ? 'Musbat, < 1 → normal tovar, zarurat (necessity)' : 'Musbat, > 1 → normal tovar, hashamat (luxury)';
-  if (kind === 'cross') verdict = signed > 0 ? 'Musbat → substitutes (o\'rinbosarlar)' : signed < 0 ? "Manfiy → complements (to'ldiruvchilar)" : "Nol → bog'liq emas";
+  if (kind === 'ped' || kind === 'pes') verdict = isEn ? classifyElasticity(abs, 0.02) : `${classifyElasticity(abs, 0.02)} — ${CLASS_UZ[classifyElasticity(abs, 0.02)]}`;
+  if (kind === 'income') verdict = signed < 0 ? tr('Manfiy → inferior good', 'Negative → inferior good') : signed < 1 ? tr('Musbat, < 1 → normal tovar, zarurat (necessity)', 'Positive, < 1 → normal good, a necessity') : tr('Musbat, > 1 → normal tovar, hashamat (luxury)', 'Positive, > 1 → normal good, a luxury');
+  if (kind === 'cross') verdict = signed > 0 ? tr("Musbat → substitutes (o'rinbosarlar)", 'Positive → substitutes') : signed < 0 ? tr("Manfiy → complements (to'ldiruvchilar)", 'Negative → complements') : tr("Nol → bog'liq emas", 'Zero → unrelated');
   const field = (k: keyof typeof v, label: string) => (
     <label className="text-sm">
       <div className="mb-1 font-semibold">{label}</div>
@@ -284,7 +289,7 @@ export function ElasticityCalculator() {
     </label>
   );
   return (
-    <Frame title="Midpoint kalkulyatori — barcha egiluvchanliklar">
+    <Frame title={tr('Midpoint kalkulyatori — barcha egiluvchanliklar', 'Midpoint calculator — every elasticity')}>
       <div className="space-y-4 p-4">
         <Segmented
           size="sm"
@@ -308,7 +313,11 @@ export function ElasticityCalculator() {
         </div>
         <div className="rounded-lg border-2 border-ink bg-marker px-3 py-2 font-bold text-[#111]">{verdict}</div>
         <p className="text-sm text-muted">
-          {kind === 'ped' ? "Talab egiluvchanligida minus belgisi tashlab yuboriladi (absolyut qiymat)." : kind === 'income' || kind === 'cross' ? "Bu yerda ishora muhim: u tovar turini ko'rsatadi." : 'Taklif egiluvchanligi odatda musbat.'}
+          {kind === 'ped'
+            ? tr('Talab egiluvchanligida minus belgisi tashlab yuboriladi (absolyut qiymat).', 'For the elasticity of demand the minus sign is dropped (absolute value).')
+            : kind === 'income' || kind === 'cross'
+              ? tr("Bu yerda ishora muhim: u tovar turini ko'rsatadi.", 'Here the sign matters: it tells you the type of good.')
+              : tr('Taklif egiluvchanligi odatda musbat.', 'The elasticity of supply is normally positive.')}
         </p>
       </div>
     </Frame>

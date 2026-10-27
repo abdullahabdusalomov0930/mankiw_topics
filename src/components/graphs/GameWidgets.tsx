@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 /** Town water demand from Table 1: P = 120 − Q (Q in gallons), marginal cost zero. */
 const waterPrice = (q: number) => Math.max(0, 120 - q);
@@ -22,13 +23,13 @@ export function DuopolyLab() {
     const P = waterPrice(Q);
     const f = makeFrame(width, 120, 125);
     const pts = Array.from({ length: 20 }, (_, k) => k + 1).map((k) => [(120 * k) / (k + 1), 120 / (k + 1)] as const);
-    const explain = `${n} ta sotuvchi kartelsiz: har biri boshqalarning miqdorini berilgan deb **output effect** va **price effect** ni muvozanatlaydi → har biri ${fmt(q, 1)} gallon, jami **${fmt(Q, 1)}**, narx **$${fmt(P, 1)}**. Sotuvchilar ko'paysa, har birining ulushi kichrayadi → price effect zaiflashadi → bozor **raqobatga** yaqinlashadi (P → MC = 0, Q → 120). Xalqaro savdo ham shunday: Toyota, Honda, VW, BMW, Ford, GM — savdo ochilsa oligopoliya 2 dan 6 a'zoga oshadi. (Uzluksiz model: kitob jadvali 10 gallonlik qadamlarda, ikki sotuvchida natija bir xil — 40 + 40.)`;
+    const explain = tr(`${n} ta sotuvchi kartelsiz: har biri boshqalarning miqdorini berilgan deb **output effect** va **price effect** ni muvozanatlaydi → har biri ${fmt(q, 1)} gallon, jami **${fmt(Q, 1)}**, narx **$${fmt(P, 1)}**. Sotuvchilar ko'paysa, har birining ulushi kichrayadi → price effect zaiflashadi → bozor **raqobatga** yaqinlashadi (P → MC = 0, Q → 120). Xalqaro savdo ham shunday: Toyota, Honda, VW, BMW, Ford, GM — savdo ochilsa oligopoliya 2 dan 6 a'zoga oshadi. (Uzluksiz model: kitob jadvali 10 gallonlik qadamlarda, ikki sotuvchida natija bir xil — 40 + 40.)`, `${n} sellers without a cartel: each takes the others' output as given and balances the **output effect** against the **price effect** → each sells ${fmt(q, 1)} gallons, total **${fmt(Q, 1)}**, price **$${fmt(P, 1)}**. With more sellers each one's share shrinks → the price effect weakens → the market moves toward **competition** (P → MC = 0, Q → 120). International trade works the same way: Toyota, Honda, VW, BMW, Ford, GM — opening trade turns a 2-firm oligopoly into a 6-firm one. (Continuous model: the book's table moves in 10-gallon steps; with two sellers the result is the same — 40 + 40.)`);
     return (
       <Card
-        title="18-1d — Oligopoliya hajmi bozor natijasiga qanday ta'sir qiladi"
-        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'duo', label: 'Jack va Jill (Table 1)' }, { value: 'n', label: 'N ta sotuvchi' }]} />}
+        title={tr("18-1d — Oligopoliya hajmi bozor natijasiga qanday ta'sir qiladi", '18-1d — How the size of an oligopoly affects the market outcome')}
+        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'duo', label: tr('Jack va Jill (Table 1)', 'Jack and Jill (Table 1)') }, { value: 'n', label: tr('N ta sotuvchi', 'N sellers') }]} />}
         explain={explain}
-        controls={<Slider label="Sotuvchilar soni" value={n} min={1} max={20} step={1} onChange={setN} display={`${n}`} />}
+        controls={<Slider label={tr('Sotuvchilar soni', 'Number of sellers')} value={n} min={1} max={20} step={1} onChange={setN} display={`${n}`} />}
       >
         <div ref={wrapRef} className="min-w-0 p-1">
           <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="oligopoly size">
@@ -56,16 +57,16 @@ export function DuopolyLab() {
   const brJack = best(jill);
   const brJill = best(jack);
   const nash = brJack === jack && brJill === jill;
-  const explain = `Jack ${jack} va Jill ${jill} gallon → jami ${Q}, narx **$${P}**, foyda: Jack **$${fmt(pj)}**, Jill **$${fmt(pl)}** (MC = 0). Jill ${jill} bo'lsa, Jack uchun eng yaxshisi — **${brJack}**; Jack ${jack} bo'lsa, Jill uchun — **${brJill}**. ${nash ? `**Nash muvozanati!** Hech biri o'zgartirishga rag'batli emas.${jack === 40 && jill === 40 ? ' Bu kitobdagi 40 + 40: jami 80, narx $40, har biri $1,600 — monopoliyadan (60, $60) ko\'p, raqobatdan (120, $0) kam.' : ''}` : 'Nash emas — kimdir miqdorni o\'zgartirib foydasini oshira oladi.'} Kartel (30 + 30) jami $3,600 — maksimal, lekin har biri 40 ga o'tib $2,000 olishga vasvasada.`;
+  const explain = tr(`Jack ${jack} va Jill ${jill} gallon → jami ${Q}, narx **$${P}**, foyda: Jack **$${fmt(pj)}**, Jill **$${fmt(pl)}** (MC = 0). Jill ${jill} bo'lsa, Jack uchun eng yaxshisi — **${brJack}**; Jack ${jack} bo'lsa, Jill uchun — **${brJill}**. ${nash ? `**Nash muvozanati!** Hech biri o'zgartirishga rag'batli emas.${jack === 40 && jill === 40 ? ' Bu kitobdagi 40 + 40: jami 80, narx $40, har biri $1,600 — monopoliyadan (60, $60) ko\'p, raqobatdan (120, $0) kam.' : ''}` : 'Nash emas — kimdir miqdorni o\'zgartirib foydasini oshira oladi.'} Kartel (30 + 30) jami $3,600 — maksimal, lekin har biri 40 ga o'tib $2,000 olishga vasvasada.`, `Jack ${jack} and Jill ${jill} gallons → total ${Q}, price **$${P}**, profit: Jack **$${fmt(pj)}**, Jill **$${fmt(pl)}** (MC = 0). If Jill sells ${jill}, Jack's best response is **${brJack}**; if Jack sells ${jack}, Jill's is **${brJill}**. ${nash ? `**A Nash equilibrium!** Neither has an incentive to change.${jack === 40 && jill === 40 ? " This is the book's 40 + 40: total 80, price $40, $1,600 each — more than monopoly (60, $60) and less than competition (120, $0)." : ''}` : 'Not Nash — someone can raise their profit by changing quantity.'} The cartel (30 + 30) earns $3,600 in total — the maximum — but each is tempted to switch to 40 and earn $2,000.`);
   return (
     <Card
-      title="Table 1 — Jack va Jill duopoliyasi: Nash muvozanatini toping"
+      title={tr("Table 1 — Jack va Jill duopoliyasi: Nash muvozanatini toping", 'Table 1 — The Jack and Jill duopoly: find the Nash equilibrium')}
       tabs={
         <>
-          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'duo', label: 'Jack va Jill (Table 1)' }, { value: 'n', label: 'N ta sotuvchi' }]} />
-          <button className="btn-ghost btn-sm" onClick={() => { setJack(30); setJill(30); }}>Kartel (30 + 30)</button>
-          <button className="btn-ghost btn-sm" onClick={() => setJack(brJack)}>Jack eng yaxshi javob</button>
-          <button className="btn-ghost btn-sm" onClick={() => setJill(brJill)}>Jill eng yaxshi javob</button>
+          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'duo', label: tr('Jack va Jill (Table 1)', 'Jack and Jill (Table 1)') }, { value: 'n', label: tr('N ta sotuvchi', 'N sellers') }]} />
+          <button className="btn-ghost btn-sm" onClick={() => { setJack(30); setJill(30); }}>{tr('Kartel (30 + 30)', 'Cartel (30 + 30)')}</button>
+          <button className="btn-ghost btn-sm" onClick={() => setJack(brJack)}>{tr('Jack eng yaxshi javob', "Jack's best response")}</button>
+          <button className="btn-ghost btn-sm" onClick={() => setJill(brJill)}>{tr('Jill eng yaxshi javob', "Jill's best response")}</button>
         </>
       }
       explain={explain}
@@ -78,10 +79,10 @@ export function DuopolyLab() {
     >
       <div className="grid gap-2 p-4 sm:grid-cols-4">
         {[
-          ['Jami Q', `${Q}`],
-          ['Narx', `$${P}`],
-          ['Jack foydasi', `$${fmt(pj)}`],
-          ['Jill foydasi', `$${fmt(pl)}`],
+          [tr('Jami Q', 'Total Q'), `${Q}`],
+          [tr('Narx', 'Price'), `$${P}`],
+          [tr('Jack foydasi', "Jack's profit"), `$${fmt(pj)}`],
+          [tr('Jill foydasi', "Jill's profit"), `$${fmt(pl)}`],
         ].map(([a, b]) => (
           <div key={a} className={`rounded-xl border-2 border-ink p-3 text-center ${nash ? 'bg-postit-green text-[#111]' : 'bg-surface2'}`}>
             <div className="text-xs font-semibold opacity-80">{a}</div>
@@ -105,9 +106,9 @@ interface Game {
   lowerBetter?: boolean;
   note: string;
 }
-const years = (v: number) => (v === 0 ? 'ozod' : `${v} yil`);
+const years = (v: number) => (v === 0 ? tr('ozod', 'free') : tr(`${v} yil`, `${v} yr${v === 1 ? '' : 's'}`));
 const usd = (v: number) => `$${fmt(v)}`;
-const mln = (v: number) => (v === 0 ? '0' : `${v < 0 ? '−' : ''}$${Math.abs(v)} mln`);
+const mln = (v: number) => (v === 0 ? '0' : `${v < 0 ? '−' : ''}$${Math.abs(v)} ${tr('mln', 'm')}`);
 const GAMES: Record<string, Game> = {
   pd: {
     label: "Prisoners' dilemma",
@@ -121,10 +122,10 @@ const GAMES: Record<string, Game> = {
     ],
     unit: years,
     lowerBetter: true,
-    note: "Figure 1: Bonnie va Clyde. Iqror — ikkalasi uchun ham dominant strategiya; natija (8, 8) yil, garchi ikkalasi jim tursa (1, 1) bo'lardi. Mahbuslar uchun dilemma — jamiyat uchun foyda (politsiya ko'proq jinoyatchini qamaydi).",
+    note: tr("Figure 1: Bonnie va Clyde. Iqror — ikkalasi uchun ham dominant strategiya; natija (8, 8) yil, garchi ikkalasi jim tursa (1, 1) bo'lardi. Mahbuslar uchun dilemma — jamiyat uchun foyda (politsiya ko'proq jinoyatchini qamaydi).", 'Figure 1: Bonnie and Clyde. Confessing is a dominant strategy for both; the outcome is (8, 8) years, although if both stayed silent it would be (1, 1). A dilemma for the prisoners — but good for society (the police lock up more criminals).'),
   },
   water: {
-    label: 'Jack va Jill',
+    label: tr('Jack va Jill', 'Jack and Jill'),
     rowName: 'Jack',
     colName: 'Jill',
     rows: ['40 gallon', '30 gallon'],
@@ -134,38 +135,38 @@ const GAMES: Record<string, Game> = {
       [[1500, 2000], [1800, 1800]],
     ],
     unit: usd,
-    note: "Figure 2: kelishuv 30 + 30 bo'lsa ham, 40 — dominant strategiya. Oligopolistlar uchun hamkorlikning yo'qligi jamiyat uchun **yaxshi** — miqdor samarali darajaga yaqinlashadi.",
+    note: tr("Figure 2: kelishuv 30 + 30 bo'lsa ham, 40 — dominant strategiya. Oligopolistlar uchun hamkorlikning yo'qligi jamiyat uchun **yaxshi** — miqdor samarali darajaga yaqinlashadi.", 'Figure 2: even with a 30 + 30 agreement, 40 is the dominant strategy. Lack of cooperation among oligopolists is **good** for society — output moves toward the efficient level.'),
   },
   arms: {
-    label: 'Qurollanish poygasi',
-    rowName: 'AQSh',
-    colName: 'SSSR',
+    label: tr('Qurollanish poygasi', 'Arms race'),
+    rowName: tr('AQSh', 'U.S.'),
+    colName: tr('SSSR', 'USSR'),
     rows: ['Arm', 'Disarm'],
     cols: ['Arm', 'Disarm'],
     payoffs: [
       [[1, 1], [3, 0]],
       [[0, 3], [2, 2]],
     ],
-    unit: (v) => ['xavfda va zaif', 'xavfda', 'xavfsiz', 'xavfsiz va kuchli'][v],
-    note: "Figure 3: har biri uchun qurollanish — dominant strategiya; natija — ikkalasi xavf ostida. Shaffoflik va tekshiruv mexanizmlari bilan dilemmadan chiqish mumkin. (Kitobda tartib bo'yicha natijalar; raqamlar — reyting.)",
+    unit: (v) => tr(['xavfda va zaif', 'xavfda', 'xavfsiz', 'xavfsiz va kuchli'], ['at risk and weak', 'at risk', 'safe', 'safe and powerful'])[v],
+    note: tr("Figure 3: har biri uchun qurollanish — dominant strategiya; natija — ikkalasi xavf ostida. Shaffoflik va tekshiruv mexanizmlari bilan dilemmadan chiqish mumkin. (Kitobda tartib bo'yicha natijalar; raqamlar — reyting.)", 'Figure 3: arming is a dominant strategy for each; the outcome is that both are at risk. Transparency and verification can help escape the dilemma. (The book ranks the outcomes; the numbers are a ranking.)'),
   },
   oil: {
-    label: 'Umumiy resurs (neft)',
+    label: tr('Umumiy resurs (neft)', 'Common resource (oil)'),
     rowName: 'ExxonMobil',
     colName: 'Chevron',
-    rows: ['Ikki quduq', 'Bitta quduq'],
-    cols: ['Ikki quduq', 'Bitta quduq'],
+    rows: tr(['Ikki quduq', 'Bitta quduq'], ['Drill two wells', 'Drill one well']) as [string, string],
+    cols: tr(['Ikki quduq', 'Bitta quduq'], ['Drill two wells', 'Drill one well']) as [string, string],
     payoffs: [
       [[40, 40], [60, 30]],
       [[30, 60], [50, 50]],
     ],
     unit: mln,
-    note: "Figure 4: $120 mln neft, quduq $10 mln. Ikki quduq — dominant; natija (40, 40) — qo'shimcha quduqlar sof isrof (jamiyat uchun ham yomon).",
+    note: tr("Figure 4: $120 mln neft, quduq $10 mln. Ikki quduq — dominant; natija (40, 40) — qo'shimcha quduqlar sof isrof (jamiyat uchun ham yomon).", 'Figure 4: $120 million of oil, $10 million per well. Two wells is dominant; the outcome (40, 40) — the extra wells are pure waste (bad for society too).'),
   },
   trade: {
-    label: 'AQSh–Meksika tariflar (P4)',
-    rowName: 'AQSh',
-    colName: 'Meksika',
+    label: tr('AQSh–Meksika tariflar (P4)', 'U.S.–Mexico tariffs (P4)'),
+    rowName: tr('AQSh', 'U.S.'),
+    colName: tr('Meksika', 'Mexico'),
     rows: ['Low tariffs', 'High tariffs'],
     cols: ['Low tariffs', 'High tariffs'],
     payoffs: [
@@ -173,7 +174,7 @@ const GAMES: Record<string, Game> = {
       [[30, 10], [20, 20]],
     ],
     unit: (v) => `$${v} mlrd`,
-    note: "Problem 4: yuqori tarif — har biri uchun dominant; Nash (20, 20). NAFTA (1993) bir vaqtda kamaytirish orqali (25, 25) ga chiqdi. Lekin 3 va 9-boblar bo'yicha bir tomonlama past tarif ham mamlakatga foydali — bu “rahbarlar idroki” to'lovlari haqiqiy farovonlikni aks ettirmasligi mumkin.",
+    note: tr("Problem 4: yuqori tarif — har biri uchun dominant; Nash (20, 20). NAFTA (1993) bir vaqtda kamaytirish orqali (25, 25) ga chiqdi. Lekin 3 va 9-boblar bo'yicha bir tomonlama past tarif ham mamlakatga foydali — bu “rahbarlar idroki” to'lovlari haqiqiy farovonlikni aks ettirmasligi mumkin.", 'Problem 4: high tariffs are dominant for each; Nash is (20, 20). NAFTA (1993) cut tariffs simultaneously and reached (25, 25). But by Chapters 3 and 9, a low tariff even unilaterally benefits a country — these “leaders’ perception” payoffs may not reflect true welfare.'),
   },
   rnd: {
     label: 'Synergy–Dynaco (P5)',
@@ -186,7 +187,7 @@ const GAMES: Record<string, Game> = {
       [[0, 70], [40, 50]],
     ],
     unit: mln,
-    note: "Problem 5 (kitob jadvali matndan tiklangan): Synergy'da dominant strategiya **yo'q** (Dynaco katta bo'lsa — katta, kichik bo'lsa — kichik), Dynaco uchun katta byudjet — dominant. Nash: Dynaco katta → Synergy katta → (20, 30). Nash uchun dominant strategiya shart emas.",
+    note: tr("Problem 5 (kitob jadvali matndan tiklangan): Synergy'da dominant strategiya **yo'q** (Dynaco katta bo'lsa — katta, kichik bo'lsa — kichik), Dynaco uchun katta byudjet — dominant. Nash: Dynaco katta → Synergy katta → (20, 30). Nash uchun dominant strategiya shart emas.", "Problem 5 (the book's table reconstructed from the text): Synergy has **no** dominant strategy (large if Dynaco is large, small if Dynaco is small); a large budget is dominant for Dynaco. Nash: Dynaco large → Synergy large → (20, 30). A Nash equilibrium does not require dominant strategies."),
   },
   kona: {
     label: 'Little Kona–Big Brew (P9)',
@@ -199,12 +200,12 @@ const GAMES: Record<string, Game> = {
       [[0, 7], [0, 2]],
     ],
     unit: mln,
-    note: "Problem 9: Big Brew uchun yuqori narx — dominant (3 > 1, 7 > 2); Kona'da dominant yo'q, lekin Brew yuqori narx qo'yishini bilib **kiradi** → yagona Nash (Enter, High). “Kirsang past narx qo'yamiz” tahdidi **ishonchsiz**. Til biriktirsa: kirmaslik + yuqori narx — jami $7 mln.",
+    note: tr("Problem 9: Big Brew uchun yuqori narx — dominant (3 > 1, 7 > 2); Kona'da dominant yo'q, lekin Brew yuqori narx qo'yishini bilib **kiradi** → yagona Nash (Enter, High). “Kirsang past narx qo'yamiz” tahdidi **ishonchsiz**. Til biriktirsa: kirmaslik + yuqori narx — jami $7 mln.", "Problem 9: a high price is dominant for Big Brew (3 > 1, 7 > 2); Kona has no dominant strategy but, knowing Brew will price high, **enters** → the unique Nash (Enter, High). The threat “if you enter we'll price low” is **not credible**. If they colluded: no entry + high price — $7 million in total."),
   },
   grades: {
-    label: 'Guruh loyihasi (P6)',
-    rowName: 'Siz',
-    colName: 'Sherik',
+    label: tr('Guruh loyihasi (P6)', 'Group project (P6)'),
+    rowName: tr('Siz', 'You'),
+    colName: tr('Sherik', 'Partner'),
     rows: ['Work', 'Shirk'],
     cols: ['Work', 'Shirk'],
     payoffs: [
@@ -212,7 +213,7 @@ const GAMES: Record<string, Game> = {
       [[30, 5], [10, 10]],
     ],
     unit: (v) => `${v} birlik`,
-    note: "Problem 6: A = 40, B = 30, D = 10 baxt, mehnat −25. Shirk — dominant; natija (10, 10) D baho. Butun yil bir sherik bilan ishlasangiz (takroriy o'yin), hamkorlik (A) mumkin.",
+    note: tr("Problem 6: A = 40, B = 30, D = 10 baxt, mehnat −25. Shirk — dominant; natija (10, 10) D baho. Butun yil bir sherik bilan ishlasangiz (takroriy o'yin), hamkorlik (A) mumkin.", 'Problem 6: A = 40, B = 30, D = 10 units of happiness, work costs −25. Shirking is dominant; the outcome (10, 10) is a D grade. If you work with the same partner all year (a repeated game), cooperation (an A) is possible.'),
   },
   airlines: {
     label: 'American–Braniff (P7)',
@@ -224,8 +225,8 @@ const GAMES: Record<string, Game> = {
       [[1, 1], [3, 0]],
       [[0, 3], [2, 2]],
     ],
-    unit: (v) => ['juda past', 'past', "o'rtacha", 'yuqori'][v] + ' foyda',
-    note: "Problem 7: $300 — dominant; Nash ($300, $300). Ikkalasi uchun yaxshiroq — ($600, $600), faqat til biriktirish bilan (Crandall qo'ng'irog'i!) — bunda yo'lovchilar yutqazadi.",
+    unit: (v) => tr(['juda past', 'past', "o'rtacha", 'yuqori'], ['very low', 'low', 'medium', 'high'])[v] + tr(' foyda', ' profit'),
+    note: tr("Problem 7: $300 — dominant; Nash ($300, $300). Ikkalasi uchun yaxshiroq — ($600, $600), faqat til biriktirish bilan (Crandall qo'ng'irog'i!) — bunda yo'lovchilar yutqazadi.", "Problem 7: $300 is dominant; Nash ($300, $300). Both would do better at ($600, $600), but only by colluding (Crandall's phone call!) — and then passengers lose."),
   },
 };
 
@@ -242,10 +243,10 @@ export function GameLab() {
   const nash: [number, number][] = [];
   for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) if (rowBest(c) === r && colBest(r) === c) nash.push([r, c]);
   const isNash = (r: number, c: number) => nash.some(([a, b]) => a === r && b === c);
-  const explain = `${g.note}\n\nDominant strategiya: ${g.rowName} — **${rowDom >= 0 ? g.rows[rowDom] : "yo'q"}**; ${g.colName} — **${colDom >= 0 ? g.cols[colDom] : "yo'q"}**. Nash muvozanati: ${nash.map(([r, c]) => `**(${g.rows[r]}, ${g.cols[c]})**`).join(', ') || "yo'q"}.${pick ? ` Siz tanlagan katak: ${isNash(...pick) ? 'Nash ✓ — hech kim yolg\'iz o\'zgartirishdan yutmaydi.' : `Nash emas — ${rowBest(pick[1]) !== pick[0] && rowBest(pick[1]) !== -1 ? g.rowName : g.colName} boshqa strategiyaga o'tib yutadi.`}` : ' Katakni bosib tekshiring.'}`;
+  const explain = tr(`${g.note}\n\nDominant strategiya: ${g.rowName} — **${rowDom >= 0 ? g.rows[rowDom] : "yo'q"}**; ${g.colName} — **${colDom >= 0 ? g.cols[colDom] : "yo'q"}**. Nash muvozanati: ${nash.map(([r, c]) => `**(${g.rows[r]}, ${g.cols[c]})**`).join(', ') || "yo'q"}.${pick ? ` Siz tanlagan katak: ${isNash(...pick) ? 'Nash ✓ — hech kim yolg\'iz o\'zgartirishdan yutmaydi.' : `Nash emas — ${rowBest(pick[1]) !== pick[0] && rowBest(pick[1]) !== -1 ? g.rowName : g.colName} boshqa strategiyaga o'tib yutadi.`}` : ' Katakni bosib tekshiring.'}`, `${g.note}\n\nDominant strategy: ${g.rowName} — **${rowDom >= 0 ? g.rows[rowDom] : 'none'}**; ${g.colName} — **${colDom >= 0 ? g.cols[colDom] : 'none'}**. Nash equilibrium: ${nash.map(([r, c]) => `**(${g.rows[r]}, ${g.cols[c]})**`).join(', ') || 'none'}.${pick ? ` The cell you picked: ${isNash(...pick) ? 'Nash ✓ — nobody gains by changing alone.' : `not Nash — ${rowBest(pick[1]) !== pick[0] && rowBest(pick[1]) !== -1 ? g.rowName : g.colName} gains by switching strategy.`}` : ' Click a cell to check it.'}`);
   return (
     <Card
-      title="Figures 1–4 — Game theory: dominant strategiya va Nash muvozanati"
+      title={tr("Figures 1–4 — Game theory: dominant strategiya va Nash muvozanati", 'Figures 1–4 — Game theory: dominant strategies and Nash equilibrium')}
       tabs={<Segmented size="sm" value={key} onChange={(v) => { setKey(v); setPick(null); }} options={Object.entries(GAMES).map(([v, x]) => ({ value: v as keyof typeof GAMES, label: x.label }))} />}
       explain={explain}
     >
@@ -291,7 +292,9 @@ export function GameLab() {
             ))}
           </tbody>
         </table>
-        <p className="mt-2 text-center text-[11px] text-muted">Tagiga chizilgan — o'yinchining shu ustun/qatordagi eng yaxshi javobi. Sariq/ko'k — dominant strategiya.</p>
+        <p className="mt-2 text-center text-[11px] text-muted">
+          {tr("Tagiga chizilgan — o'yinchining shu ustun/qatordagi eng yaxshi javobi. Sariq/ko'k — dominant strategiya.", "Underlined = the player's best response to that column/row. Yellow/blue = a dominant strategy.")}
+        </p>
       </div>
     </Card>
   );
@@ -343,10 +346,10 @@ export function Tournament() {
   });
   const sorted = [...totals].sort((a, b) => a.tot - b.tot);
   const maxT = Math.max(...totals.map((t) => t.tot), 1);
-  const explain = `Har bir strategiya boshqalari bilan ${rounds} raunddan o'ynaydi (round-robin); maqsad — **eng kam qamoq yili** (raund: ikkalasi jim — 1, ikkalasi iqror — 8, aldangan — 20, aldagan — 0). G'olib: **${STRATS[sorted[0].s]}**. Robert Axelrod turnirida oddiy **tit-for-tat** — avval hamkorlik, keyin raqib oldingi raundda nima qilgan bo'lsa, shuni qilish — murakkab dasturlardan yaxshiroq natija ko'rsatgan: do'stona boshlaydi, jazolaydi va kechiradi. “Ko'zga ko'z, tishga tish.” Ishtirokchilarni olib tashlab, natija qanday o'zgarishini ko'ring.`;
+  const explain = tr(`Har bir strategiya boshqalari bilan ${rounds} raunddan o'ynaydi (round-robin); maqsad — **eng kam qamoq yili** (raund: ikkalasi jim — 1, ikkalasi iqror — 8, aldangan — 20, aldagan — 0). G'olib: **${STRATS[sorted[0].s]}**. Robert Axelrod turnirida oddiy **tit-for-tat** — avval hamkorlik, keyin raqib oldingi raundda nima qilgan bo'lsa, shuni qilish — murakkab dasturlardan yaxshiroq natija ko'rsatgan: do'stona boshlaydi, jazolaydi va kechiradi. “Ko'zga ko'z, tishga tish.” Ishtirokchilarni olib tashlab, natija qanday o'zgarishini ko'ring.`, `Each strategy plays every other for ${rounds} rounds (round-robin); the goal is the **fewest years in prison** (per round: both silent 1, both confess 8, betrayed 20, betrayer 0). Winner: **${STRATS[sorted[0].s]}**. In Robert Axelrod's tournament the simple **tit-for-tat** — cooperate first, then do whatever the other player did last round — beat complex programs: it starts friendly, punishes, and forgives. “An eye for an eye.” Remove players and see how the result changes.`);
   return (
     <Card
-      title="Case Study — The Prisoners' Dilemma Tournament (simulyatsiya)"
+      title={tr("Case Study — The Prisoners' Dilemma Tournament (simulyatsiya)", "Case Study — The Prisoners' Dilemma Tournament (simulation)")}
       tabs={(Object.keys(STRATS) as Strat[]).map((s) => (
         <button
           key={s}
@@ -357,7 +360,7 @@ export function Tournament() {
         </button>
       ))}
       explain={explain}
-      controls={<Slider label="Raundlar soni" value={rounds} min={1} max={100} step={1} onChange={setRounds} display={`${rounds}`} />}
+      controls={<Slider label={tr('Raundlar soni', 'Number of rounds')} value={rounds} min={1} max={100} step={1} onChange={setRounds} display={`${rounds}`} />}
     >
       <div className="space-y-2 p-4">
         {sorted.map(({ s, tot }, i) => (
@@ -369,7 +372,7 @@ export function Tournament() {
             <div className="h-5 rounded-md bg-surface2">
               <div className={`h-5 rounded-md border-2 border-ink ${i === 0 ? 'bg-good' : 'bg-marker'}`} style={{ width: `${(tot / maxT) * 100}%` }} />
             </div>
-            <span className="num text-right">{fmt(tot)} yil</span>
+            <span className="num text-right">{fmt(tot)} {tr('yil', 'yrs')}</span>
           </div>
         ))}
       </div>
@@ -390,14 +393,14 @@ export function BundlingLab() {
   const separate = superRev + hamletRev;
   const bundleVals = [city[0] + city[1], country[0] + country[1]];
   const bundle = sepRevenue(bundleVals);
-  const explain = `Alohida narx: “Superheroes” dan eng ko'p tushum $${superRev}k, “Hamlet” dan $${hamletRev}k → jami **$${separate}k**. Paket (bundle): City $${bundleVals[0]}k, Country $${bundleVals[1]}k gacha to'laydi → paket tushumi **$${bundle}k**. ${bundle > separate ? "Teatrlar filmlarni **turlicha** baholaganda paketlash narx diskriminatsiyasi kabi ishlaydi — narx umumiy WTP ga yaqinlashadi (Stigler, 1963)." : "Bu holatda paketlash yutuq bermaydi."} Stiglerning birinchi dalili: agar teatr Hamlet'ni 0 ga baholasa, paketga ham faqat Superheroes qiymatini to'laydi — keraksiz filmni “majburlash” bozor hokimiyatini oshirmaydi.`;
+  const explain = tr(`Alohida narx: “Superheroes” dan eng ko'p tushum $${superRev}k, “Hamlet” dan $${hamletRev}k → jami **$${separate}k**. Paket (bundle): City $${bundleVals[0]}k, Country $${bundleVals[1]}k gacha to'laydi → paket tushumi **$${bundle}k**. ${bundle > separate ? "Teatrlar filmlarni **turlicha** baholaganda paketlash narx diskriminatsiyasi kabi ishlaydi — narx umumiy WTP ga yaqinlashadi (Stigler, 1963)." : "Bu holatda paketlash yutuq bermaydi."} Stiglerning birinchi dalili: agar teatr Hamlet'ni 0 ga baholasa, paketga ham faqat Superheroes qiymatini to'laydi — keraksiz filmni “majburlash” bozor hokimiyatini oshirmaydi.`, `Separate prices: the most revenue from “Superheroes” is $${superRev}k and from “Hamlet” $${hamletRev}k → total **$${separate}k**. A bundle: City will pay up to $${bundleVals[0]}k and Country $${bundleVals[1]}k → bundle revenue **$${bundle}k**. ${bundle > separate ? 'When theaters value the films **differently**, bundling works like price discrimination — the price gets closer to total WTP (Stigler, 1963).' : 'In this case bundling gains nothing.'} Stigler's first point: if a theater values Hamlet at 0, it will pay for the bundle only what Superheroes is worth — “forcing” an unwanted film does not add market power.`);
   return (
     <Card
       title="18-3b — Bundling: Makemoney Movies (Stigler)"
       tabs={
         <>
-          <button className="btn-ghost btn-sm" onClick={() => { setCity([150, 50]); setCountry([50, 150]); }}>Kitob raqamlari</button>
-          <button className="btn-ghost btn-sm" onClick={() => { setCity([200, 0]); setCountry([200, 0]); }}>Hamlet qiymatsiz</button>
+          <button className="btn-ghost btn-sm" onClick={() => { setCity([150, 50]); setCountry([50, 150]); }}>{tr('Kitob raqamlari', "The book's numbers")}</button>
+          <button className="btn-ghost btn-sm" onClick={() => { setCity([200, 0]); setCountry([200, 0]); }}>{tr('Hamlet qiymatsiz', 'Hamlet worthless')}</button>
         </>
       }
       explain={explain}
@@ -412,11 +415,11 @@ export function BundlingLab() {
     >
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div className="rounded-xl border-2 border-ink bg-surface2 p-3 text-center">
-          <div className="text-xs font-semibold text-muted">Alohida narxlar</div>
+          <div className="text-xs font-semibold text-muted">{tr('Alohida narxlar', 'Separate prices')}</div>
           <div className="num font-display text-2xl font-bold">${separate}k</div>
         </div>
         <div className={`rounded-xl border-2 border-ink p-3 text-center text-[#111] ${bundle > separate ? 'bg-postit-green' : 'bg-postit-yellow'}`}>
-          <div className="text-xs font-semibold">Paket</div>
+          <div className="text-xs font-semibold">{tr('Paket', 'Bundle')}</div>
           <div className="num font-display text-2xl font-bold">${bundle}k</div>
         </div>
       </div>

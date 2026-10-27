@@ -9,6 +9,7 @@ import { RichText } from '../components/ui/RichText';
 import type { ChapterData, ChapterPageContent, Formula, Problem, Term } from '../content/types';
 import { buildDeck } from '../lib/cards';
 import { masteryOf } from '../lib/chapterStats';
+import { isEn, tr } from '../lib/lang';
 import { useProgress } from '../lib/progress';
 
 export function ChapterPage() {
@@ -24,30 +25,30 @@ export function ChapterPage() {
   if (!entry?.data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <h1 className="text-2xl font-bold">Bu bob hali tayyor emas</h1>
-        <p className="mt-2 text-muted">{entry ? `${entry.number}-bob: ${entry.titleEn}` : 'Bunday bob topilmadi.'}</p>
+        <h1 className="text-2xl font-bold">{tr('Bu bob hali tayyor emas', 'This chapter is not ready yet')}</h1>
+        <p className="mt-2 text-muted">{entry ? `${tr(`${entry.number}-bob`, `Chapter ${entry.number}`)}: ${entry.titleEn}` : tr('Bunday bob topilmadi.', 'No such chapter.')}</p>
         <Link to="/" className="btn-primary mt-6">
-          Bosh sahifaga
+          {tr('Bosh sahifaga', 'Back to home')}
         </Link>
       </div>
     );
   }
-  if (!page) return <div className="py-24 text-center text-muted">Yuklanmoqda…</div>;
+  if (!page) return <div className="py-24 text-center text-muted">{tr('Yuklanmoqda…', 'Loading…')}</div>;
   return <Chapter data={entry.data} page={page} />;
 }
 
 const PARTS = [
-  { id: 'hook', label: 'Hayotiy savol' },
-  { id: 'goals', label: 'Maqsadlar' },
-  { id: 'lessons', label: 'Darslar' },
-  { id: 'exam', label: "Imtihonda so'raladi" },
-  { id: 'mistakes', label: 'Keng tarqalgan xatolar' },
-  { id: 'boxes', label: 'Case studies va boshqalar' },
-  { id: 'terms', label: 'Atamalar' },
-  { id: 'formulas', label: 'Formulalar' },
-  { id: 'summary', label: 'Bob xulosasi' },
-  { id: 'practice', label: 'Mashqlar' },
-  { id: 'flashcards', label: 'Kartochkalar' },
+  { id: 'hook', label: tr('Hayotiy savol', 'Real-life question') },
+  { id: 'goals', label: tr('Maqsadlar', 'Goals') },
+  { id: 'lessons', label: tr('Darslar', 'Lessons') },
+  { id: 'exam', label: tr("Imtihonda so'raladi", 'On the exam') },
+  { id: 'mistakes', label: tr('Keng tarqalgan xatolar', 'Common mistakes') },
+  { id: 'boxes', label: tr('Case studies va boshqalar', 'Case studies and more') },
+  { id: 'terms', label: tr('Atamalar', 'Key terms') },
+  { id: 'formulas', label: tr('Formulalar', 'Formulas') },
+  { id: 'summary', label: tr('Bob xulosasi', 'Summary') },
+  { id: 'practice', label: tr('Mashqlar', 'Practice') },
+  { id: 'flashcards', label: tr('Kartochkalar', 'Flashcards') },
 ];
 
 function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }) {
@@ -64,7 +65,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
   }
 
   useEffect(() => {
-    document.title = `${data.number}-bob · ${data.titleEn}`;
+    document.title = `${tr(`${data.number}-bob`, `Chapter ${data.number}`)} · ${data.titleEn}`;
     const ids = [...PARTS.map((p) => p.id), ...page.sections.map((s) => s.id), ...page.boxes.map((b) => b.id)];
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
@@ -111,7 +112,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
                 className={`flex items-center gap-2 rounded-lg py-1 pl-6 pr-2 text-[13px] transition ${active === s.id ? 'font-semibold text-pen' : 'text-muted hover:text-ink'}`}
               >
                 <span className="num w-9 shrink-0 text-xs">{s.code}</span>
-                <span className="truncate">{s.titleUz}</span>
+                <span className="truncate">{tr(s.titleUz, s.titleEn)}</span>
                 {progress.isRead(data.number, s.id) && <span className="ml-auto text-good">✓</span>}
               </a>
             ))}
@@ -132,26 +133,26 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
       {/* header */}
       <header className="py-8 sm:py-10">
         <Link to="/" className="font-hand text-[15px] font-semibold text-pen hover:underline">
-          ← Boblar
+          {tr('← Boblar', '← Chapters')}
         </Link>
         <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">
             <div className="kicker">
-              {data.number}-bob · {data.part}
+              {tr(`${data.number}-bob`, `Chapter ${data.number}`)} · {data.part}
             </div>
             <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-[-0.03em] sm:text-5xl">{data.titleEn}</h1>
-            <p className="mt-2 text-lg font-semibold"><span className="marker">{data.titleUz}</span></p>
+            {!isEn && <p className="mt-2 text-lg font-semibold"><span className="marker">{data.titleUz}</span></p>}
           </div>
           <div className="card flex items-center gap-4 p-4">
             <Ring value={mastery.percent} size={64} />
             <div className="space-y-1.5 text-xs">
-              <MiniBar label="Darslar" v={mastery.readPct} />
-              <MiniBar label="Savollar" v={mastery.quizPct} />
-              <MiniBar label="Kartochkalar" v={mastery.cardsPct} />
+              <MiniBar label={tr('Darslar', 'Lessons')} v={mastery.readPct} />
+              <MiniBar label={tr('Savollar', 'Questions')} v={mastery.quizPct} />
+              <MiniBar label={tr('Kartochkalar', 'Flashcards')} v={mastery.cardsPct} />
               {mastery.mastered ? (
-                <div className="font-semibold text-good">✓ Bob o'zlashtirildi</div>
+                <div className="font-semibold text-good">{tr("✓ Bob o'zlashtirildi", '✓ Chapter mastered')}</div>
               ) : (
-                <div className="text-muted">O'zlashtirish: savollar ≥ 80% + barcha kartochkalar</div>
+                <div className="text-muted">{tr("O'zlashtirish: savollar ≥ 80% + barcha kartochkalar", 'Mastery: questions ≥ 80% + all flashcards')}</div>
               )}
             </div>
           </div>
@@ -161,7 +162,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
       {/* mobile TOC */}
       <div className="sticky top-16 z-30 -mx-4 border-b-2 border-ink bg-bg/95 px-4 py-2 backdrop-blur lg:hidden">
         <button className="btn-ghost btn-sm w-full justify-between" onClick={() => setTocOpen((o) => !o)}>
-          <span>Mundarija</span>
+          <span>{tr('Mundarija', 'Contents')}</span>
           <span className="truncate text-muted">{labelFor(active, page)}</span>
           <span>{tocOpen ? '▲' : '▼'}</span>
         </button>
@@ -174,13 +175,13 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
         </aside>
 
         <article className="min-w-0 max-w-4xl pb-16">
-          <Part id="hook" title="Hayotiy savol" kicker="1 · Hook">
+          <Part id="hook" title={tr('Hayotiy savol', 'A real-life question')} kicker="1 · Hook">
             <div className="postit tape -rotate-[0.4deg] bg-postit-yellow p-6 pt-7">
               <page.hook />
             </div>
           </Part>
 
-          <Part id="goals" title="Bu bobdan keyin siz…" kicker="2 · Learning goals">
+          <Part id="goals" title={tr('Bu bobdan keyin siz…', 'After this chapter you will…')} kicker="2 · Learning goals">
             <ul className="grid gap-2 sm:grid-cols-2">
               {page.goals.map((g, i) => (
                 <li key={i} className="flex gap-3 rounded-xl border-2 border-dashed border-ink/50 bg-surface p-3 text-[15px]">
@@ -191,9 +192,12 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             </ul>
           </Part>
 
-          <Part id="lessons" title="Darslar" kicker="3 · Lessons">
+          <Part id="lessons" title={tr('Darslar', 'Lessons')} kicker="3 · Lessons">
             <p className="text-sm text-muted">
-              Har bir bo'lim kitobdagi bo'limga mos. Grafiklarni torting, “Tekshirib ko'r” savoliga javob bering va “O'qidim” tugmasini bosing (+10 XP).
+              {tr(
+                "Har bir bo'lim kitobdagi bo'limga mos. Grafiklarni torting, “Tekshirib ko'r” savoliga javob bering va “O'qidim” tugmasini bosing (+10 XP).",
+                'Each lesson matches a section of the book. Drag the graphs, answer the “Check yourself” question and press “Done reading” (+10 XP).',
+              )}
             </p>
             {page.sections.map((s) => {
               const read = progress.isRead(data.number, s.id);
@@ -203,13 +207,13 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
                     <span className="num -rotate-2 rounded-lg border-2 border-ink bg-marker px-2 py-0.5 text-sm font-bold text-[#111]">{s.code}</span>
                     <h3 className="font-display text-xl font-bold tracking-tight sm:text-2xl">{s.titleEn}</h3>
                   </div>
-                  <p className="mt-1 font-hand text-[17px] font-semibold text-pen">{s.titleUz}</p>
+                  {!isEn && <p className="mt-1 font-hand text-[17px] font-semibold text-pen">{s.titleUz}</p>}
                   <div className="mt-4">
                     <s.Body />
                   </div>
                   {s.check && (
                     <div className="mt-6">
-                      <div className="kicker mb-2">Tekshirib ko'r</div>
+                      <div className="kicker mb-2">{tr("Tekshirib ko'r", 'Check yourself')}</div>
                       <QuestionView q={s.check} />
                     </div>
                   )}
@@ -219,7 +223,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
                       disabled={read}
                       onClick={() => progress.markRead(data.number, s.id)}
                     >
-                      {read ? "✓ O'qilgan" : "O'qidim ✓"}
+                      {read ? tr("✓ O'qilgan", '✓ Read') : tr("O'qidim ✓", 'Done reading ✓')}
                     </button>
                   </div>
                 </section>
@@ -227,7 +231,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             })}
           </Part>
 
-          <Part id="exam" title="Imtihonda so'raladi" kicker="4 · Exam traps">
+          <Part id="exam" title={tr("Imtihonda so'raladi", 'What the exam asks')} kicker="4 · Exam traps">
             <div className="grid gap-3 sm:grid-cols-2">
               {page.examTraps.map((t, i) => (
                 <div key={t.title} className={`postit tape mt-3 bg-postit-yellow p-4 pt-5 ${i % 2 ? 'rotate-[0.7deg]' : '-rotate-[0.7deg]'}`}>
@@ -238,7 +242,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             </div>
           </Part>
 
-          <Part id="mistakes" title="Keng tarqalgan xatolar" kicker="5 · Common mistakes">
+          <Part id="mistakes" title={tr('Keng tarqalgan xatolar', 'Common mistakes')} kicker="5 · Common mistakes">
             <div className="card divide-y-2 divide-dashed divide-ink/20 overflow-hidden">
               {page.mistakes.map((m, i) => (
                 <div key={i} className="grid gap-2 p-4 sm:grid-cols-2 sm:gap-6">
@@ -262,7 +266,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
                   {b.kind}
                 </span>
                 <h3 className="mt-3 font-display text-xl font-bold tracking-tight">{b.titleEn}</h3>
-                <p className="mt-1 font-hand text-[17px] font-semibold text-pen">{b.titleUz}</p>
+                {!isEn && <p className="mt-1 font-hand text-[17px] font-semibold text-pen">{b.titleUz}</p>}
                 <div className="mt-4">
                   <b.Body />
                 </div>
@@ -270,7 +274,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             ))}
           </Part>
 
-          <Part id="terms" title="Asosiy atamalar (Key Concepts)" kicker="7 · Key terms">
+          <Part id="terms" title={tr('Asosiy atamalar (Key Concepts)', 'Key Concepts')} kicker="7 · Key terms">
             <div className="grid gap-3 sm:grid-cols-2">
               {data.terms.map((t) => (
                 <TermCard key={t.id} t={t} />
@@ -278,7 +282,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             </div>
           </Part>
 
-          <Part id="formulas" title="Formulalar" kicker="8 · Formulas">
+          <Part id="formulas" title={tr('Formulalar', 'Formulas')} kicker="8 · Formulas">
             <div className="space-y-4">
               {data.formulas.map((f) => (
                 <FormulaCard key={f.id} f={f} />
@@ -286,7 +290,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             </div>
           </Part>
 
-          <Part id="summary" title="Bob xulosasi (Chapter in a Nutshell)" kicker="9 · Summary">
+          <Part id="summary" title={tr('Bob xulosasi (Chapter in a Nutshell)', 'Chapter in a Nutshell')} kicker="9 · Summary">
             <ul className="space-y-3">
               {page.summary.map((s, i) => (
                 <li key={i} className="card flex gap-3 p-4 text-[15px] leading-7">
@@ -297,20 +301,20 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
             </ul>
           </Part>
 
-          <Part id="practice" title="Mashqlar" kicker="10 · Practice">
+          <Part id="practice" title={tr('Mashqlar', 'Practice')} kicker="10 · Practice">
             <Practice
               tabs={[
                 { id: 'qq', label: `QuickQuiz (${qq.length})`, node: <QList qs={qq} /> },
                 { id: 'review', label: `Questions for Review (${review.length})`, node: <PList ps={review} widgets={page.widgets} /> },
                 { id: 'problems', label: `Problems & Applications (${problems.length})`, node: <PList ps={problems} widgets={page.widgets} /> },
-                { id: 'new', label: `Yangi savollar (${fresh.length})`, node: <QList qs={fresh} /> },
-                { id: 'graph', label: `Grafik topshiriqlar (${graphs.length})`, node: <QList qs={graphs} /> },
+                { id: 'new', label: `${tr('Yangi savollar', 'New questions')} (${fresh.length})`, node: <QList qs={fresh} /> },
+                { id: 'graph', label: `${tr('Grafik topshiriqlar', 'Graph tasks')} (${graphs.length})`, node: <QList qs={graphs} /> },
               ]}
             />
           </Part>
 
-          <Part id="flashcards" title="Kartochkalar" kicker="11 · Flashcards">
-            <FlashcardDeck cards={deck} title={`${data.number}-bob kartochkalari`} />
+          <Part id="flashcards" title={tr('Kartochkalar', 'Flashcards')} kicker="11 · Flashcards">
+            <FlashcardDeck cards={deck} title={tr(`${data.number}-bob kartochkalari`, `Chapter ${data.number} flashcards`)} />
           </Part>
         </article>
       </div>
@@ -319,7 +323,7 @@ function Chapter({ data, page }: { data: ChapterData; page: ChapterPageContent }
 }
 
 function labelFor(id: string, page: ChapterPageContent) {
-  return PARTS.find((p) => p.id === id)?.label ?? page.sections.find((s) => s.id === id)?.titleUz ?? page.boxes.find((b) => b.id === id)?.titleEn ?? '';
+  return PARTS.find((p) => p.id === id)?.label ?? tr(page.sections.find((s) => s.id === id)?.titleUz, page.sections.find((s) => s.id === id)?.titleEn) ?? page.boxes.find((b) => b.id === id)?.titleEn ?? '';
 }
 
 function MiniBar({ label, v }: { label: string; v: number }) {
@@ -381,7 +385,7 @@ function PList({ ps, widgets }: { ps: Problem[]; widgets?: ChapterPageContent['w
               <span className="num chip border-solid bg-marker text-[#111]">
                 {p.kind === 'review' ? 'Review' : 'Problem'} {p.number}
               </span>
-              {W && <span className="chip">interaktiv</span>}
+              {W && <span className="chip">{tr('interaktiv', 'interactive')}</span>}
             </div>
             <RichText text={p.prompt} block className="prose-uz font-medium" />
             {W && <W />}
@@ -397,12 +401,12 @@ function TermCard({ t }: { t: Term }) {
   return (
     <div className="card p-4">
       <div className="font-display text-lg font-bold">{t.en}</div>
-      <div className="mt-0.5 font-hand text-[16px] font-semibold text-pen">{t.uz}</div>
+      {!isEn && <div className="mt-0.5 font-hand text-[16px] font-semibold text-pen">{t.uz}</div>}
       <p className="mt-2 text-[13px] italic leading-snug text-muted">“{t.defEn}”</p>
       <RichText text={t.defUz} block className="prose-uz mt-2 text-[15px] leading-6" />
       {t.example && (
         <p className="mt-3 rounded-lg border-[1.5px] border-dashed border-ink/40 p-2 text-sm">
-          <span className="font-semibold">Misol: </span>
+          <span className="font-semibold">{tr('Misol: ', 'Example: ')}</span>
           <RichText text={t.example} />
         </p>
       )}
@@ -415,14 +419,14 @@ export function FormulaCard({ f }: { f: Formula }) {
     <div className="card p-4 sm:p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className="font-display font-bold">{f.nameEn}</div>
-        <div className="font-hand text-[16px] font-semibold text-pen">{f.nameUz}</div>
+        {!isEn && <div className="font-hand text-[16px] font-semibold text-pen">{f.nameUz}</div>}
       </div>
       <div className="my-3 rounded-xl border-2 border-ink bg-postit-yellow px-3 py-2 text-[#111]">
         <M tex={f.tex} display />
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div>
-          <div className="kicker mb-1">Belgilar</div>
+          <div className="kicker mb-1">{tr('Belgilar', 'Symbols')}</div>
           <ul className="space-y-1 text-[15px]">
             {f.symbols.map((s) => (
               <li key={s.tex}>
@@ -432,7 +436,7 @@ export function FormulaCard({ f }: { f: Formula }) {
           </ul>
         </div>
         <div>
-          <div className="kicker mb-1">Misol</div>
+          <div className="kicker mb-1">{tr('Misol', 'Example')}</div>
           <RichText text={f.example.setup} block className="prose-uz text-[15px]" />
           <ol className="mt-1 list-decimal space-y-1 pl-5 text-[15px]">
             {f.example.steps.map((s, i) => (

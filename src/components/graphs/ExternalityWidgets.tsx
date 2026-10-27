@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { RichText } from '../ui/RichText';
 import { clipLine, makeFrame, polygon, sx, sy, ticks, type Frame } from './plot';
 import { useWidth } from './useWidth';
+import { isEn, tr } from '../../lib/lang';
 
 function Shell({ title, controls, side, explain, children, tabs }: { title: string; controls: React.ReactNode; side: React.ReactNode; explain: string; children: React.ReactNode; tabs?: React.ReactNode }) {
   return (
@@ -20,7 +21,7 @@ function Shell({ title, controls, side, explain, children, tabs }: { title: stri
       </div>
       <div className="grid gap-x-6 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">{controls}</div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>
@@ -103,7 +104,7 @@ export function ExternalityGraph({ initial = 'negative' as 'negative' | 'positiv
     ? [[Qo, D.a - D.b * Qo], [Q, S.c + ext + S.d * Q], [Q, D.a - D.b * Q]]
     : [[Qo, S.c + S.d * Qo], [Q, D.a + ext - D.b * Q], [Q, S.c + S.d * Q]];
   const revenue = policy * Q;
-  const explain = neg
+  const explainUz = neg
     ? `Har bir birlik ishlab chiqarish begonalarga **$${fmt(ext)}** zarar yetkazadi (external cost). **Social cost = private cost + external cost** — ijtimoiy xarajat egri chizig'i taklifdan $${fmt(ext)} yuqorida. Bozor faqat xususiy xarajatni hisobga oladi: Q = ${fmt(market.Q, 1)}, optimal esa Q = **${fmt(Qo, 1)}** — bozor **ko'p** ishlab chiqaradi.\n\n${
         policy === 0
           ? `Korrektiv (Pigovian) soliqni yoqing: soliq external cost ga teng bo'lganda ($${fmt(ext)}) bozor optimumga keladi — externality **internallashadi**.`
@@ -118,10 +119,26 @@ export function ExternalityGraph({ initial = 'negative' as 'negative' | 'positiv
             ? `Subsidiya = external benefit: bozor optimal miqdorga yetdi, DWL = 0 (subsidiyaga $${fmt(revenue)} xarajat).`
             : `Subsidiya $${fmt(policy)}: miqdor ${fmt(Q, 1)}, qolgan yo'qotish $${fmt(dwl)}.`
       }`;
+  const explainEn = neg
+    ? `Each unit produced imposes **$${fmt(ext)}** of harm on bystanders (an external cost). **Social cost = private cost + external cost** — the social-cost curve lies $${fmt(ext)} above supply. The market counts only private cost: Q = ${fmt(market.Q, 1)}, while the optimum is Q = **${fmt(Qo, 1)}** — the market produces **too much**.\n\n${
+        policy === 0
+          ? `Turn on a corrective (Pigovian) tax: when the tax equals the external cost ($${fmt(ext)}), the market reaches the optimum — the externality is **internalized**.`
+          : Math.abs(policy - ext) < 0.05
+            ? `Tax = external cost: the market produces exactly the optimal quantity, DWL = 0, and the government collects $${fmt(revenue)}. This tax **raises** efficiency.`
+            : `A tax of $${fmt(policy)} is ${policy < ext ? 'still too small' : 'too large'}: quantity ${fmt(Q, 1)}, remaining deadweight loss $${fmt(dwl)}.`
+      }`
+    : `Each unit consumed gives bystanders **$${fmt(ext)}** of benefit (an external benefit). **Social value = private value + external benefit** — social value lies above demand. The market gives Q = ${fmt(market.Q, 1)}, the optimum is Q = **${fmt(Qo, 1)}** — the market produces **too little** (education, for example).\n\n${
+        policy === 0
+          ? 'Turn on a corrective subsidy: when the subsidy equals the external benefit, the market reaches the optimum.'
+          : Math.abs(policy - ext) < 0.05
+            ? `Subsidy = external benefit: the market reaches the optimal quantity, DWL = 0 (the subsidy costs $${fmt(revenue)}).`
+            : `A subsidy of $${fmt(policy)}: quantity ${fmt(Q, 1)}, remaining loss $${fmt(dwl)}.`
+      }`;
+  const explain = isEn ? explainEn : explainUz;
 
   return (
     <Shell
-      title={neg ? 'Figure 2 — Ifloslanish va ijtimoiy optimum (negative externality)' : 'Figure 3 — Ta\'lim va ijtimoiy optimum (positive externality)'}
+      title={neg ? tr('Figure 2 — Ifloslanish va ijtimoiy optimum (negative externality)', 'Figure 2 — Pollution and the social optimum') : tr("Figure 3 — Ta'lim va ijtimoiy optimum (positive externality)", 'Figure 3 — Education and the social optimum')}
       tabs={
         <Segmented
           size="sm"
@@ -139,18 +156,18 @@ export function ExternalityGraph({ initial = 'negative' as 'negative' | 'positiv
       explain={explain}
       side={
         <div className="space-y-1.5">
-          <Row k="Q (bozor, siyosatsiz)" v={fmt(market.Q, 1)} />
+          <Row k={tr('Q (bozor, siyosatsiz)', 'Q (market, no policy)')} v={fmt(market.Q, 1)} />
           <Row k="Q optimum" v={fmt(Qo, 1)} tone="text-good" />
-          <Row k="Q (siyosat bilan)" v={fmt(Q, 1)} />
-          <Row k={neg ? 'External cost / birlik' : 'External benefit / birlik'} v={`$${fmt(ext)}`} />
+          <Row k={tr('Q (siyosat bilan)', 'Q (with policy)')} v={fmt(Q, 1)} />
+          <Row k={neg ? tr('External cost / birlik', 'External cost / unit') : tr('External benefit / birlik', 'External benefit / unit')} v={`$${fmt(ext)}`} />
           <Row k={neg ? 'Corrective tax' : 'Corrective subsidy'} v={`$${fmt(policy)}`} tone="text-tax" />
-          <Row k={neg ? 'Soliq tushumi' : 'Subsidiya xarajati'} v={`$${fmt(revenue)}`} />
-          <Row k="Sof yo'qotish (DWL)" v={`$${fmt(dwl)}`} tone="text-bad" />
+          <Row k={neg ? tr('Soliq tushumi', 'Tax revenue') : tr('Subsidiya xarajati', 'Cost of the subsidy')} v={`$${fmt(revenue)}`} />
+          <Row k={tr("Sof yo'qotish (DWL)", 'Deadweight loss (DWL)')} v={`$${fmt(dwl)}`} tone="text-bad" />
         </div>
       }
       controls={
         <>
-          <Slider label={neg ? 'External cost (begonalarga zarar)' : 'External benefit (begonalarga foyda)'} value={ext} min={0} max={4} step={0.1} onChange={setExt} display={`$${fmt(ext)}`} color="--bad" />
+          <Slider label={neg ? tr('External cost (begonalarga zarar)', 'External cost (harm to bystanders)') : tr('External benefit (begonalarga foyda)', 'External benefit (to bystanders)')} value={ext} min={0} max={4} step={0.1} onChange={setExt} display={`$${fmt(ext)}`} color="--bad" />
           <Slider label={neg ? 'Pigovian (corrective) tax' : 'Corrective subsidy'} value={policy} min={0} max={4} step={0.1} onChange={setPolicy} display={`$${fmt(policy)}`} color="--tax" />
         </>
       }
@@ -198,11 +215,11 @@ export function PermitsGraph() {
   const Q = mode === 'tax' ? qAtPrice : permits;
   const explain =
     mode === 'tax'
-      ? `**Corrective tax** ifloslanish **narxini** belgilaydi ($${fmt(price)}): taklif — shu narxdagi gorizontal chiziq. Firmalar o'zi qancha ifloslantirishni tanlaydi: **${fmt(Q, 0)}** tonna. Har bir firma ifloslanishni kamaytirish arzonroq bo'lsa kamaytiradi, qimmat bo'lsa soliq to'laydi — kamaytirish eng arzon joyda bo'ladi.${better ? '\n\nTexnologiya yaxshilandi: talab chapga siljidi — soliq ostida ifloslanish **miqdori** kamaydi, narx o\'zgarmadi.' : ''}`
-      : `**Pollution permits** ifloslanish **miqdorini** belgilaydi (${fmt(permits, 0)} tonna): taklif — vertikal chiziq. Ruxsatnomalar bozori narxni aniqlaydi: **$${fmt(P)}**. Ruxsatnoma kimga dastlab berilganidan qat'i nazar, kamaytirish qimmat bo'lgan firmalar sotib oladi, arzon bo'lganlar sotadi — taqsimot samarali.${better ? '\n\nTexnologiya yaxshilandi: talab chapga siljidi — ruxsatnomalar ostida ifloslanish **narxi** tushdi, miqdor o\'zgarmadi.' : ''}`;
+      ? tr(`**Corrective tax** ifloslanish **narxini** belgilaydi ($${fmt(price)}): taklif — shu narxdagi gorizontal chiziq. Firmalar o'zi qancha ifloslantirishni tanlaydi: **${fmt(Q, 0)}** tonna. Har bir firma ifloslanishni kamaytirish arzonroq bo'lsa kamaytiradi, qimmat bo'lsa soliq to'laydi — kamaytirish eng arzon joyda bo'ladi.${better ? '\n\nTexnologiya yaxshilandi: talab chapga siljidi — soliq ostida ifloslanish **miqdori** kamaydi, narx o\'zgarmadi.' : ''}`, `A **corrective tax** sets the **price** of pollution ($${fmt(price)}): supply is a horizontal line at that price. Firms choose how much to pollute: **${fmt(Q, 0)}** tons. Each firm cuts pollution if that is cheaper than paying the tax, so the reduction happens where it is cheapest.${better ? '\n\nTechnology improved: demand shifted left — under the tax the **quantity** of pollution fell and the price stayed the same.' : ''}`)
+      : tr(`**Pollution permits** ifloslanish **miqdorini** belgilaydi (${fmt(permits, 0)} tonna): taklif — vertikal chiziq. Ruxsatnomalar bozori narxni aniqlaydi: **$${fmt(P)}**. Ruxsatnoma kimga dastlab berilganidan qat'i nazar, kamaytirish qimmat bo'lgan firmalar sotib oladi, arzon bo'lganlar sotadi — taqsimot samarali.${better ? '\n\nTexnologiya yaxshilandi: talab chapga siljidi — ruxsatnomalar ostida ifloslanish **narxi** tushdi, miqdor o\'zgarmadi.' : ''}`, `**Pollution permits** set the **quantity** of pollution (${fmt(permits, 0)} tons): supply is a vertical line. The permit market sets the price: **$${fmt(P)}**. Whoever gets the permits first, firms for which cutting pollution is costly buy them and firms for which it is cheap sell — the allocation is efficient.${better ? '\n\nTechnology improved: demand shifted left — with permits the **price** of pollution fell and the quantity stayed the same.' : ''}`);
   return (
     <Shell
-      title="Figure 4 — Corrective tax va pollution permits ekvivalentligi"
+      title={tr("Figure 4 — Corrective tax va pollution permits ekvivalentligi", 'Figure 4 — The equivalence of corrective taxes and pollution permits')}
       tabs={
         <>
           <Segmented size="sm" value={mode} onChange={setMode} options={[{ value: 'tax', label: '(a) Corrective tax' }, { value: 'permits', label: '(b) Pollution permits' }]} />
@@ -214,16 +231,16 @@ export function PermitsGraph() {
       explain={explain}
       side={
         <div className="space-y-1.5">
-          <Row k="Ifloslanish narxi" v={`$${fmt(P)}`} />
-          <Row k="Ifloslanish miqdori" v={fmt(Q, 0)} />
-          <Row k={mode === 'tax' ? 'Soliq tushumi' : 'Auksion tushumi'} v={`$${fmt(P * Q, 0)}`} tone="text-tax" />
+          <Row k={tr('Ifloslanish narxi', 'Price of pollution')} v={`$${fmt(P)}`} />
+          <Row k={tr('Ifloslanish miqdori', 'Quantity of pollution')} v={fmt(Q, 0)} />
+          <Row k={mode === 'tax' ? tr('Soliq tushumi', 'Tax revenue') : tr('Auksion tushumi', 'Auction revenue')} v={`$${fmt(P * Q, 0)}`} tone="text-tax" />
         </div>
       }
       controls={
         mode === 'tax' ? (
-          <Slider label="Corrective tax (1 tonna uchun)" value={price} min={0} max={100} step={1} onChange={setPrice} display={`$${price}`} color="--tax" />
+          <Slider label={tr('Corrective tax (1 tonna uchun)', 'Corrective tax (per ton)')} value={price} min={0} max={100} step={1} onChange={setPrice} display={`$${price}`} color="--tax" />
         ) : (
-          <Slider label="Ruxsatnomalar soni (tonna)" value={permits} min={0} max={1000} step={10} onChange={setPermits} display={fmt(permits, 0)} color="--tax" />
+          <Slider label={tr('Ruxsatnomalar soni (tonna)', 'Number of permits (tons)')} value={permits} min={0} max={1000} step={10} onChange={setPermits} display={fmt(permits, 0)} color="--tax" />
         )
       }
     >
@@ -264,54 +281,54 @@ export function CoaseLab() {
   if (rights === 'emily') {
     if (efficientKeep) {
       keep = true;
-      outcome = `Emily itni saqlaydi: Horace ko'pi bilan $${cost} taklif qila oladi, Emily esa $${benefit} dan kamiga rozi emas.`;
+      outcome = tr(`Emily itni saqlaydi: Horace ko'pi bilan $${cost} taklif qila oladi, Emily esa $${benefit} dan kamiga rozi emas.`, `Emily keeps the dog: Horace can offer at most $${cost}, and Emily won't accept less than $${benefit}.`);
     } else if (bargain) {
       keep = false;
-      outcome = `Horace Emilyga $${benefit} dan $${cost} gacha (masalan $${Math.round((benefit + cost) / 2)}) to'laydi va Clifford yangi uyga ketadi.`;
+      outcome = tr(`Horace Emilyga $${benefit} dan $${cost} gacha (masalan $${Math.round((benefit + cost) / 2)}) to'laydi va Clifford yangi uyga ketadi.`, `Horace pays Emily between $${benefit} and $${cost} (say $${Math.round((benefit + cost) / 2)}) and Clifford moves to a new home.`);
     } else {
       keep = true;
-      outcome = `Bitim foydali bo'lardi, lekin transaction cost ($${tc}) yutuqdan ($${gain}) katta — kelishuv bo'lmaydi, it qoladi (samarasiz).`;
+      outcome = tr(`Bitim foydali bo'lardi, lekin transaction cost ($${tc}) yutuqdan ($${gain}) katta — kelishuv bo'lmaydi, it qoladi (samarasiz).`, `A deal would pay, but the transaction cost ($${tc}) exceeds the gain ($${gain}) — no agreement, the dog stays (inefficient).`);
     }
   } else {
     if (!efficientKeep) {
       keep = false;
-      outcome = `Horace huquqidan foydalanadi: Emily ko'pi bilan $${benefit} taklif qila oladi, Horace $${cost} dan kamiga rozi emas — it ketadi.`;
+      outcome = tr(`Horace huquqidan foydalanadi: Emily ko'pi bilan $${benefit} taklif qila oladi, Horace $${cost} dan kamiga rozi emas — it ketadi.`, `Horace uses his right: Emily can offer at most $${benefit}, and Horace won't accept less than $${cost} — the dog goes.`);
     } else if (bargain) {
       keep = true;
-      outcome = `Emily Horacega $${cost} dan $${benefit} gacha to'lab, itni saqlab qoladi.`;
+      outcome = tr(`Emily Horacega $${cost} dan $${benefit} gacha to'lab, itni saqlab qoladi.`, `Emily pays Horace between $${cost} and $${benefit} and keeps the dog.`);
     } else {
       keep = false;
-      outcome = `Kelishuv foydali, lekin transaction cost ($${tc}) yutuqdan ($${gain}) katta — it ketadi (samarasiz).`;
+      outcome = tr(`Kelishuv foydali, lekin transaction cost ($${tc}) yutuqdan ($${gain}) katta — it ketadi (samarasiz).`, `A deal would pay, but the transaction cost ($${tc}) exceeds the gain ($${gain}) — the dog goes (inefficient).`);
     }
   }
   const efficient = keep === efficientKeep;
-  const explain = `**Samarali natija:** ${efficientKeep ? `itni saqlash (Emily foydasi $${benefit} ≥ Horace zarari $${cost})` : `itni boshqa uyga berish (Horace zarari $${cost} > Emily foydasi $${benefit})`}.\n\n**Haqiqiy natija:** ${outcome} ${efficient ? '✓ Samarali.' : '✗ Samarasiz.'}\n\nHuquqni almashtirib ko'ring: transaction cost nol bo'lsa, natija **bir xil** (Coase theorem) — faqat kim kimga pul to'lashi o'zgaradi. Transaction cost yutuqdan oshsa, kelishuv buziladi.`;
+  const explain = tr(`**Samarali natija:** ${efficientKeep ? `itni saqlash (Emily foydasi $${benefit} ≥ Horace zarari $${cost})` : `itni boshqa uyga berish (Horace zarari $${cost} > Emily foydasi $${benefit})`}.\n\n**Haqiqiy natija:** ${outcome} ${efficient ? '✓ Samarali.' : '✗ Samarasiz.'}\n\nHuquqni almashtirib ko'ring: transaction cost nol bo'lsa, natija **bir xil** (Coase theorem) — faqat kim kimga pul to'lashi o'zgaradi. Transaction cost yutuqdan oshsa, kelishuv buziladi.`, `**Efficient outcome:** ${efficientKeep ? `keep the dog (Emily's benefit $${benefit} ≥ Horace's cost $${cost})` : `move the dog (Horace's cost $${cost} > Emily's benefit $${benefit})`}.\n\n**Actual outcome:** ${outcome} ${efficient ? '✓ Efficient.' : '✗ Inefficient.'}\n\nSwitch the property right: with zero transaction costs the outcome is **the same** (the Coase theorem) — only who pays whom changes. If transaction costs exceed the gain, the deal falls apart.`);
   return (
     <Shell
-      title="Coase theorem — Emily, Clifford va Horace"
+      title={tr("Coase theorem — Emily, Clifford va Horace", 'The Coase theorem — Emily, Clifford, and Horace')}
       tabs={
         <Segmented
           size="sm"
           value={rights}
           onChange={setRights}
           options={[
-            { value: 'emily', label: 'Huquq: Emily (it saqlash)' },
-            { value: 'horace', label: 'Huquq: Horace (tinchlik)' },
+            { value: 'emily', label: tr('Huquq: Emily (it saqlash)', 'Right: Emily (keep the dog)') },
+            { value: 'horace', label: tr('Huquq: Horace (tinchlik)', 'Right: Horace (peace and quiet)') },
           ]}
         />
       }
       explain={explain}
       side={
         <div className="space-y-2">
-          <div className={`rounded-lg border-2 border-ink p-3 text-center font-bold text-[#111] ${keep ? 'bg-postit-yellow' : 'bg-postit-blue'}`}>{keep ? '🐕 Clifford qoladi' : '🏡 Clifford yangi uyga ketadi'}</div>
-          <div className={`rounded-lg border-2 border-ink p-2 text-center text-sm font-semibold text-[#111] ${efficient ? 'bg-postit-green' : 'bg-postit-pink'}`}>{efficient ? 'Samarali' : 'Samarasiz'}</div>
+          <div className={`rounded-lg border-2 border-ink p-3 text-center font-bold text-[#111] ${keep ? 'bg-postit-yellow' : 'bg-postit-blue'}`}>{keep ? tr('🐕 Clifford qoladi', '🐕 Clifford stays') : tr('🏡 Clifford yangi uyga ketadi', '🏡 Clifford moves to a new home')}</div>
+          <div className={`rounded-lg border-2 border-ink p-2 text-center text-sm font-semibold text-[#111] ${efficient ? 'bg-postit-green' : 'bg-postit-pink'}`}>{efficient ? tr('Samarali', 'Efficient') : tr('Samarasiz', 'Inefficient')}</div>
         </div>
       }
       controls={
         <>
-          <Slider label="Emily'ning itdan foydasi" value={benefit} min={0} max={3000} step={100} onChange={setBenefit} display={`$${benefit}`} color="--demand" />
-          <Slider label="Horace'ning hurishdan zarari" value={cost} min={0} max={3000} step={100} onChange={setCost} display={`$${cost}`} color="--supply" />
-          <Slider label="Transaction cost (tarjimon, advokat…)" value={tc} min={0} max={2000} step={50} onChange={setTc} display={`$${tc}`} color="--bad" />
+          <Slider label={tr("Emily'ning itdan foydasi", "Emily's benefit from the dog")} value={benefit} min={0} max={3000} step={100} onChange={setBenefit} display={`$${benefit}`} color="--demand" />
+          <Slider label={tr("Horace'ning hurishdan zarari", "Horace's cost from the barking")} value={cost} min={0} max={3000} step={100} onChange={setCost} display={`$${cost}`} color="--supply" />
+          <Slider label={tr('Transaction cost (tarjimon, advokat…)', 'Transaction cost (lawyers, translators…)')} value={tc} min={0} max={2000} step={50} onChange={setTc} display={`$${tc}`} color="--bad" />
         </>
       }
     >

@@ -1,14 +1,15 @@
 import { useState, type ReactNode } from 'react';
+import { tr } from '../../lib/lang';
 import { RichText } from './RichText';
 
 type CalloutKind = 'exam' | 'mistake' | 'note' | 'tip' | 'uz';
 
 const calloutStyle: Record<CalloutKind, { icon: string; label: string; cls: string; tilt: string }> = {
-  exam: { icon: '🎯', label: "Imtihonda so'raladi", cls: 'bg-postit-yellow', tilt: '-rotate-[0.6deg]' },
-  mistake: { icon: '⚠️', label: "Ko'p uchraydigan xato", cls: 'bg-postit-pink', tilt: 'rotate-[0.5deg]' },
-  note: { icon: '📌', label: 'Eslatma', cls: 'bg-postit-blue', tilt: 'rotate-[0.4deg]' },
-  tip: { icon: '💡', label: 'Maslahat', cls: 'bg-postit-green', tilt: '-rotate-[0.4deg]' },
-  uz: { icon: '🇺🇿', label: "O'zbekistondagi misol", cls: 'bg-postit-blue', tilt: '-rotate-[0.5deg]' },
+  exam: { icon: '🎯', label: tr("Imtihonda so'raladi", 'On the exam'), cls: 'bg-postit-yellow', tilt: '-rotate-[0.6deg]' },
+  mistake: { icon: '⚠️', label: tr("Ko'p uchraydigan xato", 'Common mistake'), cls: 'bg-postit-pink', tilt: 'rotate-[0.5deg]' },
+  note: { icon: '📌', label: tr('Eslatma', 'Note'), cls: 'bg-postit-blue', tilt: 'rotate-[0.4deg]' },
+  tip: { icon: '💡', label: tr('Maslahat', 'Tip'), cls: 'bg-postit-green', tilt: '-rotate-[0.4deg]' },
+  uz: { icon: '🇺🇿', label: tr("O'zbekistondagi misol", 'Example from Uzbekistan'), cls: 'bg-postit-blue', tilt: '-rotate-[0.5deg]' },
 };
 
 /** A pastel sticky note held on with tape. */
@@ -43,24 +44,24 @@ export function StepReveal({ steps, answer }: { steps: string[]; answer?: string
       </ol>
       {all && answer && (
         <div className="animate-pop mt-3 rounded-xl border-2 border-ink bg-postit-green p-3 text-[15px] text-[#111]">
-          <span className="font-hand font-semibold text-[#1f4fb8]">Javob: </span>
+          <span className="font-hand font-semibold text-[#1f4fb8]">{tr('Javob: ', 'Answer: ')}</span>
           <RichText text={answer} />
         </div>
       )}
       <div className="mt-3 flex flex-wrap gap-2">
         {!all && (
           <button className="btn-ghost btn-sm" onClick={() => setShown((n) => n + 1)}>
-            {shown === 0 ? "Yechimning 1-qadamini ko'rsat" : `Keyingi qadam (${shown + 1}/${steps.length})`}
+            {shown === 0 ? tr("Yechimning 1-qadamini ko'rsat", 'Show step 1 of the solution') : `${tr('Keyingi qadam', 'Next step')} (${shown + 1}/${steps.length})`}
           </button>
         )}
         {!all && steps.length > 1 && (
           <button className="btn-ghost btn-sm text-muted" onClick={() => setShown(steps.length)}>
-            Hammasini ko'rsat
+            {tr("Hammasini ko'rsat", 'Show all')}
           </button>
         )}
         {shown > 0 && (
           <button className="btn-ghost btn-sm text-muted" onClick={() => setShown(0)}>
-            Yashirish
+            {tr('Yashirish', 'Hide')}
           </button>
         )}
       </div>
@@ -174,9 +175,9 @@ export function Ring({ value, size = 56, label }: { value: number; size?: number
 /** Ask the Experts poll bar. */
 export function PollBar({ agree, uncertain, disagree }: { agree: number; uncertain: number; disagree: number }) {
   const parts = [
-    { v: agree, label: 'Rozi (agree)', cls: 'bg-good' },
-    { v: uncertain, label: 'Ikkilanadi (uncertain)', cls: 'bg-warn' },
-    { v: disagree, label: 'Rozi emas (disagree)', cls: 'bg-bad' },
+    { v: agree, label: tr('Rozi (agree)', 'Agree'), cls: 'bg-good' },
+    { v: uncertain, label: tr('Ikkilanadi (uncertain)', 'Uncertain'), cls: 'bg-warn' },
+    { v: disagree, label: tr('Rozi emas (disagree)', 'Disagree'), cls: 'bg-bad' },
   ];
   return (
     <div className="mt-3">

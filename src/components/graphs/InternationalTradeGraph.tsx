@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { RichText } from '../ui/RichText';
 import { clipLine, iy, makeFrame, polygon, svgPoint, sx, sy, ticks, type Frame } from './plot';
 import { useWidth } from './useWidth';
+import { tr } from '../../lib/lang';
 
 type Mode = 'trade' | 'tariff';
 type Region = { id: string; pts: [number, number][]; cls: string };
@@ -125,21 +126,21 @@ export function InternationalTradeGraph({
   const explain =
     mode === 'trade'
       ? ft.role === 'exporter'
-        ? `Jahon narxi (${money(world)}) ichki narxdan (${money(P0)}) **yuqori** → mamlakat bu tovarda **comparative advantage**ga ega va **eksportchi** bo'ladi: ichkarida ${fmt(qs1, 1)} ishlab chiqariladi, ${fmt(qd1, 1)} iste'mol qilinadi, **eksport ${fmt(qs1 - qd1, 1)}**.\n\nIshlab chiqaruvchilar yutadi (PS: C → B + C + D), iste'molchilar yutqazadi (CS: A + B → A). Yutuq yo'qotishdan **D** maydoniga ko'p — bu **gains from trade**.`
+        ? tr(`Jahon narxi (${money(world)}) ichki narxdan (${money(P0)}) **yuqori** → mamlakat bu tovarda **comparative advantage**ga ega va **eksportchi** bo'ladi: ichkarida ${fmt(qs1, 1)} ishlab chiqariladi, ${fmt(qd1, 1)} iste'mol qilinadi, **eksport ${fmt(qs1 - qd1, 1)}**.\n\nIshlab chiqaruvchilar yutadi (PS: C → B + C + D), iste'molchilar yutqazadi (CS: A + B → A). Yutuq yo'qotishdan **D** maydoniga ko'p — bu **gains from trade**.`, `The world price (${money(world)}) is **above** the domestic price (${money(P0)}) → the country has a **comparative advantage** in this good and becomes an **exporter**: it produces ${fmt(qs1, 1)}, consumes ${fmt(qd1, 1)}, and **exports ${fmt(qs1 - qd1, 1)}**.\n\nProducers gain (PS: C → B + C + D), consumers lose (CS: A + B → A). The gains exceed the losses by area **D** — the **gains from trade**.`)
         : ft.role === 'importer'
-          ? `Jahon narxi (${money(world)}) ichki narxdan (${money(P0)}) **past** → boshqa mamlakatlarda comparative advantage, bu mamlakat **importchi**: ichkarida ${fmt(qs1, 1)} ishlab chiqariladi, ${fmt(qd1, 1)} iste'mol qilinadi, **import ${fmt(qd1 - qs1, 1)}**.\n\nIste'molchilar yutadi (CS: A → A + B + D), ishlab chiqaruvchilar yutqazadi (PS: B + C → C). Sof yutuq — **D** maydoni.`
-          : `Jahon narxi ichki narxga teng — savdo yo'q. Sariq chiziqni yuqoriga yoki pastga torting.`
-      : `Tarif ${money(t)}: ichki narx ${money(world)} → **${money(tar.price)}**. Import ${fmt(tar.imports1, 1)} → ${fmt(tar.imports2, 1)}. Ishlab chiqaruvchilar **C** ni yutadi, ${quota ? 'litsenziya egalari' : 'davlat'} **E** ni oladi, iste'molchilar C + D + E + F ni yo'qotadi.\n\n**D** — ortiqcha ishlab chiqarish (dunyo narxidan qimmat ishlab chiqarilgan birliklar), **F** — kam iste'mol. Sof yo'qotish **D + F = ${money(tar.dwl)}**.${quota ? '\n\nImport kvotasi xuddi shu narx va miqdorlarni beradi; farq faqat **E** kimga tegishida — davlatga emas, import litsenziyasi egalariga (ko\'pincha xorijiy firmalarga).' : ''}`;
+          ? tr(`Jahon narxi (${money(world)}) ichki narxdan (${money(P0)}) **past** → boshqa mamlakatlarda comparative advantage, bu mamlakat **importchi**: ichkarida ${fmt(qs1, 1)} ishlab chiqariladi, ${fmt(qd1, 1)} iste'mol qilinadi, **import ${fmt(qd1 - qs1, 1)}**.\n\nIste'molchilar yutadi (CS: A → A + B + D), ishlab chiqaruvchilar yutqazadi (PS: B + C → C). Sof yutuq — **D** maydoni.`, `The world price (${money(world)}) is **below** the domestic price (${money(P0)}) → other countries have the comparative advantage and this country is an **importer**: it produces ${fmt(qs1, 1)}, consumes ${fmt(qd1, 1)}, and **imports ${fmt(qd1 - qs1, 1)}**.\n\nConsumers gain (CS: A → A + B + D), producers lose (PS: B + C → C). The net gain is area **D**.`)
+          : tr(`Jahon narxi ichki narxga teng — savdo yo'q. Sariq chiziqni yuqoriga yoki pastga torting.`, `The world price equals the domestic price — no trade. Drag the yellow line up or down.`)
+      : tr(`Tarif ${money(t)}: ichki narx ${money(world)} → **${money(tar.price)}**. Import ${fmt(tar.imports1, 1)} → ${fmt(tar.imports2, 1)}. Ishlab chiqaruvchilar **C** ni yutadi, ${quota ? 'litsenziya egalari' : 'davlat'} **E** ni oladi, iste'molchilar C + D + E + F ni yo'qotadi.\n\n**D** — ortiqcha ishlab chiqarish (dunyo narxidan qimmat ishlab chiqarilgan birliklar), **F** — kam iste'mol. Sof yo'qotish **D + F = ${money(tar.dwl)}**.${quota ? '\n\nImport kvotasi xuddi shu narx va miqdorlarni beradi; farq faqat **E** kimga tegishida — davlatga emas, import litsenziyasi egalariga (ko\'pincha xorijiy firmalarga).' : ''}`, `A tariff of ${money(t)}: the domestic price goes from ${money(world)} to **${money(tar.price)}**. Imports ${fmt(tar.imports1, 1)} → ${fmt(tar.imports2, 1)}. Producers gain **C**, ${quota ? 'licence holders' : 'the government'} get **E**, consumers lose C + D + E + F.\n\n**D** is overproduction (units made at a cost above the world price), **F** is underconsumption. Deadweight loss **D + F = ${money(tar.dwl)}**.${quota ? '\n\nAn import quota gives the same prices and quantities; the only difference is who gets **E** — not the government but the holders of import licences (often foreign firms).' : ''}`);
 
   return (
     <figure className="card my-6 overflow-hidden">
       <div className="border-b-2 border-ink bg-marker px-4 py-3 text-[#111]">
         <figcaption className="font-display text-[14px] font-bold">
-          <RichText text={title ?? (mode === 'trade' ? 'Figures 2–3 — Eksport va import qiluvchi mamlakat' : "Figure 4 — Tarifning ta'siri")} />
+          <RichText text={title ?? (mode === 'trade' ? tr('Figures 2–3 — Eksport va import qiluvchi mamlakat', 'Figures 2–3 — An exporting and an importing country') : tr("Figure 4 — Tarifning ta'siri", 'Figure 4 — The effects of a tariff'))} />
         </figcaption>
       </div>
       <div className="flex flex-wrap gap-3 px-4 pt-3">
-        <Segmented size="sm" value={mode} onChange={setMode} options={[{ value: 'trade', label: 'Erkin savdo' }, { value: 'tariff', label: 'Tarif / kvota' }]} />
+        <Segmented size="sm" value={mode} onChange={setMode} options={[{ value: 'trade', label: tr('Erkin savdo', 'Free trade') }, { value: 'tariff', label: tr('Tarif / kvota', 'Tariff / quota') }]} />
         {mode === 'tariff' && (
           <Segmented size="sm" value={quota ? 'q' : 't'} onChange={(v) => setQuota(v === 'q')} options={[{ value: 't', label: 'Tariff' }, { value: 'q', label: 'Import quota' }]} />
         )}
@@ -233,7 +234,7 @@ export function InternationalTradeGraph({
           </svg>
         </div>
         <div className="border-t-2 border-dashed border-ink/30 p-4 text-sm md:border-l-2 md:border-t-0">
-          <div className="kicker mb-2">{mode === 'trade' ? (ft.role === 'exporter' ? 'Eksportchi' : ft.role === 'importer' ? 'Importchi' : "Savdo yo'q") : 'Tarif natijasi'}</div>
+          <div className="kicker mb-2">{mode === 'trade' ? (ft.role === 'exporter' ? tr('Eksportchi', 'Exporter') : ft.role === 'importer' ? tr('Importchi', 'Importer') : tr("Savdo yo'q", 'No trade')) : tr('Tarif natijasi', 'Effect of the tariff')}</div>
           <table className="w-full text-xs">
             <thead>
               <tr className="text-left text-muted">
@@ -269,11 +270,11 @@ export function InternationalTradeGraph({
         </div>
       </div>
       <div className="grid gap-x-6 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">
-        <Slider label="World price (jahon narxi)" value={world} min={0.05 * yMax} max={0.95 * yMax} step={yMax / 400} onChange={setPw} display={money(world)} />
-        {mode === 'tariff' && <Slider label={quota ? "Kvota ta'siri (narx farqi)" : 'Tariff (bojxona boji)'} value={t} min={0} max={Math.max(0.01, P0 - world)} step={yMax / 400} onChange={setT} display={money(t)} color="--tax" />}
+        <Slider label={tr('World price (jahon narxi)', 'World price')} value={world} min={0.05 * yMax} max={0.95 * yMax} step={yMax / 400} onChange={setPw} display={money(world)} />
+        {mode === 'tariff' && <Slider label={quota ? tr("Kvota ta'siri (narx farqi)", 'Effect of the quota (price gap)') : tr('Tariff (bojxona boji)', 'Tariff')} value={t} min={0} max={Math.max(0.01, P0 - world)} step={yMax / 400} onChange={setT} display={money(t)} color="--tax" />}
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>

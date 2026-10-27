@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { GraphTask, Matching, MCQ, Numeric, Question, TrueFalse } from '../../content/types';
+import { tr } from '../../lib/lang';
 import { useProgress } from '../../lib/progress';
 import { SupplyDemandGraph, type SDState } from '../graphs/SupplyDemandGraph';
 import { RichText } from '../ui/RichText';
@@ -29,7 +30,7 @@ export function QuestionView({ q, index, hideFeedback, onAnswered, compact }: Pr
       <div className="mb-2 flex flex-wrap items-center gap-2">
         {index != null && <span className="num text-sm font-semibold text-muted">{index}.</span>}
         <span className={`chip ${q.source === 'quickquiz' ? 'border-solid bg-marker text-[#111]' : ''}`}>
-          {q.source === 'quickquiz' ? 'QuickQuiz (kitobdan)' : KIND_LABEL[q.kind]}
+          {q.source === 'quickquiz' ? tr('QuickQuiz (kitobdan)', 'QuickQuiz (from the book)') : KIND_LABEL[q.kind]}
         </span>
         <span className="chip">{q.topic}</span>
       </div>
@@ -46,11 +47,11 @@ export function QuestionView({ q, index, hideFeedback, onAnswered, compact }: Pr
 }
 
 const KIND_LABEL: Record<Question['kind'], string> = {
-  mcq: 'Test',
-  tf: "To'g'ri / noto'g'ri",
-  numeric: 'Hisob-kitob',
-  match: 'Moslashtirish',
-  graph: 'Grafik topshiriq',
+  mcq: tr('Test', 'Multiple choice'),
+  tf: tr("To'g'ri / noto'g'ri", 'True / false'),
+  numeric: tr('Hisob-kitob', 'Calculation'),
+  match: tr('Moslashtirish', 'Matching'),
+  graph: tr('Grafik topshiriq', 'Graph task'),
 };
 
 type ViewProps<T> = { q: T; onAnswer: (correct: boolean) => void; hideFeedback?: boolean };
@@ -58,7 +59,7 @@ type ViewProps<T> = { q: T; onAnswer: (correct: boolean) => void; hideFeedback?:
 function Feedback({ ok, children }: { ok: boolean; children: React.ReactNode }) {
   return (
     <div className={`postit animate-pop mt-4 border-2 border-ink p-4 text-[15px] ${ok ? 'bg-postit-green' : 'bg-postit-pink'}`}>
-      <div className="mb-1 font-hand text-[17px] font-semibold text-[#1f4fb8]">{ok ? "✓ To'g'ri!" : "✗ Noto'g'ri"}</div>
+      <div className="mb-1 font-hand text-[17px] font-semibold text-[#1f4fb8]">{ok ? tr("✓ To'g'ri!", '✓ Correct!') : tr("✗ Noto'g'ri", '✗ Not quite')}</div>
       {children}
     </div>
   );
@@ -112,7 +113,7 @@ function MCQView({ q, onAnswer, hideFeedback }: ViewProps<MCQ>) {
         <div className="mt-2 flex flex-wrap gap-2">
           {!showAll && (
             <button className="btn-ghost btn-sm" onClick={() => setShowAll(true)}>
-              Barcha variantlar izohini ko'rish
+              {tr("Barcha variantlar izohini ko'rish", 'Explain every option')}
             </button>
           )}
           <button
@@ -122,7 +123,7 @@ function MCQView({ q, onAnswer, hideFeedback }: ViewProps<MCQ>) {
               setShowAll(false);
             }}
           >
-            Qayta urinish
+            {tr('Qayta urinish', 'Try again')}
           </button>
         </div>
       )}
@@ -157,7 +158,7 @@ function TFView({ q, onAnswer, hideFeedback }: ViewProps<TrueFalse>) {
                   : 'bg-surface hover:bg-marker hover:text-[#111]'
             }`}
           >
-            {v ? "To'g'ri (True)" : "Noto'g'ri (False)"}
+            {v ? tr("To'g'ri (True)", 'True') : tr("Noto'g'ri (False)", 'False')}
           </button>
         ))}
       </div>
@@ -165,12 +166,12 @@ function TFView({ q, onAnswer, hideFeedback }: ViewProps<TrueFalse>) {
         <Feedback ok={ok}>
           {!ok && (
             <p className="mb-1">
-              Bu gap aslida <b>{q.answer ? "to'g'ri" : "noto'g'ri"}</b>.
+              {tr('Bu gap aslida', 'This statement is actually')} <b>{q.answer ? tr("to'g'ri", 'true') : tr("noto'g'ri", 'false')}</b>.
             </p>
           )}
           <RichText text={q.why} block className="prose-uz text-[15px]" />
           <button className="btn-ghost btn-sm mt-2" onClick={() => setPicked(null)}>
-            Qayta urinish
+            {tr('Qayta urinish', 'Try again')}
           </button>
         </Feedback>
       )}
@@ -198,13 +199,13 @@ function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
           disabled={result != null}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && check()}
-          placeholder="Javobingiz"
+          placeholder={tr('Javobingiz', 'Your answer')}
           className="num w-40 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-2 text-[15px] outline-none focus:ring-4 focus:ring-pen/30"
         />
         {q.unit && <span className="text-sm text-muted">{q.unit}</span>}
         {result == null ? (
           <button className="btn-primary" onClick={check}>
-            Tekshirish
+            {tr('Tekshirish', 'Check')}
           </button>
         ) : (
           <button
@@ -214,7 +215,7 @@ function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
               setValue('');
             }}
           >
-            Qayta urinish
+            {tr('Qayta urinish', 'Try again')}
           </button>
         )}
       </div>
@@ -222,13 +223,13 @@ function NumericView({ q, onAnswer, hideFeedback }: ViewProps<Numeric>) {
         <Feedback ok={result.ok}>
           {!result.ok && result.trap && (
             <div className="mb-2">
-              <span className="font-semibold">Nima xato ketdi: </span>
+              <span className="font-semibold">{tr('Nima xato ketdi: ', 'What went wrong: ')}</span>
               <RichText text={result.trap} />
             </div>
           )}
           {!result.ok && (
             <p className="mb-1">
-              To'g'ri javob: <b className="num">{q.answer}</b> {q.unit}
+              {tr("To'g'ri javob:", 'Correct answer:')} <b className="num">{q.answer}</b> {q.unit}
             </p>
           )}
           <RichText text={q.why} block className="prose-uz text-[15px]" />
@@ -266,7 +267,7 @@ function MatchView({ q, onAnswer, hideFeedback }: ViewProps<Matching>) {
                 onChange={(e) => setChoice((c) => ({ ...c, [i]: Number(e.target.value) }))}
                 className="w-full rounded-[0.7rem] border-2 border-ink bg-surface px-2 py-2 text-sm text-ink"
               >
-                <option value="">— tanlang —</option>
+                <option value="">{tr('— tanlang —', '— choose —')}</option>
                 {rights.map((r) => (
                   <option key={r.i} value={r.i}>
                     {stripMarkup(r.text)}
@@ -275,7 +276,7 @@ function MatchView({ q, onAnswer, hideFeedback }: ViewProps<Matching>) {
               </select>
               {checked && !hideFeedback && !ok && (
                 <div className="text-sm text-muted sm:col-span-2">
-                  To'g'risi: <RichText text={p.right} />
+                  {tr("To'g'risi:", 'Correct:')} <RichText text={p.right} />
                 </div>
               )}
             </div>
@@ -292,7 +293,7 @@ function MatchView({ q, onAnswer, hideFeedback }: ViewProps<Matching>) {
               onAnswer(correctCount === q.pairs.length);
             }}
           >
-            Tekshirish
+            {tr('Tekshirish', 'Check')}
           </button>
         ) : (
           <button
@@ -302,14 +303,14 @@ function MatchView({ q, onAnswer, hideFeedback }: ViewProps<Matching>) {
               setChoice({});
             }}
           >
-            Qayta urinish
+            {tr('Qayta urinish', 'Try again')}
           </button>
         )}
       </div>
       {checked && !hideFeedback && (
         <Feedback ok={correctCount === q.pairs.length}>
           <p>
-            {correctCount} / {q.pairs.length} juftlik to'g'ri.
+            {correctCount} / {q.pairs.length} {tr("juftlik to'g'ri.", 'pairs correct.')}
           </p>
           {q.why && <RichText text={q.why} block className="prose-uz mt-1 text-[15px]" />}
         </Feedback>
@@ -337,7 +338,7 @@ function GraphTaskView({ q, onAnswer, hideFeedback }: ViewProps<GraphTask>) {
             onAnswer(r.ok);
           }}
         >
-          Tekshirish
+          {tr('Tekshirish', 'Check')}
         </button>
       </div>
       {result && !hideFeedback && (

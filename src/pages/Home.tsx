@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { chapters, readyChapters } from '../chapterRegistry';
 import { Ring } from '../components/ui/Kit';
 import { buildDeck } from '../lib/cards';
+import { isEn, tr } from '../lib/lang';
 import { masteryOf } from '../lib/chapterStats';
 import { useProgress } from '../lib/progress';
 
@@ -17,32 +18,42 @@ export function Home() {
       <section className="grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div>
           <div className="kicker flex -rotate-2 items-center gap-2 text-xl sm:text-[1.4rem]">
-            Bugungi dars: narx shifti va soliqlar <span aria-hidden>✎</span>
+            {tr('Bugungi dars: narx shifti va soliqlar', "Today's lesson: price ceilings and taxes")} <span aria-hidden>✎</span>
           </div>
           <h1 className="mt-4 text-[2.6rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl">
-            Iqtisodiyotni <span className="marker">o'ynab</span> o'rganing
+            {isEn ? (
+              <>
+                Learn economics by <span className="marker">playing</span>
+              </>
+            ) : (
+              <>
+                Iqtisodiyotni <span className="marker">o'ynab</span> o'rganing
+              </>
+            )}
           </h1>
-          <p className="mt-5 text-[17px] font-semibold">Mankiw, Principles of Economics (10e) · 1–{chapters.length}-boblar.</p>
+          <p className="mt-5 text-[17px] font-semibold">Mankiw, Principles of Economics (10e) · {tr(`1–${chapters.length}-boblar`, `Chapters 1–${chapters.length}`)}.</p>
           <p className="mt-2 max-w-xl text-[16px] leading-7 text-muted">
-            Har bir grafikni o'zingiz torting, atamalarni inglizcha va o'zbekcha yodlang, kitobning barcha QuickQuiz va
-            masalalarini bosqichma-bosqich yeching. Imtihon ingliz tilida — tushuntirish o'zbekcha.
+            {tr(
+              "Har bir grafikni o'zingiz torting, atamalarni inglizcha va o'zbekcha yodlang, kitobning barcha QuickQuiz va masalalarini bosqichma-bosqich yeching. Imtihon ingliz tilida — tushuntirish o'zbekcha.",
+              'Drag every graph yourself, learn the key terms, and solve every QuickQuiz and problem from the book step by step.',
+            )}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             {last?.data ? (
               <Link to={`/chapter/${last.number}${state.last?.section ? `#${state.last.section}` : ''}`} className="btn-primary px-5 py-3 text-base">
-                Davom ettirish: {last.number}-bob →
+                {tr(`Davom ettirish: ${last.number}-bob →`, `Continue: Chapter ${last.number} →`)}
               </Link>
             ) : (
               <Link to="/chapter/6" className="btn-primary px-5 py-3 text-base">
-                6-bobdan boshlash →
+                {tr('6-bobdan boshlash →', 'Start with Chapter 6 →')}
               </Link>
             )}
             <Link to="/review" className="btn-ghost px-5 py-3 text-base">
-              Kartochkalar <span className="num chip">{dueCards}</span>
+              {tr('Kartochkalar', 'Flashcards')} <span className="num chip">{dueCards}</span>
             </Link>
             {mistakes > 0 && (
               <Link to="/mistakes" className="btn-ghost px-5 py-3 text-base">
-                Xatolar <span className="num chip">{mistakes}</span>
+                {tr('Xatolar', 'Mistakes')} <span className="num chip">{mistakes}</span>
               </Link>
             )}
           </div>
@@ -54,36 +65,38 @@ export function Home() {
             <path d="M54 48 L64 58 L72 46" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <Link to="/chapter/6#s-6-1a" className="postit tape absolute left-0 top-4 w-60 -rotate-3 bg-postit-yellow p-5 transition hover:rotate-0">
-            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">6-bob · Grafik</div>
-            <div className="mt-1 font-display text-lg font-bold leading-snug">Price ceiling — taqchillik</div>
+            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">{tr('6-bob · Grafik', 'Ch. 6 · Graph')}</div>
+            <div className="mt-1 font-display text-lg font-bold leading-snug">{tr('Price ceiling — taqchillik', 'Price ceiling — shortage')}</div>
             <div className="mt-2 text-sm text-[#4f4f4f]">$2 shift → 50 dona shortage</div>
           </Link>
           <Link to="/glossary" className="postit tape absolute right-0 top-36 w-56 rotate-2 bg-postit-pink p-5 transition hover:rotate-0">
-            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">Lug'at · EN ↔ UZ</div>
+            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">{tr("Lug'at · EN ↔ UZ", 'Glossary')}</div>
             <div className="mt-1 font-display text-lg font-bold leading-snug">tax incidence</div>
-            <div className="mt-2 text-sm text-[#4f4f4f]">soliq yukining taqsimlanishi</div>
+            <div className="mt-2 text-sm text-[#4f4f4f]">{tr('soliq yukining taqsimlanishi', 'who really bears a tax')}</div>
           </Link>
           <Link to="/exam" className="postit tape absolute bottom-0 left-6 w-56 -rotate-1 bg-postit-blue p-5 transition hover:rotate-0">
-            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">Imtihon rejimi</div>
-            <div className="mt-1 font-display text-lg font-bold leading-snug">Tasodifiy test + taymer</div>
-            <div className="mt-2 text-sm text-[#4f4f4f]">mavzular bo'yicha hisobot</div>
+            <div className="font-hand text-sm font-semibold text-[#1f4fb8]">{tr('Imtihon rejimi', 'Exam mode')}</div>
+            <div className="mt-1 font-display text-lg font-bold leading-snug">{tr('Tasodifiy test + taymer', 'Random test + timer')}</div>
+            <div className="mt-2 text-sm text-[#4f4f4f]">{tr("mavzular bo'yicha hisobot", 'report by topic')}</div>
           </Link>
         </div>
       </section>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Tajriba (XP)" value={state.xp} />
-        <Stat label="Kunlik seriya" value={`🔥 ${state.streak.count}`} />
-        <Stat label="Takrorlash kerak" value={dueCards} hint="kartochka" />
-        <Stat label="Ochiq xatolar" value={mistakes} hint="savol" />
+        <Stat label={tr('Tajriba (XP)', 'Experience (XP)')} value={state.xp} />
+        <Stat label={tr('Kunlik seriya', 'Daily streak')} value={`🔥 ${state.streak.count}`} />
+        <Stat label={tr('Takrorlash kerak', 'Due for review')} value={dueCards} hint={tr('kartochka', 'cards')} />
+        <Stat label={tr('Ochiq xatolar', 'Open mistakes')} value={mistakes} hint={tr('savol', 'questions')} />
       </section>
 
       <h2 className="h-section mt-14">
-        Kitob — <span className="marker">{chapters.length} ta bob</span>
+        {tr('Kitob —', 'The book —')} <span className="marker">{tr(`${chapters.length} ta bob`, `${chapters.length} chapters`)}</span>
       </h2>
       <p className="mt-1 text-sm text-muted">
-        Bob “o'zlashtirilgan” hisoblanadi, agar savollarning kamida 80% iga to'g'ri javob bergan va barcha kartochkalarni
-        takrorlagan bo'lsangiz.
+        {tr(
+          "Bob “o'zlashtirilgan” hisoblanadi, agar savollarning kamida 80% iga to'g'ri javob bergan va barcha kartochkalarni takrorlagan bo'lsangiz.",
+          'A chapter counts as “mastered” when you answer at least 80% of its questions correctly and review all its flashcards.',
+        )}
       </p>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {chapters.map((c) => {
@@ -93,19 +106,19 @@ export function Home() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="kicker">
-                    {c.number}-bob · {c.part.split('·')[1]?.trim()}
+                    {tr(`${c.number}-bob`, `Chapter ${c.number}`)} · {c.part.split('·')[1]?.trim()}
                   </div>
                   <div className="mt-1 font-display text-[17px] font-bold leading-snug">{c.titleEn}</div>
-                  <div className="mt-0.5 text-sm text-muted">{c.titleUz}</div>
+                  {!isEn && <div className="mt-0.5 text-sm text-muted">{c.titleUz}</div>}
                 </div>
-                {m ? <Ring value={m.percent} /> : <span className="chip shrink-0">Tez orada</span>}
+                {m ? <Ring value={m.percent} /> : <span className="chip shrink-0">{tr('Tez orada', 'Coming soon')}</span>}
               </div>
               {m && (
                 <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                  <span className="chip">Darslar {m.readPct}%</span>
-                  <span className="chip">Savollar {m.quizPct}%</span>
-                  <span className="chip">Kartochkalar {m.cardsPct}%</span>
-                  {m.mastered && <span className="chip border-solid bg-postit-green text-[#111]">✓ O'zlashtirildi</span>}
+                  <span className="chip">{tr('Darslar', 'Lessons')} {m.readPct}%</span>
+                  <span className="chip">{tr('Savollar', 'Questions')} {m.quizPct}%</span>
+                  <span className="chip">{tr('Kartochkalar', 'Flashcards')} {m.cardsPct}%</span>
+                  {m.mastered && <span className="chip border-solid bg-postit-green text-[#111]">{tr("✓ O'zlashtirildi", '✓ Mastered')}</span>}
                 </div>
               )}
             </>

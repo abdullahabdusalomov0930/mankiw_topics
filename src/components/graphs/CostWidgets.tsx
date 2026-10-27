@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 export interface CostRow {
   q: number;
@@ -77,10 +78,10 @@ export function CostCurvesLab({ initial = 'caleb', price }: { initial?: PresetKe
   const es = efficientScale(rows);
   const dg = p.money;
   const money = (v: number | null) => (v == null ? '—' : `$${v.toFixed(dg)}`);
-  const explain = `Fixed cost **${money(rows[0].tc)}** (Q = 0 dagi xarajat). Efficient scale (min ATC) — **${es.join(' yoki ')} ${p.unit}**, ATC = ${money(Math.min(...m.filter((r) => r.atc != null).map((r) => r.atc!)))}. Uchta qonuniyat: (1) MC oxir-oqibat oshadi — kamayuvchi marjinal mahsulot; (2) ATC **U** shaklida — AFC tushadi, AVC oshadi (“arqon tortish”); (3) **MC egri chizig'i ATC ni uning minimumida kesadi**: MC < ATC bo'lsa ATC tushadi, MC > ATC bo'lsa oshadi — xuddi keyingi fan bahosi va GPA kabi. ${extraFC ? `Qo'shimcha fixed cost $${extraFC} (masalan, litsenziya) faqat **AFC va ATC** ni siljitdi — MC va AVC o'zgarmadi (QQ 7, Problem 8).` : "Fixed cost slayderini o'zgartirib ko'ring: qaysi egri chiziqlar siljiydi?"}${price != null ? ` Narx $${price}.` : ''}`;
+  const explain = tr(`Fixed cost **${money(rows[0].tc)}** (Q = 0 dagi xarajat). Efficient scale (min ATC) — **${es.join(' yoki ')} ${p.unit}**, ATC = ${money(Math.min(...m.filter((r) => r.atc != null).map((r) => r.atc!)))}. Uchta qonuniyat: (1) MC oxir-oqibat oshadi — kamayuvchi marjinal mahsulot; (2) ATC **U** shaklida — AFC tushadi, AVC oshadi (“arqon tortish”); (3) **MC egri chizig'i ATC ni uning minimumida kesadi**: MC < ATC bo'lsa ATC tushadi, MC > ATC bo'lsa oshadi — xuddi keyingi fan bahosi va GPA kabi. ${extraFC ? `Qo'shimcha fixed cost $${extraFC} (masalan, litsenziya) faqat **AFC va ATC** ni siljitdi — MC va AVC o'zgarmadi (QQ 7, Problem 8).` : "Fixed cost slayderini o'zgartirib ko'ring: qaysi egri chiziqlar siljiydi?"}${price != null ? ` Narx $${price}.` : ''}`, `Fixed cost **${money(rows[0].tc)}** (the cost at Q = 0). Efficient scale (min ATC): **${es.join(' or ')} ${p.unit}**, ATC = ${money(Math.min(...m.filter((r) => r.atc != null).map((r) => r.atc!)))}. Three patterns: (1) MC eventually rises — diminishing marginal product; (2) ATC is **U-shaped** — AFC falls while AVC rises (a “tug of war”); (3) **the MC curve crosses ATC at its minimum**: when MC < ATC, ATC falls; when MC > ATC, it rises — just like your next course grade and your GPA. ${extraFC ? `The extra fixed cost of $${extraFC} (a licence, say) shifted only **AFC and ATC** — MC and AVC did not change (QQ 7, Problem 8).` : 'Move the fixed-cost slider: which curves shift?'}${price != null ? ` Price $${price}.` : ''}`);
   return (
     <Card
-      title="Table 2 / Figure 4 — Xarajatlarning barcha o'lchovlari"
+      title={tr("Table 2 / Figure 4 — Xarajatlarning barcha o'lchovlari", 'Table 2 / Figure 4 — The various measures of cost')}
       tabs={
         <>
           <Segmented size="sm" value={key} onChange={(v) => { setKey(v); setExtraFC(0); }} options={(Object.keys(COST_PRESETS) as PresetKey[]).map((k) => ({ value: k, label: COST_PRESETS[k].label }))} />
@@ -93,7 +94,7 @@ export function CostCurvesLab({ initial = 'caleb', price }: { initial?: PresetKe
         </>
       }
       explain={explain}
-      controls={<Slider label="Qo'shimcha fixed cost (litsenziya, lump-sum soliq)" value={extraFC} min={0} max={key === 'caleb' ? 5 : key === 'jane' ? 50 : 500} step={key === 'caleb' ? 0.5 : 10} onChange={setExtraFC} display={`+$${extraFC}`} color="--tax" />}
+      controls={<Slider label={tr("Qo'shimcha fixed cost (litsenziya, lump-sum soliq)", 'Extra fixed cost (licence, lump-sum tax)')} value={extraFC} min={0} max={key === 'caleb' ? 5 : key === 'jane' ? 50 : 500} step={key === 'caleb' ? 0.5 : 10} onChange={setExtraFC} display={`+$${extraFC}`} color="--tax" />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="cost curves">
@@ -148,7 +149,7 @@ export function CostCurvesLab({ initial = 'caleb', price }: { initial?: PresetKe
             ))}
           </tbody>
         </table>
-        <p className="mt-1 text-[11px] text-muted">MC — oldingi qatordan shu qatorgacha: ΔTC / ΔQ (kitobda qatorlar orasida yozilgan).</p>
+        <p className="mt-1 text-[11px] text-muted">{tr('MC — oldingi qatordan shu qatorgacha: ΔTC / ΔQ (kitobda qatorlar orasida yozilgan).', 'MC — from the previous row to this one: ΔTC / ΔQ (the book prints it between the rows).')}</p>
       </div>
     </Card>
   );
@@ -168,16 +169,16 @@ export function ProductionFunctionLab() {
   const tc = (n: number) => factory + wage * n;
   const f2 = makeFrame(w, 160, Math.max(100, tc(6) * 1.1), 0.8);
   const mp = workers ? CHLOE[workers] - CHLOE[workers - 1] : null;
-  const explain = `${workers} ishchi → **${CHLOE[workers]}** pechene soatiga, jami xarajat $${factory} + ${workers} × $${wage} = **$${tc(workers)}**. ${mp != null ? `${workers}-ishchining marjinal mahsuloti: **${mp}** pechene.` : ''} Marjinal mahsulot 50 → 40 → 30 → 20 → 10 → 5 kamayadi (**diminishing marginal product**): oshxona tiqilinch, ishchilar jihozni kutadi. Shuning uchun ishlab chiqarish funksiyasi **yotiqlashadi**, total-cost egri chizig'i esa **tiklashadi** — bir tanganing ikki tomoni (QQ 4).`;
+  const explain = tr(`${workers} ishchi → **${CHLOE[workers]}** pechene soatiga, jami xarajat $${factory} + ${workers} × $${wage} = **$${tc(workers)}**. ${mp != null ? `${workers}-ishchining marjinal mahsuloti: **${mp}** pechene.` : ''} Marjinal mahsulot 50 → 40 → 30 → 20 → 10 → 5 kamayadi (**diminishing marginal product**): oshxona tiqilinch, ishchilar jihozni kutadi. Shuning uchun ishlab chiqarish funksiyasi **yotiqlashadi**, total-cost egri chizig'i esa **tiklashadi** — bir tanganing ikki tomoni (QQ 4).`, `${workers} workers → **${CHLOE[workers]}** cookies per hour; total cost $${factory} + ${workers} × $${wage} = **$${tc(workers)}**. ${mp != null ? `Marginal product of worker ${workers}: **${mp}** cookies.` : ''} The marginal product falls 50 → 40 → 30 → 20 → 10 → 5 (**diminishing marginal product**): the kitchen gets crowded and workers wait for equipment. That is why the production function **flattens** and the total-cost curve **gets steeper** — two sides of the same coin (QQ 4).`);
   return (
     <Card
-      title="Table 1 / Figure 2 — Chloe's Cookie Factory: production function va total cost"
+      title={tr("Table 1 / Figure 2 — Chloe's Cookie Factory: production function va total cost", "Table 1 / Figure 2 — Chloe's Cookie Factory: production function and total cost")}
       explain={explain}
       controls={
         <>
-          <Slider label="Ishchilar soni" value={workers} min={0} max={6} step={1} onChange={setWorkers} display={`${workers}`} />
-          <Slider label="Ishchi maoshi (soatiga)" value={wage} min={5} max={30} step={1} onChange={setWage} display={`$${wage}`} color="--supply" />
-          <Slider label="Fabrika xarajati (soatiga)" value={factory} min={0} max={60} step={5} onChange={setFactory} display={`$${factory}`} color="--tax" />
+          <Slider label={tr('Ishchilar soni', 'Number of workers')} value={workers} min={0} max={6} step={1} onChange={setWorkers} display={`${workers}`} />
+          <Slider label={tr('Ishchi maoshi (soatiga)', 'Wage (per hour)')} value={wage} min={5} max={30} step={1} onChange={setWage} display={`$${wage}`} color="--supply" />
+          <Slider label={tr('Fabrika xarajati (soatiga)', 'Cost of the factory (per hour)')} value={factory} min={0} max={60} step={5} onChange={setFactory} display={`$${factory}`} color="--tax" />
         </>
       }
     >
@@ -204,9 +205,9 @@ export function ProductionFunctionLab() {
 }
 
 const PROFIT_CASES = {
-  chloe: { label: 'Chloe (kapital)', revenue: 40000, explicit: 20000, implicit: 15000, note: "Chloe $300,000 jamg'armasini fabrikaga qo'ydi; 5% foizda u yiliga $15,000 olardi — **implicit** xarajat. (Daromad va explicit xarajat — misol uchun.)" },
-  xavier: { label: 'Xavier (QQ 2)', revenue: 60, explicit: 10, implicit: 40, note: 'Xavier 2 soat limonad sotdi: ingrediyent $10 (explicit), shu vaqtda maysazor o‘rib $40 topardi (implicit).' },
-  buffy: { label: 'Buffy (P2)', revenue: 400000, explicit: 350000, implicit: 80000, note: "Buffy: ijara va tovar $350,000 (explicit), vampir ovchisi ishidan voz kechish $80,000 (implicit)." },
+  chloe: { label: tr('Chloe (kapital)', 'Chloe (capital)'), revenue: 40000, explicit: 20000, implicit: 15000, note: tr("Chloe $300,000 jamg'armasini fabrikaga qo'ydi; 5% foizda u yiliga $15,000 olardi — **implicit** xarajat. (Daromad va explicit xarajat — misol uchun.)", 'Chloe put her $300,000 of savings into the factory; at 5% interest she would have earned $15,000 a year — an **implicit** cost. (Revenue and explicit cost are made up for the example.)') },
+  xavier: { label: 'Xavier (QQ 2)', revenue: 60, explicit: 10, implicit: 40, note: tr('Xavier 2 soat limonad sotdi: ingrediyent $10 (explicit), shu vaqtda maysazor o‘rib $40 topardi (implicit).', 'Xavier sold lemonade for 2 hours: ingredients $10 (explicit); in that time he could have earned $40 mowing lawns (implicit).') },
+  buffy: { label: 'Buffy (P2)', revenue: 400000, explicit: 350000, implicit: 80000, note: tr("Buffy: ijara va tovar $350,000 (explicit), vampir ovchisi ishidan voz kechish $80,000 (implicit).", 'Buffy: rent and merchandise $350,000 (explicit); giving up her vampire-hunting job $80,000 (implicit).') },
 };
 
 /** Ch. 14 Figure 1: economic profit versus accounting profit. */
@@ -229,21 +230,21 @@ export function ProfitViews() {
       )}
     </div>
   );
-  const explain = `${c.note} Accounting profit = tushum − explicit = **$${fmt(acc)}**. Economic profit = tushum − explicit − implicit = **$${fmt(eco)}**. ${eco > 0 ? "Iqtisodiy foyda musbat — biznes barcha imkoniyat xarajatlarini qoplaydi, qolishga arziydi." : eco === 0 ? 'Iqtisodiy foyda nol — biznes imkoniyat xarajatlarini aniq qoplaydi.' : "Iqtisodiy zarar — buxgalter foyda ko'rsatsa ham, egasi boshqa yo'l bilan ko'proq topardi; sharoit o'zgarmasa, u chiqib ketadi."}`;
+  const explain = tr(`${c.note} Accounting profit = tushum − explicit = **$${fmt(acc)}**. Economic profit = tushum − explicit − implicit = **$${fmt(eco)}**. ${eco > 0 ? "Iqtisodiy foyda musbat — biznes barcha imkoniyat xarajatlarini qoplaydi, qolishga arziydi." : eco === 0 ? 'Iqtisodiy foyda nol — biznes imkoniyat xarajatlarini aniq qoplaydi.' : "Iqtisodiy zarar — buxgalter foyda ko'rsatsa ham, egasi boshqa yo'l bilan ko'proq topardi; sharoit o'zgarmasa, u chiqib ketadi."}`, `${c.note} Accounting profit = revenue − explicit = **$${fmt(acc)}**. Economic profit = revenue − explicit − implicit = **$${fmt(eco)}**. ${eco > 0 ? 'Economic profit is positive — the business covers all its opportunity costs and is worth staying in.' : eco === 0 ? 'Economic profit is zero — the business exactly covers its opportunity costs.' : 'An economic loss — even though the accountant shows a profit, the owner could earn more elsewhere; unless things change, she will leave.'}`);
   return (
     <Card
       title="Figure 1 — Economists versus Accountants"
       tabs={<Segmented size="sm" value={k} onChange={(v) => { setK(v); setRev(PROFIT_CASES[v].revenue); }} options={Object.entries(PROFIT_CASES).map(([v, x]) => ({ value: v as keyof typeof PROFIT_CASES, label: x.label }))} />}
       explain={explain}
-      controls={<Slider label="Tushum (total revenue)" value={rev} min={0} max={c.revenue * 2} step={c.revenue / 40} onChange={setRev} display={`$${fmt(rev)}`} color="--good" />}
+      controls={<Slider label={tr('Tushum (total revenue)', 'Total revenue')} value={rev} min={0} max={c.revenue * 2} step={c.revenue / 40} onChange={setRev} display={`$${fmt(rev)}`} color="--good" />}
     >
       <div className="grid grid-cols-2 gap-4 p-4 sm:px-16">
         <div>
-          <div className="mb-1 text-center text-xs font-bold">Iqtisodchi</div>
+          <div className="mb-1 text-center text-xs font-bold">{tr('Iqtisodchi', 'Economist')}</div>
           <Bar parts={[['Explicit', c.explicit, 'bg-postit-pink'], ['Implicit', c.implicit, 'bg-postit-blue'], ['Econ. profit', Math.max(0, eco), 'bg-postit-green']]} />
         </div>
         <div>
-          <div className="mb-1 text-center text-xs font-bold">Buxgalter</div>
+          <div className="mb-1 text-center text-xs font-bold">{tr('Buxgalter', 'Accountant')}</div>
           <Bar parts={[['Explicit', c.explicit, 'bg-postit-pink'], ['Acct. profit', Math.max(0, acc), 'bg-postit-green']]} />
         </div>
       </div>
@@ -254,9 +255,9 @@ export function ProfitViews() {
 const LR = (q: number) => (q < 1000 ? 10000 + 0.01 * (1000 - q) ** 2 : q <= 1200 ? 10000 : 10000 + 0.01 * (q - 1200) ** 2);
 const LRd = (q: number) => (q < 1000 ? -0.02 * (1000 - q) : q <= 1200 ? 0 : 0.02 * (q - 1200));
 const FACTORIES = [
-  { id: 'small', label: 'Kichik', at: 600 },
-  { id: 'medium', label: "O'rta", at: 1000 },
-  { id: 'large', label: 'Katta', at: 1200 },
+  { id: 'small', label: tr('Kichik', 'Small'), at: 600 },
+  { id: 'medium', label: tr("O'rta", 'Medium'), at: 1000 },
+  { id: 'large', label: tr('Katta', 'Large'), at: 1200 },
 ];
 const srATC = (at: number, q: number) => LR(at) + LRd(at) * (q - at) + 0.05 * (q - at) ** 2;
 
@@ -277,14 +278,18 @@ export function LongRunATC() {
     }
     return pts.join(' ');
   };
-  const scale = q < 1000 ? '**economies of scale** (LR ATC tushmoqda: ixtisoslashuv, konveyer)' : q <= 1200 ? '**constant returns to scale** (LR ATC o\'zgarmas)' : '**diseconomies of scale** (LR ATC o\'smoqda: katta tashkilotda muvofiqlashtirish muammolari)';
-  const explain = `Qisqa muddatda Ford ${FACTORIES.find((x) => x.id === fac)!.label.toLowerCase()} fabrikada qoladi: ${fmt(q)} mashina/kun → SR ATC **$${fmt(sr)}**. Uzoq muddatda fabrika hajmini tanlaydi → LR ATC **$${fmt(lr)}**. Kitob: o'rta fabrikada 1,000 dan 1,200 ga o'tilsa SR ATC $10,000 → $12,000, LR da yana $10,000. Barcha SR egri chiziqlar LR egri chizig'idan **pastda emas** — uzoq muddatda firma o'zi xohlagan SR egri chiziqni tanlaydi. Bu nuqtada: ${scale}.`;
+  const scale = q < 1000
+    ? tr('**economies of scale** (LR ATC tushmoqda: ixtisoslashuv, konveyer)', '**economies of scale** (LR ATC falling: specialization, the assembly line)')
+    : q <= 1200
+      ? tr("**constant returns to scale** (LR ATC o'zgarmas)", '**constant returns to scale** (LR ATC flat)')
+      : tr("**diseconomies of scale** (LR ATC o'smoqda: katta tashkilotda muvofiqlashtirish muammolari)", '**diseconomies of scale** (LR ATC rising: coordination problems in a large organization)');
+  const explain = tr(`Qisqa muddatda Ford ${FACTORIES.find((x) => x.id === fac)!.label.toLowerCase()} fabrikada qoladi: ${fmt(q)} mashina/kun → SR ATC **$${fmt(sr)}**. Uzoq muddatda fabrika hajmini tanlaydi → LR ATC **$${fmt(lr)}**. Kitob: o'rta fabrikada 1,000 dan 1,200 ga o'tilsa SR ATC $10,000 → $12,000, LR da yana $10,000. Barcha SR egri chiziqlar LR egri chizig'idan **pastda emas** — uzoq muddatda firma o'zi xohlagan SR egri chiziqni tanlaydi. Bu nuqtada: ${scale}.`, `In the short run Ford is stuck with its ${FACTORIES.find((x) => x.id === fac)!.label.toLowerCase()} factory: ${fmt(q)} cars a day → SR ATC **$${fmt(sr)}**. In the long run it chooses the factory size → LR ATC **$${fmt(lr)}**. The book: in the medium factory, going from 1,000 to 1,200 cars raises SR ATC from $10,000 to $12,000, but in the LR it is $10,000 again. No SR curve lies **below** the LR curve — in the long run the firm picks whichever SR curve it wants. At this point: ${scale}.`);
   return (
     <Card
       title="Figure 6 — Average Total Cost in the Short and Long Runs (model)"
-      tabs={<Segmented size="sm" value={fac} onChange={setFac} options={FACTORIES.map((x) => ({ value: x.id, label: `${x.label} fabrika` }))} />}
+      tabs={<Segmented size="sm" value={fac} onChange={setFac} options={FACTORIES.map((x) => ({ value: x.id, label: tr(`${x.label} fabrika`, `${x.label} factory`) }))} />}
       explain={explain}
-      controls={<Slider label="Mashinalar soni (kuniga)" value={q} min={200} max={1700} step={50} onChange={setQ} display={fmt(q)} />}
+      controls={<Slider label={tr('Mashinalar soni (kuniga)', 'Cars per day')} value={q} min={200} max={1700} step={50} onChange={setQ} display={fmt(q)} />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="long-run average total cost">
@@ -298,7 +303,12 @@ export function LongRunATC() {
           <circle cx={sx(f, q)} cy={sy(f, lr)} r={7} className="fill-bad stroke-ink" strokeWidth={2} />
         </svg>
       </div>
-      <p className="px-4 pb-2 text-xs text-muted">Kitobda Figure 6 sxematik; faqat $10,000 va $12,000 nuqtalari (1,000 va 1,200 mashina) raqam bilan berilgan. Qolgan shakl — model.</p>
+      <p className="px-4 pb-2 text-xs text-muted">
+        {tr(
+          'Kitobda Figure 6 sxematik; faqat $10,000 va $12,000 nuqtalari (1,000 va 1,200 mashina) raqam bilan berilgan. Qolgan shakl — model.',
+          'Figure 6 in the book is schematic; only the $10,000 and $12,000 points (1,000 and 1,200 cars) have numbers. The rest of the shape is a model.',
+        )}
+      </p>
     </Card>
   );
 }

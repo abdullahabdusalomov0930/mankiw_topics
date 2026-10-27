@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 /** A smooth "typical firm" (Figure 3/4 shapes): VC = q³/30 − q² + 12q, FC adjustable. */
 export const firm = {
@@ -41,13 +42,13 @@ export function CompetitiveFirmLab() {
     const rows = VACA.map((tc, q) => ({ q, tr: vacaP * q, tc, profit: vacaP * q - tc }));
     const best = Math.max(...rows.map((r) => r.profit));
     const qs = rows.filter((r) => r.profit === best).map((r) => r.q);
-    const explain = `Narx $${vacaP} — Vaca fermasi uchun MR = P = **$${vacaP}** (har bir gallon tushumni P ga oshiradi). Foyda maksimal: **${qs.join(' yoki ')} gallon**, foyda **$${best}**. Marjinal mantiq: MR > MC bo'lsa — ko'paytiring, MR < MC bo'lsa — kamaytiring; ${qs.length > 1 ? `${qs[0]}→${qs[1]} gallonda MR = MC (foyda o'zgarmaydi).` : 'optimumda MR ≈ MC.'} Kitob: $6 da 4 yoki 5 gallon, foyda $7.`;
+    const explain = tr(`Narx $${vacaP} — Vaca fermasi uchun MR = P = **$${vacaP}** (har bir gallon tushumni P ga oshiradi). Foyda maksimal: **${qs.join(' yoki ')} gallon**, foyda **$${best}**. Marjinal mantiq: MR > MC bo'lsa — ko'paytiring, MR < MC bo'lsa — kamaytiring; ${qs.length > 1 ? `${qs[0]}→${qs[1]} gallonda MR = MC (foyda o'zgarmaydi).` : 'optimumda MR ≈ MC.'} Kitob: $6 da 4 yoki 5 gallon, foyda $7.`, `At a price of $${vacaP}, the Vaca farm's MR = P = **$${vacaP}** (each gallon adds P to revenue). Profit is maximized at **${qs.join(' or ')} gallons**, profit **$${best}**. Marginal reasoning: if MR > MC, produce more; if MR < MC, produce less; ${qs.length > 1 ? `from ${qs[0]} to ${qs[1]} gallons MR = MC (profit doesn't change).` : 'at the optimum MR ≈ MC.'} The book: at $6, 4 or 5 gallons, profit $7.`);
     return (
       <Card
-        title="Table 2 — Vaca Family Dairy Farm: foydani maksimallashtirish"
-        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'graph', label: 'Grafik (Figures 1–5)' }, { value: 'vaca', label: 'Table 2 (Vaca fermasi)' }]} />}
+        title={tr("Table 2 — Vaca Family Dairy Farm: foydani maksimallashtirish", 'Table 2 — Vaca Family Dairy Farm: profit maximization')}
+        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'graph', label: tr('Grafik (Figures 1–5)', 'Graph (Figures 1–5)') }, { value: 'vaca', label: tr('Table 2 (Vaca fermasi)', 'Table 2 (Vaca farm)') }]} />}
         explain={explain}
-        controls={<Slider label="Sut narxi (gallon)" value={vacaP} min={1} max={12} step={1} onChange={setVacaP} display={`$${vacaP}`} color="--demand" />}
+        controls={<Slider label={tr('Sut narxi (gallon)', 'Price of milk (gallon)')} value={vacaP} min={1} max={12} step={1} onChange={setVacaP} display={`$${vacaP}`} color="--demand" />}
       >
         <div className="overflow-x-auto p-4">
           <table className="num w-full min-w-[520px] text-right text-sm">
@@ -99,18 +100,18 @@ export function CompetitiveFirmLab() {
   const rule = p < minAVC ? 'shut' : p < mATC.c ? 'loss' : 'profit';
   const explain =
     rule === 'shut'
-      ? `Narx $${fmt(p, 2)} < min AVC ($${fmt(minAVC, 2)}) → **vaqtincha yopilish (shut down)**: ishlab chiqarsa tushum o'zgaruvchan xarajatni ham qoplamaydi. Zarar = fixed cost **$${fc}** (sunk cost). Agar narx shu darajada qolsa — uzoq muddatda bozordan chiqish.`
+      ? tr(`Narx $${fmt(p, 2)} < min AVC ($${fmt(minAVC, 2)}) → **vaqtincha yopilish (shut down)**: ishlab chiqarsa tushum o'zgaruvchan xarajatni ham qoplamaydi. Zarar = fixed cost **$${fc}** (sunk cost). Agar narx shu darajada qolsa — uzoq muddatda bozordan chiqish.`, `Price $${fmt(p, 2)} < min AVC ($${fmt(minAVC, 2)}) → **shut down temporarily**: producing would not even cover variable cost. The loss = the fixed cost **$${fc}** (a sunk cost). If the price stays this low — exit the market in the long run.`)
       : rule === 'loss'
-        ? `P = MC da Q = **${fmt(q, 1)}**. AVC < P ($${fmt(p, 2)}) < ATC ($${fmt(a, 2)}) → **zarar** $${fmt(-profit, 0)} (qizil to'rtburchak: (ATC − P) × Q). Qisqa muddatda **ishlashda davom eting** — yopilsa zarar $${fc} (fixed cost) bo'lardi. Uzoq muddatda — **chiqing** (Table 3, 3-qoida).`
-        : `P = MC da Q = **${fmt(q, 1)}**, ATC = $${fmt(a, 2)} < P → **foyda** $${fmt(profit, 0)} (yashil to'rtburchak: (P − ATC) × Q). Yangi firmalar kirishga rag'batlanadi; uzoq muddatda narx **min ATC ≈ $${fmt(mATC.c, 2)}** gacha tushadi.`;
+        ? tr(`P = MC da Q = **${fmt(q, 1)}**. AVC < P ($${fmt(p, 2)}) < ATC ($${fmt(a, 2)}) → **zarar** $${fmt(-profit, 0)} (qizil to'rtburchak: (ATC − P) × Q). Qisqa muddatda **ishlashda davom eting** — yopilsa zarar $${fc} (fixed cost) bo'lardi. Uzoq muddatda — **chiqing** (Table 3, 3-qoida).`, `At P = MC, Q = **${fmt(q, 1)}**. AVC < P ($${fmt(p, 2)}) < ATC ($${fmt(a, 2)}) → a **loss** of $${fmt(-profit, 0)} (red rectangle: (ATC − P) × Q). In the short run **keep operating** — shutting down would lose $${fc} (the fixed cost). In the long run — **exit** (Table 3, rule 3).`)
+        : tr(`P = MC da Q = **${fmt(q, 1)}**, ATC = $${fmt(a, 2)} < P → **foyda** $${fmt(profit, 0)} (yashil to'rtburchak: (P − ATC) × Q). Yangi firmalar kirishga rag'batlanadi; uzoq muddatda narx **min ATC ≈ $${fmt(mATC.c, 2)}** gacha tushadi.`, `At P = MC, Q = **${fmt(q, 1)}**, ATC = $${fmt(a, 2)} < P → a **profit** of $${fmt(profit, 0)} (green rectangle: (P − ATC) × Q). New firms are tempted to enter; in the long run the price falls to **min ATC ≈ $${fmt(mATC.c, 2)}**.`);
   return (
     <Card
-      title="Figures 1–5 — Raqobatchi firma: Q, foyda, shut down va exit"
-      tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'graph', label: 'Grafik (Figures 1–5)' }, { value: 'vaca', label: 'Table 2 (Vaca fermasi)' }]} />}
+      title={tr("Figures 1–5 — Raqobatchi firma: Q, foyda, shut down va exit", 'Figures 1–5 — The competitive firm: output, profit, shutdown, and exit')}
+      tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'graph', label: tr('Grafik (Figures 1–5)', 'Graph (Figures 1–5)') }, { value: 'vaca', label: tr('Table 2 (Vaca fermasi)', 'Table 2 (Vaca farm)') }]} />}
       explain={explain}
       controls={
         <>
-          <Slider label="Bozor narxi P = MR = AR" value={p} min={1} max={28} step={0.25} onChange={setP} display={`$${fmt(p, 2)}`} color="--demand" />
+          <Slider label={tr('Bozor narxi P = MR = AR', 'Market price P = MR = AR')} value={p} min={1} max={28} step={0.25} onChange={setP} display={`$${fmt(p, 2)}`} color="--demand" />
           <Slider label="Fixed cost" value={fc} min={0} max={200} step={10} onChange={setFc} display={`$${fc}`} color="--tax" />
         </>
       }
@@ -149,9 +150,9 @@ export function CompetitiveFirmLab() {
       </div>
       <div className="grid gap-2 px-4 pb-3 text-center text-xs sm:grid-cols-3">
         {[
-          ['P < AVC', 'Darhol yoping', rule === 'shut'],
-          ['AVC < P < ATC', 'Qisqa muddatda ishlang, uzoqda chiqing', rule === 'loss'],
-          ['P > ATC', 'Qoling, foydadan zavqlaning', rule === 'profit'],
+          ['P < AVC', tr('Darhol yoping', 'Shut down now'), rule === 'shut'],
+          ['AVC < P < ATC', tr('Qisqa muddatda ishlang, uzoqda chiqing', 'Operate in the short run, exit in the long run'), rule === 'loss'],
+          ['P > ATC', tr('Qoling, foydadan zavqlaning', 'Stay and enjoy the profit'), rule === 'profit'],
         ].map(([a2, b, on]) => (
           <div key={a2 as string} className={`rounded-lg border-2 border-ink p-2 ${on ? 'bg-marker text-[#111]' : 'opacity-60'}`}>
             <div className="font-bold">{a2}</div>
@@ -200,23 +201,23 @@ export function EntryExitLab() {
     return best;
   })();
   const f = makeFrame(width, 6000, 30);
-  const explain = `Bozorda **${n}** ta bir xil firma. Qisqa muddatli taklif — ularning MC egri chiziqlari (AVC dan yuqori) gorizontal yig'indisi. Muvozanat: P ≈ **$${fmt(pSR, 2)}**, Q ≈ ${fmt(qSR, 0)}; har bir firma ${fmt(qFirm, 1)} birlik, foyda **$${fmt(profit, 0)}**. ${Math.abs(profit) < 5 ? 'Foyda ≈ 0 → kirish ham, chiqish ham yo\'q: **uzoq muddatli muvozanat** — P = MC = min ATC, firmalar efficient scale da.' : profit > 0 ? `Foyda musbat → yangi firmalar **kiradi** → taklif o'ngga, narx tushadi. “Uzoq muddat” tugmasi: ~${lrN} firma, narx $${fmt(lrPrice(lrN), 2)}.` : `Zarar → ba'zi firmalar **chiqadi** → narx ko'tariladi. “Uzoq muddat”: ~${lrN} firma.`} ${rising ? "Yangi kiruvchilarning xarajati yuqori (cheklangan yer, turli malakali bo'yoqchilar) → LR taklif **yuqoriga qaragan**." : 'Hamma bir xil xarajatga ega → LR taklif **gorizontal** min ATC da.'}`;
+  const explain = tr(`Bozorda **${n}** ta bir xil firma. Qisqa muddatli taklif — ularning MC egri chiziqlari (AVC dan yuqori) gorizontal yig'indisi. Muvozanat: P ≈ **$${fmt(pSR, 2)}**, Q ≈ ${fmt(qSR, 0)}; har bir firma ${fmt(qFirm, 1)} birlik, foyda **$${fmt(profit, 0)}**. ${Math.abs(profit) < 5 ? 'Foyda ≈ 0 → kirish ham, chiqish ham yo\'q: **uzoq muddatli muvozanat** — P = MC = min ATC, firmalar efficient scale da.' : profit > 0 ? `Foyda musbat → yangi firmalar **kiradi** → taklif o'ngga, narx tushadi. “Uzoq muddat” tugmasi: ~${lrN} firma, narx $${fmt(lrPrice(lrN), 2)}.` : `Zarar → ba'zi firmalar **chiqadi** → narx ko'tariladi. “Uzoq muddat”: ~${lrN} firma.`} ${rising ? "Yangi kiruvchilarning xarajati yuqori (cheklangan yer, turli malakali bo'yoqchilar) → LR taklif **yuqoriga qaragan**." : 'Hamma bir xil xarajatga ega → LR taklif **gorizontal** min ATC da.'}`, `The market has **${n}** identical firms. Short-run supply is the horizontal sum of their MC curves (above AVC). Equilibrium: P ≈ **$${fmt(pSR, 2)}**, Q ≈ ${fmt(qSR, 0)}; each firm makes ${fmt(qFirm, 1)} units with profit **$${fmt(profit, 0)}**. ${Math.abs(profit) < 5 ? 'Profit ≈ 0 → no entry and no exit: **long-run equilibrium** — P = MC = min ATC, firms at their efficient scale.' : profit > 0 ? `Profit is positive → new firms **enter** → supply shifts right and the price falls. The “Long run” button: ~${lrN} firms, price $${fmt(lrPrice(lrN), 2)}.` : `Losses → some firms **exit** → the price rises. “Long run”: ~${lrN} firms.`} ${rising ? 'Newcomers have higher costs (limited land, painters of varying skill) → LR supply **slopes upward**.' : 'All firms have the same costs → LR supply is **horizontal** at min ATC.'}`);
   return (
     <Card
-      title="Figures 6–8 — Bozor taklifi: qisqa muddat, kirish va chiqish (model)"
+      title={tr("Figures 6–8 — Bozor taklifi: qisqa muddat, kirish va chiqish (model)", 'Figures 6–8 — Market supply: the short run, entry, and exit (model)')}
       tabs={
         <>
           <button className="btn-ghost btn-sm" onClick={() => setDemandShift((d) => d + 1200)}>
-            ↑ Talab oshdi (sut foydali!)
+            {tr('↑ Talab oshdi (sut foydali!)', '↑ Demand rises (milk is healthy!)')}
           </button>
           <button className="btn-ghost btn-sm" onClick={() => setDemandShift((d) => d - 1200)}>
-            ↓ Talab kamaydi
+            {tr('↓ Talab kamaydi', '↓ Demand falls')}
           </button>
           <button className="btn-primary btn-sm" onClick={() => setN(lrN)}>
-            ⏩ Uzoq muddat (kirish/chiqish)
+            {tr('⏩ Uzoq muddat (kirish/chiqish)', '⏩ Long run (entry/exit)')}
           </button>
           <button className="btn-ghost btn-sm" onClick={() => setRising((r) => !r)}>
-            {rising ? '✓ ' : ''}Xarajatlari turlicha firmalar
+            {rising ? '✓ ' : ''}{tr('Xarajatlari turlicha firmalar', 'Firms with different costs')}
           </button>
           <button
             className="btn-ghost btn-sm"
@@ -230,7 +231,7 @@ export function EntryExitLab() {
         </>
       }
       explain={explain}
-      controls={<Slider label="Firmalar soni" value={n} min={20} max={400} step={1} onChange={setN} display={`${n}`} />}
+      controls={<Slider label={tr('Firmalar soni', 'Number of firms')} value={n} min={20} max={400} step={1} onChange={setN} display={`${n}`} />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="market supply with entry and exit">
@@ -258,7 +259,12 @@ export function EntryExitLab() {
           <circle cx={sx(f, qSR)} cy={sy(f, pSR)} r={7} className="fill-marker stroke-ink" strokeWidth={2} />
         </svg>
       </div>
-      <p className="px-4 pb-2 text-xs text-muted">Model: har bir firma — yuqoridagi “tipik firma” (FC $60, min ATC ≈ ${fmt(m.c, 2)} da q ≈ {fmt(m.q, 1)}); talab Q = A − 120P. Kitobdagi Figure 6: 1,000 firma, har biri $1 da 100, $2 da 200 → bozor 100,000 va 200,000.</p>
+      <p className="px-4 pb-2 text-xs text-muted">
+        {tr(
+          `Model: har bir firma — yuqoridagi “tipik firma” (FC $60, min ATC ≈ $${fmt(m.c, 2)} da q ≈ ${fmt(m.q, 1)}); talab Q = A − 120P. Kitobdagi Figure 6: 1,000 firma, har biri $1 da 100, $2 da 200 → bozor 100,000 va 200,000.`,
+          `Model: every firm is the “typical firm” above (FC $60, min ATC ≈ $${fmt(m.c, 2)} at q ≈ ${fmt(m.q, 1)}); demand Q = A − 120P. Figure 6 in the book: 1,000 firms, each supplying 100 at $1 and 200 at $2 → market 100,000 and 200,000.`,
+        )}
+      </p>
     </Card>
   );
 }

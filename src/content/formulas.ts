@@ -2,4 +2,4 @@ import { chapters } from '../chapterRegistry';
 import type { Formula } from './types';
 
 /** All formulas of the site, in chapter order. */
-export const allFormulas: Formula[] = chapters.flatMap((c) => c.data?.formulas ?? []);
+export const getAllFormulas = (): Formula[] => chapters.flatMap((c) => c.data?.formulas ?? []);

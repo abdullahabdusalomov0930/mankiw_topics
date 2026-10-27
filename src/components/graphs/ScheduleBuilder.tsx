@@ -3,6 +3,7 @@ import { fmt, scheduleEquilibrium, sumSchedules } from '../../lib/econ';
 import { RichText } from '../ui/RichText';
 import { makeFrame, sx, sy, ticks } from './plot';
 import { useWidth } from './useWidth';
+import { tr } from '../../lib/lang';
 
 export interface ScheduleGroup {
   role: 'demand' | 'supply';
@@ -159,7 +160,7 @@ export function ScheduleBuilder({ config }: { config: ScheduleConfig }) {
               {config.optional.label}
             </label>
           )}
-          {config.editable && <p className="mt-2 font-hand text-sm font-semibold text-pen">Raqamlarni o'zgartirib ko'ring — bozor ustuni va grafik darhol yangilanadi ✎</p>}
+          {config.editable && <p className="mt-2 font-hand text-sm font-semibold text-pen">{tr("Raqamlarni o'zgartirib ko'ring — bozor ustuni va grafik darhol yangilanadi ✎", 'Change the numbers — the market column and the graph update at once ✎')}</p>}
         </div>
         <div ref={wrapRef} className="min-w-0 border-t-2 border-dashed border-ink/30 p-1 md:border-l-2 md:border-t-0">
           <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label={config.title}>
@@ -225,25 +226,28 @@ export function ScheduleBuilder({ config }: { config: ScheduleConfig }) {
         </div>
       </div>
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3 text-[15px]">
-        <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
         {hover != null && multi ? (
           <p>
-            Narx <b>${fmt(config.prices[hover])}</b> da:{' '}
+            {tr('Narx', 'At a price of')} <b>${fmt(config.prices[hover])}</b>{tr(' da:', ':')}{' '}
             {effective.map((g, gi) => (
               <span key={gi}>
                 {g.people.map((p) => p.q[hover].toLocaleString('en-US')).join(' + ')} = <b>{totals[gi][hover].toLocaleString('en-US')}</b> ({g.label}){gi < effective.length - 1 ? '; ' : '.'}{' '}
               </span>
             ))}
-            Bozor egri chizig'i — individual miqdorlarni <b>gorizontal</b> qo'shish.
+            {tr("Bozor egri chizig'i — individual miqdorlarni", 'The market curve adds individual quantities')} <b>{tr('gorizontal', 'horizontally')}</b>{tr(" qo'shish.", '.')}
           </p>
         ) : eq ? (
           <p>
-            Muvozanat: <b>${fmt(eq.P)}</b> narxda talab miqdori = taklif miqdori = <b>{fmt(eq.Q)}</b>
-            {config.unit ? ` ${config.unit}` : ''}. Undan yuqori narxlarda — surplus, past narxlarda — shortage. Qatorlar ustiga
-            sichqonchani olib boring (yoki bosing).
+            {tr('Muvozanat:', 'Equilibrium: at')} <b>${fmt(eq.P)}</b> {tr('narxda talab miqdori = taklif miqdori =', 'quantity demanded = quantity supplied =')} <b>{fmt(eq.Q)}</b>
+            {config.unit ? ` ${config.unit}` : ''}.{' '}
+            {tr(
+              'Undan yuqori narxlarda — surplus, past narxlarda — shortage. Qatorlar ustiga sichqonchani olib boring (yoki bosing).',
+              'Above that price there is a surplus, below it a shortage. Hover over (or tap) the rows.',
+            )}
           </p>
         ) : (
-          <p>Jadvaldagi qatorni tanlang: grafikda shu narxdagi nuqtalar belgilanadi.</p>
+          <p>{tr('Jadvaldagi qatorni tanlang: grafikda shu narxdagi nuqtalar belgilanadi.', 'Pick a row in the table: the points at that price are marked on the graph.')}</p>
         )}
       </div>
     </figure>

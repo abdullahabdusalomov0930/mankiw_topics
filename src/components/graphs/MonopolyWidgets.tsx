@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { makeFrame, sx, sy } from './plot';
 import { useWidth } from './useWidth';
 import { Axes, Card } from './WidgetCard';
+import { tr } from '../../lib/lang';
 
 /** Linear monopoly: demand P = a − bQ, MR = a − 2bQ, MC = c + dQ, fixed cost F. */
 export interface LinearMonopoly {
@@ -27,10 +28,10 @@ export function monopolyOutcome(m: LinearMonopoly) {
 }
 
 const PRESETS: Record<string, { label: string; m: LinearMonopoly; note: string; unit?: string }> = {
-  potter: { label: 'Potter quduq (P8)', m: { a: 70, b: 1, c: 10, d: 1, F: 0 }, note: "Problem 8: P = 70 − Q, MC = 10 + Q." },
-  wiknam: { label: 'Wiknam to‘p (P9)', m: { a: 10, b: 1, c: 1, d: 1, F: 3 }, note: "Problem 9: P = 10 − Q, TC = 3 + Q + 0.5Q², MC = 1 + Q." },
-  p10: { label: 'Yangi mahsulot (P10)', m: { a: 1000, b: 10, c: 100, d: 10, F: 0 }, note: "Problem 10: P = 1,000 − 10Q, MC = 100 + 10Q." },
-  drug: { label: 'Dori (Figure 6)', m: { a: 100, b: 1, c: 20, d: 0, F: 0 }, note: "Figure 6 g'oyasi: MC o'zgarmas. Patent davrida — monopoliya narxi; patent tugagach generiklar kiradi va narx MC gacha tushadi (model raqamlari)." },
+  potter: { label: tr('Potter quduq (P8)', "Potter's well (P8)"), m: { a: 70, b: 1, c: 10, d: 1, F: 0 }, note: tr("Problem 8: P = 70 − Q, MC = 10 + Q.", 'Problem 8: P = 70 − Q, MC = 10 + Q.') },
+  wiknam: { label: tr('Wiknam to‘p (P9)', 'Wiknam balls (P9)'), m: { a: 10, b: 1, c: 1, d: 1, F: 3 }, note: tr("Problem 9: P = 10 − Q, TC = 3 + Q + 0.5Q², MC = 1 + Q.", 'Problem 9: P = 10 − Q, TC = 3 + Q + 0.5Q², MC = 1 + Q.') },
+  p10: { label: tr('Yangi mahsulot (P10)', 'New product (P10)'), m: { a: 1000, b: 10, c: 100, d: 10, F: 0 }, note: tr("Problem 10: P = 1,000 − 10Q, MC = 100 + 10Q.", 'Problem 10: P = 1,000 − 10Q, MC = 100 + 10Q.') },
+  drug: { label: tr('Dori (Figure 6)', 'Drug (Figure 6)'), m: { a: 100, b: 1, c: 20, d: 0, F: 0 }, note: tr("Figure 6 g'oyasi: MC o'zgarmas. Patent davrida — monopoliya narxi; patent tugagach generiklar kiradi va narx MC gacha tushadi (model raqamlari).", 'The idea of Figure 6: constant MC. While the patent lasts — the monopoly price; when it expires, generics enter and the price falls to MC (model numbers).') },
 };
 
 /** Ch. 16 Figures 3–8: monopoly profit maximization, profit, and deadweight loss. */
@@ -59,14 +60,14 @@ export function MonopolyLab() {
     const qd = Math.max(0, (m.a - ceiling) / m.b);
     const qmc = m.d > 0 ? Math.max(0, (ceiling - m.c) / m.d) : qd;
     qCeil = Math.min(qd, qmc);
-    ceilingText = ` **Narx shifti $${fmt(ceiling, 2)}**: talab ${fmt(qd, 1)}; Potter MC ≤ shift bo'lgan birliklarni ishlab chiqaradi (${fmt(qmc, 1)} gacha) → sotiladi **${fmt(qCeil, 1)}**. ${qmc + 1e-9 >= qd ? "Taqchillik **yo'q** — monopoliyada shift miqdorni oshirishi mumkin!" : `**Taqchillik ${fmt(qd - qmc, 1)}** — shift juda past, MC uni qoplamaydi.`}`;
+    ceilingText = tr(` **Narx shifti $${fmt(ceiling, 2)}**: talab ${fmt(qd, 1)}; Potter MC ≤ shift bo'lgan birliklarni ishlab chiqaradi (${fmt(qmc, 1)} gacha) → sotiladi **${fmt(qCeil, 1)}**. ${qmc + 1e-9 >= qd ? "Taqchillik **yo'q** — monopoliyada shift miqdorni oshirishi mumkin!" : `**Taqchillik ${fmt(qd - qmc, 1)}** — shift juda past, MC uni qoplamaydi.`}`, ` **Price ceiling $${fmt(ceiling, 2)}**: quantity demanded ${fmt(qd, 1)}; Potter produces the units whose MC ≤ the ceiling (up to ${fmt(qmc, 1)}) → **${fmt(qCeil, 1)}** are sold. ${qmc + 1e-9 >= qd ? 'There is **no** shortage — under monopoly a ceiling can raise output!' : `**A shortage of ${fmt(qd - qmc, 1)}** — the ceiling is too low for MC to cover.`}`);
   }
   const showP = generic ? o.pc : o.pm;
   const showQ = generic ? o.qc : o.qm;
-  const explain = `${PRESETS[key].note} Monopolist **MR = MC** da: Q = **${fmt(o.qm, 2)}**, keyin talab egri chizig'idan narx P = **$${fmt(o.pm, 2)}** (A → B). P > MR = MC — raqobatdan asosiy farq. Samarali miqdor (talab = MC): Q = ${fmt(o.qc, 2)}, P = $${fmt(o.pc, 2)}. Monopoliya kam ishlab chiqaradi va qimmat sotadi → **DWL = $${fmt(o.dwl, 2)}** (talab va MC orasidagi uchburchak). Foyda $${fmt(o.profit, 2)} — o'zi ijtimoiy muammo emas, xaridordan sotuvchiga transfer; muammo — yo'qolgan savdolar.${generic ? ` **Patent tugadi**: generiklar raqobati narxni MC ($${fmt(m.c, 2)}) gacha tushiradi, miqdor ${fmt(o.qc, 1)}, DWL yo'qoladi.` : ''}${ceilingText}`;
+  const explain = tr(`${PRESETS[key].note} Monopolist **MR = MC** da: Q = **${fmt(o.qm, 2)}**, keyin talab egri chizig'idan narx P = **$${fmt(o.pm, 2)}** (A → B). P > MR = MC — raqobatdan asosiy farq. Samarali miqdor (talab = MC): Q = ${fmt(o.qc, 2)}, P = $${fmt(o.pc, 2)}. Monopoliya kam ishlab chiqaradi va qimmat sotadi → **DWL = $${fmt(o.dwl, 2)}** (talab va MC orasidagi uchburchak). Foyda $${fmt(o.profit, 2)} — o'zi ijtimoiy muammo emas, xaridordan sotuvchiga transfer; muammo — yo'qolgan savdolar.${generic ? ` **Patent tugadi**: generiklar raqobati narxni MC ($${fmt(m.c, 2)}) gacha tushiradi, miqdor ${fmt(o.qc, 1)}, DWL yo'qoladi.` : ''}${ceilingText}`, `${PRESETS[key].note} The monopolist produces where **MR = MC**: Q = **${fmt(o.qm, 2)}**, then charges the price on the demand curve P = **$${fmt(o.pm, 2)}** (A → B). P > MR = MC — the key difference from competition. The efficient quantity (demand = MC): Q = ${fmt(o.qc, 2)}, P = $${fmt(o.pc, 2)}. The monopoly produces too little and charges too much → **DWL = $${fmt(o.dwl, 2)}** (the triangle between demand and MC). The profit of $${fmt(o.profit, 2)} is not itself a social problem — it is a transfer from buyers to the seller; the problem is the lost trades.${generic ? ` **The patent expired**: competition from generics pushes the price down to MC ($${fmt(m.c, 2)}), quantity ${fmt(o.qc, 1)}, and the DWL disappears.` : ''}${ceilingText}`);
   return (
     <Card
-      title="Figures 4–8 — Monopoliya: MR = MC, foyda va deadweight loss"
+      title={tr("Figures 4–8 — Monopoliya: MR = MC, foyda va deadweight loss", 'Figures 4–8 — Monopoly: MR = MC, profit, and deadweight loss')}
       tabs={
         <>
           <Segmented
@@ -83,16 +84,16 @@ export function MonopolyLab() {
           {key === 'potter' && (
             <>
               <button className="btn-ghost btn-sm" onClick={() => setCeiling(ceiling === 45 ? null : 45)}>
-                {ceiling === 45 ? '✓ ' : ''}Shift −10% ($45)
+                {ceiling === 45 ? '✓ ' : ''}{tr('Shift −10% ($45)', 'Ceiling −10% ($45)')}
               </button>
               <button className="btn-ghost btn-sm" onClick={() => setCeiling(ceiling === 25 ? null : 25)}>
-                {ceiling === 25 ? '✓ ' : ''}Shift −50% ($25)
+                {ceiling === 25 ? '✓ ' : ''}{tr('Shift −50% ($25)', 'Ceiling −50% ($25)')}
               </button>
             </>
           )}
           {key === 'drug' && (
             <button className="btn-ghost btn-sm" onClick={() => setGeneric((g) => !g)}>
-              {generic ? '✓ ' : ''}Patent tugadi (generiklar)
+              {generic ? '✓ ' : ''}{tr('Patent tugadi (generiklar)', 'Patent expired (generics)')}
             </button>
           )}
         </>
@@ -100,8 +101,8 @@ export function MonopolyLab() {
       explain={explain}
       controls={
         <>
-          <Slider label="Talab: maksimal narx a" value={m.a} min={PRESETS[key].m.a * 0.5} max={PRESETS[key].m.a * 1.5} step={PRESETS[key].m.a / 50} onChange={(v) => setM({ ...m, a: v })} display={`$${fmt(m.a, 1)}`} color="--demand" />
-          <Slider label="MC kesmasi c" value={m.c} min={0} max={PRESETS[key].m.a * 0.6} step={PRESETS[key].m.a / 100} onChange={(v) => setM({ ...m, c: v })} display={`$${fmt(m.c, 1)}`} color="--supply" />
+          <Slider label={tr('Talab: maksimal narx a', 'Demand: choke price a')} value={m.a} min={PRESETS[key].m.a * 0.5} max={PRESETS[key].m.a * 1.5} step={PRESETS[key].m.a / 50} onChange={(v) => setM({ ...m, a: v })} display={`$${fmt(m.a, 1)}`} color="--demand" />
+          <Slider label={tr('MC kesmasi c', 'MC intercept c')} value={m.c} min={0} max={PRESETS[key].m.a * 0.6} step={PRESETS[key].m.a / 100} onChange={(v) => setM({ ...m, c: v })} display={`$${fmt(m.c, 1)}`} color="--supply" />
         </>
       }
     >
@@ -152,13 +153,13 @@ export function MonopolyLab() {
 export function MonopolyRevenue() {
   const [q, setQ] = useState(4);
   const price = (x: number) => 11 - x;
-  const tr = (x: number) => x * price(x);
-  const mr = tr(q) - tr(q - 1);
+  const revenue = (x: number) => x * price(x);
+  const mr = revenue(q) - revenue(q - 1);
   const outputEffect = price(q);
   const priceEffect = -(q - 1);
-  const explain = `${q}-gallonni sotish uchun narx $${price(q - 1)} → $${price(q)} ga tushadi. **Output effect**: yangi gallon +$${outputEffect}. **Price effect**: oldingi ${q - 1} gallonning har biri $1 arzonlashadi → ${priceEffect < 0 ? '−' : ''}$${Math.abs(priceEffect)}. MR = ${outputEffect} ${priceEffect < 0 ? '−' : '+'} ${Math.abs(priceEffect)} = **$${mr}** ${mr < price(q) ? `< P = $${price(q)}` : ''}. Monopoliyada **MR < P** (birinchi birlikdan keyin); price effect katta bo'lsa MR **manfiy** (6 → 7 gallon). Raqobatchi firmada price effect yo'q — MR = P.`;
+  const explain = tr(`${q}-gallonni sotish uchun narx $${price(q - 1)} → $${price(q)} ga tushadi. **Output effect**: yangi gallon +$${outputEffect}. **Price effect**: oldingi ${q - 1} gallonning har biri $1 arzonlashadi → ${priceEffect < 0 ? '−' : ''}$${Math.abs(priceEffect)}. MR = ${outputEffect} ${priceEffect < 0 ? '−' : '+'} ${Math.abs(priceEffect)} = **$${mr}** ${mr < price(q) ? `< P = $${price(q)}` : ''}. Monopoliyada **MR < P** (birinchi birlikdan keyin); price effect katta bo'lsa MR **manfiy** (6 → 7 gallon). Raqobatchi firmada price effect yo'q — MR = P.`, `To sell gallon ${q}, the price must fall from $${price(q - 1)} to $${price(q)}. **Output effect**: the new gallon brings +$${outputEffect}. **Price effect**: each of the previous ${q - 1} gallons sells for $1 less → ${priceEffect < 0 ? '−' : ''}$${Math.abs(priceEffect)}. MR = ${outputEffect} ${priceEffect < 0 ? '−' : '+'} ${Math.abs(priceEffect)} = **$${mr}** ${mr < price(q) ? `< P = $${price(q)}` : ''}. For a monopoly **MR < P** (after the first unit); when the price effect is large, MR is **negative** (6 → 7 gallons). A competitive firm has no price effect — MR = P.`);
   return (
-    <Card title="Table 1 / Figure 3 — Monopoliya tushumi: suv kompaniyasi" explain={explain} controls={<Slider label="Gallonlar soni" value={q} min={1} max={8} step={1} onChange={setQ} display={`${q}`} />}>
+    <Card title={tr('Table 1 / Figure 3 — Monopoliya tushumi: suv kompaniyasi', "Table 1 / Figure 3 — A monopoly's revenue: the water company")} explain={explain} controls={<Slider label={tr('Gallonlar soni', 'Gallons')} value={q} min={1} max={8} step={1} onChange={setQ} display={`${q}`} />}>
       <div className="overflow-x-auto p-4">
         <table className="num w-full min-w-[420px] text-right text-sm">
           <thead>
@@ -175,9 +176,9 @@ export function MonopolyRevenue() {
               <tr key={x} className={`border-b border-line ${x === q ? 'bg-marker/40 font-bold' : ''}`}>
                 <td className="px-2 py-1">{x}</td>
                 <td className="px-2">${price(x)}</td>
-                <td className="px-2">${tr(x)}</td>
+                <td className="px-2">${revenue(x)}</td>
                 <td className="px-2">{x ? `$${price(x)}` : '—'}</td>
-                <td className={`px-2 ${x && tr(x) - tr(x - 1) < 0 ? 'text-bad' : ''}`}>{x ? `${tr(x) - tr(x - 1) < 0 ? '−' : ''}$${Math.abs(tr(x) - tr(x - 1))}` : ''}</td>
+                <td className={`px-2 ${x && revenue(x) - revenue(x - 1) < 0 ? 'text-bad' : ''}`}>{x ? `${revenue(x) - revenue(x - 1) < 0 ? '−' : ''}$${Math.abs(revenue(x) - revenue(x - 1))}` : ''}</td>
               </tr>
             ))}
           </tbody>
@@ -205,36 +206,36 @@ export function PriceDiscrimination() {
     const singlePrice = high >= low ? fanWtp : casualWtp;
     const disc = arbitrage ? single : (fans * fanWtp + casual * casualWtp) / 1000 - author;
     const dwlSingle = singlePrice === fanWtp ? (casual * casualWtp) / 1000 : 0;
-    const explain = `Mualliflik haqi $${author} mln, bosma xarajati 0. **Yagona narx**: $${fanWtp} → ${fans}k nusxa, foyda $${fmt(high, 2)} mln; $${casualWtp} → ${fans + casual}k, foyda $${fmt(low, 2)} mln → tanlov **$${singlePrice}**, foyda **$${fmt(single, 2)} mln**${dwlSingle ? `, DWL **$${fmt(dwlSingle, 2)} mln** (${casual}k kitobxon kitobni MC dan yuqori qadrlaydi, lekin olmaydi)` : ''}. **Narx diskriminatsiyasi** (Avstraliya $${fanWtp}, AQSh $${casualWtp}): ${arbitrage ? '**arbitraj** tufayli imkonsiz — Avstraliya do\'konlari AQShda arzon olib qayta sotadi.' : `foyda **$${fmt(disc, 2)} mln**, hamma kitob oladi — DWL yo'q, lekin butun o'sish **ishlab chiqaruvchiga** (CS = 0).`} Saboqlar: (1) diskriminatsiya — ratsional strategiya; (2) xaridorlarni WTP bo'yicha ajratish kerak (arbitraj to'sqinlik qiladi); (3) u umumiy farovonlikni oshirishi mumkin.`;
+    const explain = tr(`Mualliflik haqi $${author} mln, bosma xarajati 0. **Yagona narx**: $${fanWtp} → ${fans}k nusxa, foyda $${fmt(high, 2)} mln; $${casualWtp} → ${fans + casual}k, foyda $${fmt(low, 2)} mln → tanlov **$${singlePrice}**, foyda **$${fmt(single, 2)} mln**${dwlSingle ? `, DWL **$${fmt(dwlSingle, 2)} mln** (${casual}k kitobxon kitobni MC dan yuqori qadrlaydi, lekin olmaydi)` : ''}. **Narx diskriminatsiyasi** (Avstraliya $${fanWtp}, AQSh $${casualWtp}): ${arbitrage ? '**arbitraj** tufayli imkonsiz — Avstraliya do\'konlari AQShda arzon olib qayta sotadi.' : `foyda **$${fmt(disc, 2)} mln**, hamma kitob oladi — DWL yo'q, lekin butun o'sish **ishlab chiqaruvchiga** (CS = 0).`} Saboqlar: (1) diskriminatsiya — ratsional strategiya; (2) xaridorlarni WTP bo'yicha ajratish kerak (arbitraj to'sqinlik qiladi); (3) u umumiy farovonlikni oshirishi mumkin.`, `Author's fee $${author} million, printing cost 0. **A single price**: $${fanWtp} → ${fans}k copies, profit $${fmt(high, 2)} million; $${casualWtp} → ${fans + casual}k, profit $${fmt(low, 2)} million → choose **$${singlePrice}**, profit **$${fmt(single, 2)} million**${dwlSingle ? `, DWL **$${fmt(dwlSingle, 2)} million** (${casual}k readers value the book above MC but don't buy it)` : ''}. **Price discrimination** (Australia $${fanWtp}, U.S. $${casualWtp}): ${arbitrage ? 'impossible because of **arbitrage** — Australian stores buy cheap in the U.S. and resell.' : `profit **$${fmt(disc, 2)} million**, everyone gets the book — no DWL, but the whole gain goes to the **producer** (CS = 0).`} Lessons: (1) discrimination is a rational strategy; (2) it requires separating buyers by WTP (arbitrage gets in the way); (3) it can raise total welfare.`);
     return (
       <Card
-        title="16-4a — Readalot Publishing: narx diskriminatsiyasi masali"
+        title={tr("16-4a — Readalot Publishing: narx diskriminatsiyasi masali", '16-4a — Readalot Publishing: a parable of price discrimination')}
         tabs={
           <>
-            <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: 'Figure 9: mukammal' }, { value: 'play', label: 'Problem 6: spektakl' }]} />
+            <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: tr('Figure 9: mukammal', 'Figure 9: perfect') }, { value: 'play', label: tr('Problem 6: spektakl', 'Problem 6: the play') }]} />
             <button className="btn-ghost btn-sm" onClick={() => setArbitrage((x) => !x)}>
-              {arbitrage ? '✓ ' : ''}Arbitraj mumkin
+              {arbitrage ? '✓ ' : ''}{tr('Arbitraj mumkin', 'Arbitrage possible')}
             </button>
           </>
         }
         explain={explain}
         controls={
           <>
-            <Slider label="Muxlislar (ming)" value={fans} min={0} max={500} step={10} onChange={setFans} display={`${fans}k`} />
-            <Slider label="Muxlislar WTP" value={fanWtp} min={5} max={60} step={1} onChange={setFanWtp} display={`$${fanWtp}`} color="--demand" />
-            <Slider label="Oddiy kitobxonlar (ming)" value={casual} min={0} max={1000} step={10} onChange={setCasual} display={`${casual}k`} />
-            <Slider label="Oddiy kitobxonlar WTP" value={casualWtp} min={1} max={30} step={1} onChange={setCasualWtp} display={`$${casualWtp}`} color="--demand" />
+            <Slider label={tr('Muxlislar (ming)', 'Die-hard fans (thousands)')} value={fans} min={0} max={500} step={10} onChange={setFans} display={`${fans}k`} />
+            <Slider label={tr('Muxlislar WTP', "Fans' WTP")} value={fanWtp} min={5} max={60} step={1} onChange={setFanWtp} display={`$${fanWtp}`} color="--demand" />
+            <Slider label={tr('Oddiy kitobxonlar (ming)', 'Casual readers (thousands)')} value={casual} min={0} max={1000} step={10} onChange={setCasual} display={`${casual}k`} />
+            <Slider label={tr('Oddiy kitobxonlar WTP', "Casual readers' WTP")} value={casualWtp} min={1} max={30} step={1} onChange={setCasualWtp} display={`$${casualWtp}`} color="--demand" />
           </>
         }
       >
         <div className="grid gap-3 p-4 sm:grid-cols-2">
           <div className="rounded-xl border-2 border-ink bg-surface2 p-3 text-center">
-            <div className="text-xs font-semibold text-muted">Yagona narx: ${singlePrice}</div>
-            <div className="num font-display text-2xl font-bold">${fmt(single, 2)} mln</div>
+            <div className="text-xs font-semibold text-muted">{tr('Yagona narx', 'Single price')}: ${singlePrice}</div>
+            <div className="num font-display text-2xl font-bold">${fmt(single, 2)} {tr('mln', 'm')}</div>
           </div>
           <div className="rounded-xl border-2 border-ink bg-postit-green p-3 text-center text-[#111]">
-            <div className="text-xs font-semibold">Diskriminatsiya</div>
-            <div className="num font-display text-2xl font-bold">${fmt(disc, 2)} mln</div>
+            <div className="text-xs font-semibold">{tr('Diskriminatsiya', 'Discrimination')}</div>
+            <div className="num font-display text-2xl font-bold">${fmt(disc, 2)} {tr('mln', 'm')}</div>
           </div>
         </div>
       </Card>
@@ -250,11 +251,11 @@ export function PriceDiscrimination() {
     const fc = 2000;
     const discP = bestA * adults(bestA) + bestK * kids(bestK) - fc;
     const singleP = bestS * (adults(bestS) + kids(bestS)) - fc;
-    const explain = `300 kattalar va 200 bola; fixed cost $${fc}, MC = 0. Diskriminatsiya: kattalar **$${bestA}**, bolalar **$${bestK}** → foyda **$${discP}**. Bitta narx qonuni: **$${bestS}** → foyda **$${singleP}** (bolalar kelmaydi). Qonun ishlab chiqaruvchiga $${discP - singleP} zarar, bolalarga $100 CS zarar (WTP $5 bo'lgan 100 bola $4 da $1 dan), kattalar uchun farq yo'q. FC $2,500 bo'lsa: diskriminatsiyada foyda $400 — spektakl bo'ladi; bitta narxda −$400 → spektakl **umuman bo'lmaydi**, hamma yutqazadi.`;
+    const explain = tr(`300 kattalar va 200 bola; fixed cost $${fc}, MC = 0. Diskriminatsiya: kattalar **$${bestA}**, bolalar **$${bestK}** → foyda **$${discP}**. Bitta narx qonuni: **$${bestS}** → foyda **$${singleP}** (bolalar kelmaydi). Qonun ishlab chiqaruvchiga $${discP - singleP} zarar, bolalarga $100 CS zarar (WTP $5 bo'lgan 100 bola $4 da $1 dan), kattalar uchun farq yo'q. FC $2,500 bo'lsa: diskriminatsiyada foyda $400 — spektakl bo'ladi; bitta narxda −$400 → spektakl **umuman bo'lmaydi**, hamma yutqazadi.`, `300 adults and 200 children; fixed cost $${fc}, MC = 0. Discrimination: adults **$${bestA}**, children **$${bestK}** → profit **$${discP}**. A single-price law: **$${bestS}** → profit **$${singleP}** (children stay home). The law costs the producer $${discP - singleP} and children $100 of CS (100 children with WTP $5 lose $1 each at $4); adults are unaffected. With FC $2,500: discrimination earns $400 — the play goes on; with a single price it would lose $400 → **no play at all**, and everyone loses.`);
     return (
       <Card
-        title="Problem 6 — Spektakl: kattalar va bolalar"
-        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: 'Figure 9: mukammal' }, { value: 'play', label: 'Problem 6: spektakl' }]} />}
+        title={tr("Problem 6 — Spektakl: kattalar va bolalar", 'Problem 6 — The play: adults and children')}
+        tabs={<Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: tr('Figure 9: mukammal', 'Figure 9: perfect') }, { value: 'play', label: tr('Problem 6: spektakl', 'Problem 6: the play') }]} />}
         explain={explain}
       >
         <div className="overflow-x-auto p-4">
@@ -300,15 +301,15 @@ export function PriceDiscrimination() {
   const csSingle = 0.5 * qm * (a - pm);
   const dwlSingle = 0.5 * (qc - qm) * (pm - mc);
   const explain = perfect
-    ? `**Mukammal narx diskriminatsiyasi** (panel b): har bir xaridorga aynan uning WTP i. MC dan yuqori qadrlaydigan hamma oladi → **DWL yo'q**, butun surplus ($${fmt(profitSingle + csSingle + dwlSingle)}) — monopolist foydasi; **CS = 0**. Problem 12: X = foyda, Y = CS, Z = DWL bo'lsa, diskriminatsiya foydani Y + Z ga, umumiy surplusni faqat Z ga oshiradi. Agar diskriminatsiya C xarajat talab qilsa, firma Y + Z > C da qiladi, jamiyat uchun esa faqat Z > C da foydali.`
-    : `**Yagona narx** (panel a): P = $${pm}, Q = ${qm}. Foyda (X) $${fmt(profitSingle)}, CS (Y) $${fmt(csSingle)}, DWL (Z) $${fmt(dwlSingle)}. Haqiqiy diskriminatsiya odatda nomukammal (yosh, hafta kuni, kupon…) va umumiy surplusni oshirishi, kamaytirishi yoki o'zgartirmasligi mumkin; aniq faqat — foyda oshadi.`;
+    ? tr(`**Mukammal narx diskriminatsiyasi** (panel b): har bir xaridorga aynan uning WTP i. MC dan yuqori qadrlaydigan hamma oladi → **DWL yo'q**, butun surplus ($${fmt(profitSingle + csSingle + dwlSingle)}) — monopolist foydasi; **CS = 0**. Problem 12: X = foyda, Y = CS, Z = DWL bo'lsa, diskriminatsiya foydani Y + Z ga, umumiy surplusni faqat Z ga oshiradi. Agar diskriminatsiya C xarajat talab qilsa, firma Y + Z > C da qiladi, jamiyat uchun esa faqat Z > C da foydali.`, `**Perfect price discrimination** (panel b): each buyer pays exactly their WTP. Everyone who values the good above MC buys → **no DWL**, and the whole surplus ($${fmt(profitSingle + csSingle + dwlSingle)}) is the monopolist's profit; **CS = 0**. Problem 12: with X = profit, Y = CS, Z = DWL, discrimination raises profit by Y + Z and total surplus only by Z. If discrimination costs C, the firm does it when Y + Z > C, but it helps society only if Z > C.`)
+    : tr(`**Yagona narx** (panel a): P = $${pm}, Q = ${qm}. Foyda (X) $${fmt(profitSingle)}, CS (Y) $${fmt(csSingle)}, DWL (Z) $${fmt(dwlSingle)}. Haqiqiy diskriminatsiya odatda nomukammal (yosh, hafta kuni, kupon…) va umumiy surplusni oshirishi, kamaytirishi yoki o'zgartirmasligi mumkin; aniq faqat — foyda oshadi.`, `**A single price** (panel a): P = $${pm}, Q = ${qm}. Profit (X) $${fmt(profitSingle)}, CS (Y) $${fmt(csSingle)}, DWL (Z) $${fmt(dwlSingle)}. Real-world discrimination is usually imperfect (age, day of the week, coupons…) and can raise, lower, or leave total surplus unchanged; only the rise in profit is certain.`);
   return (
     <Card
       title="Figure 9 — Welfare with and without Price Discrimination (model)"
       tabs={
         <>
-          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: 'Figure 9: mukammal' }, { value: 'play', label: 'Problem 6: spektakl' }]} />
-          <Segmented size="sm" value={perfect ? 'perfect' : 'single'} onChange={(v) => setSingle(v === 'single')} options={[{ value: 'single', label: '(a) Yagona narx' }, { value: 'perfect', label: '(b) Mukammal diskriminatsiya' }]} />
+          <Segmented size="sm" value={tab} onChange={setTab} options={[{ value: 'readalot', label: 'Readalot' }, { value: 'perfect', label: tr('Figure 9: mukammal', 'Figure 9: perfect') }, { value: 'play', label: tr('Problem 6: spektakl', 'Problem 6: the play') }]} />
+          <Segmented size="sm" value={perfect ? 'perfect' : 'single'} onChange={(v) => setSingle(v === 'single')} options={[{ value: 'single', label: tr('(a) Yagona narx', '(a) Single price') }, { value: 'perfect', label: tr('(b) Mukammal diskriminatsiya', '(b) Perfect discrimination') }]} />
         </>
       }
       explain={explain}
@@ -367,18 +368,18 @@ export function NaturalMonopolyRegulation() {
   }
   const explain =
     rule === 'mc'
-      ? `**Marginal-cost pricing**: P = MC = $${c} → samarali miqdor ${fmt(qMC)}. Lekin tabiiy monopoliyada ATC tushib boradi, MC < ATC → **zarar $${fmt(-profit)}** (kulrang to'rtburchak). Subsidiya kerak (soliq — o'z DWL i bilan) yoki firma chiqib ketadi. Ikkinchi muammo: xarajatni kamaytirishga rag'bat yo'q.`
+      ? tr(`**Marginal-cost pricing**: P = MC = $${c} → samarali miqdor ${fmt(qMC)}. Lekin tabiiy monopoliyada ATC tushib boradi, MC < ATC → **zarar $${fmt(-profit)}** (kulrang to'rtburchak). Subsidiya kerak (soliq — o'z DWL i bilan) yoki firma chiqib ketadi. Ikkinchi muammo: xarajatni kamaytirishga rag'bat yo'q.`, `**Marginal-cost pricing**: P = MC = $${c} → the efficient quantity ${fmt(qMC)}. But in a natural monopoly ATC keeps falling, so MC < ATC → **a loss of $${fmt(-profit)}** (grey rectangle). It needs a subsidy (raised by taxes, with their own DWL) or the firm leaves. A second problem: no incentive to cut costs.`)
       : rule === 'ac'
         ? Number.isNaN(qAC)
-          ? 'Fixed cost juda katta — hech qanday narxda ATC qoplanmaydi; bozor faqat subsidiya bilan ishlaydi.'
-          : `**Average-cost pricing**: P = ATC = $${fmt(p, 2)}, Q = ${fmt(q, 1)} → foyda 0, lekin P > MC → **DWL $${fmt(dwl)}** — bu monopoliya mahsulotiga soliq kabi. Rag'bat muammosi qoladi; regulyatorlar xarajat kamaysa foydaning bir qismini qoldirishga ruxsat beradi.`
-        : `**Tartibga solinmagan monopoliya**: MR = MC → Q = ${fmt(q)}, P = $${fmt(p)}, foyda $${fmt(profit)}, DWL $${fmt(dwl)}.`;
+          ? tr('Fixed cost juda katta — hech qanday narxda ATC qoplanmaydi; bozor faqat subsidiya bilan ishlaydi.', 'The fixed cost is so large that no price covers ATC; the market works only with a subsidy.')
+          : tr(`**Average-cost pricing**: P = ATC = $${fmt(p, 2)}, Q = ${fmt(q, 1)} → foyda 0, lekin P > MC → **DWL $${fmt(dwl)}** — bu monopoliya mahsulotiga soliq kabi. Rag'bat muammosi qoladi; regulyatorlar xarajat kamaysa foydaning bir qismini qoldirishga ruxsat beradi.`, `**Average-cost pricing**: P = ATC = $${fmt(p, 2)}, Q = ${fmt(q, 1)} → zero profit, but P > MC → **DWL $${fmt(dwl)}** — like a tax on the monopoly's product. The incentive problem remains; regulators let the firm keep part of the gain when costs fall.`)
+        : tr(`**Tartibga solinmagan monopoliya**: MR = MC → Q = ${fmt(q)}, P = $${fmt(p)}, foyda $${fmt(profit)}, DWL $${fmt(dwl)}.`, `**Unregulated monopoly**: MR = MC → Q = ${fmt(q)}, P = $${fmt(p)}, profit $${fmt(profit)}, DWL $${fmt(dwl)}.`);
   return (
     <Card
       title="Figure 10 — Natural monopoly regulation (model)"
-      tabs={<Segmented size="sm" value={rule} onChange={setRule} options={[{ value: 'monopoly', label: 'Tartibsiz monopoliya' }, { value: 'mc', label: 'P = MC' }, { value: 'ac', label: 'P = ATC' }]} />}
+      tabs={<Segmented size="sm" value={rule} onChange={setRule} options={[{ value: 'monopoly', label: tr('Tartibsiz monopoliya', 'Unregulated monopoly') }, { value: 'mc', label: 'P = MC' }, { value: 'ac', label: 'P = ATC' }]} />}
       explain={explain}
-      controls={<Slider label="Fixed cost (quvurlar tarmog'i)" value={F} min={200} max={1600} step={50} onChange={setF} display={`$${F}`} color="--tax" />}
+      controls={<Slider label={tr("Fixed cost (quvurlar tarmog'i)", 'Fixed cost (the pipe network)')} value={F} min={200} max={1600} step={50} onChange={setF} display={`$${F}`} color="--tax" />}
     >
       <div ref={wrapRef} className="min-w-0 p-1">
         <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="natural monopoly regulation">

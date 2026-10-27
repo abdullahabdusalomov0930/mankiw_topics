@@ -21,6 +21,7 @@ import { RichText } from '../ui/RichText';
 import { Segmented, Slider } from '../ui/Kit';
 import { clipLine, iy, ix, makeFrame, polygon, svgPoint, sx, sy, ticks, type Frame } from './plot';
 import { useWidth } from './useWidth';
+import { isEn, tr } from '../../lib/lang';
 
 export type SDMode = 'market' | 'ceiling' | 'floor' | 'tax';
 export type SDContext = 'goods' | 'labor' | 'housing';
@@ -87,18 +88,22 @@ export interface SDState {
   preset: number | null;
 }
 
-const VOCAB: Record<SDContext, { price: string; buyers: string; sellers: string; good: string; surplus: string; shortage: string }> = {
+type Vocab = Record<SDContext, { price: string; buyers: string; sellers: string; good: string; surplus: string; shortage: string }>;
+const VOCAB_EN: Vocab = {
+  goods: { price: 'price', buyers: 'buyers', sellers: 'sellers', good: 'good', surplus: 'surplus', shortage: 'shortage' },
+  labor: { price: 'wage', buyers: 'firms (employers)', sellers: 'workers', good: 'labor', surplus: 'unemployment (labor surplus)', shortage: 'labor shortage' },
+  housing: { price: 'rent', buyers: 'tenants', sellers: 'landlords', good: 'apartment', surplus: 'empty apartments (surplus)', shortage: 'housing shortage' },
+};
+const VOCAB: Vocab = isEn ? VOCAB_EN : {
   goods: { price: 'narx', buyers: 'xaridorlar', sellers: 'sotuvchilar', good: 'tovar', surplus: "ortiqcha tovar (surplus)", shortage: 'taqchillik (shortage)' },
   labor: { price: 'ish haqi', buyers: 'firmalar (ish beruvchilar)', sellers: 'ishchilar', good: 'mehnat', surplus: 'ishsizlik (labor surplus)', shortage: 'ishchi kuchi taqchilligi' },
   housing: { price: 'ijara haqi', buyers: 'ijarachilar', sellers: 'uy egalari', good: 'kvartira', surplus: "bo'sh kvartiralar (surplus)", shortage: 'uy-joy taqchilligi (shortage)' },
 };
 
-const MODE_LABEL: Record<SDMode, string> = {
-  market: 'Erkin bozor',
-  ceiling: 'Narx shifti',
-  floor: 'Narx tubi',
-  tax: 'Soliq',
-};
+const MODE_LABEL: Record<SDMode, string> = tr(
+  { market: 'Erkin bozor', ceiling: 'Narx shifti', floor: 'Narx tubi', tax: 'Soliq' },
+  { market: 'Free market', ceiling: 'Price ceiling', floor: 'Price floor', tax: 'Tax' },
+);
 
 function initialState(c: SDConfig): SDState {
   const eq = equilibrium(c.demand, c.supply);
@@ -309,34 +314,34 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
   if (s.mode === 'market' && s.view === 'move') {
     const dq = qd(s.D, s.probe);
     const sq = qs(s.S, s.probe);
-    rows.push({ k: `Tanlangan ${V.price}`, v: price(s.probe) });
-    rows.push({ k: 'Talab miqdori (Qd)', v: qty(dq), tone: 'demand' });
-    rows.push({ k: 'Taklif miqdori (Qs)', v: qty(sq), tone: 'supply' });
-    rows.push({ k: dq > sq ? 'Taqchillik' : 'Ortiqcha', v: qty(Math.abs(dq - sq)), tone: Math.abs(dq - sq) < 1e-6 ? 'muted' : 'bad' });
+    rows.push({ k: tr(`Tanlangan ${V.price}`, `Chosen ${V.price}`), v: price(s.probe) });
+    rows.push({ k: tr('Talab miqdori (Qd)', 'Quantity demanded (Qd)'), v: qty(dq), tone: 'demand' });
+    rows.push({ k: tr('Taklif miqdori (Qs)', 'Quantity supplied (Qs)'), v: qty(sq), tone: 'supply' });
+    rows.push({ k: dq > sq ? tr('Taqchillik', 'Shortage') : tr('Ortiqcha', 'Surplus'), v: qty(Math.abs(dq - sq)), tone: Math.abs(dq - sq) < 1e-6 ? 'muted' : 'bad' });
   } else if (ceiling || floor) {
     const o = (ceiling ?? floor)!;
-    rows.push({ k: ceiling ? 'Narx shifti' : 'Narx tubi', v: price(s.control) });
-    rows.push({ k: 'Muvozanat narxi P*', v: price(eq.P), tone: 'muted' });
-    rows.push({ k: 'Holat', v: o.binding ? "binding (ta'sirli)" : 'not binding', tone: o.binding ? 'bad' : 'good' });
-    rows.push({ k: 'Talab miqdori (Qd)', v: qty(o.qd), tone: 'demand' });
-    rows.push({ k: 'Taklif miqdori (Qs)', v: qty(o.qs), tone: 'supply' });
-    rows.push({ k: ceiling ? 'Taqchillik' : config.context === 'labor' ? 'Ishsizlik' : 'Ortiqcha', v: qty(o.gap), tone: o.gap > 0 ? 'bad' : 'muted' });
-    rows.push({ k: 'Sotilgan miqdor', v: qty(o.Q) });
+    rows.push({ k: ceiling ? tr('Narx shifti', 'Price ceiling') : tr('Narx tubi', 'Price floor'), v: price(s.control) });
+    rows.push({ k: tr('Muvozanat narxi P*', 'Equilibrium price P*'), v: price(eq.P), tone: 'muted' });
+    rows.push({ k: tr('Holat', 'Status'), v: o.binding ? tr("binding (ta'sirli)", 'binding') : 'not binding', tone: o.binding ? 'bad' : 'good' });
+    rows.push({ k: tr('Talab miqdori (Qd)', 'Quantity demanded (Qd)'), v: qty(o.qd), tone: 'demand' });
+    rows.push({ k: tr('Taklif miqdori (Qs)', 'Quantity supplied (Qs)'), v: qty(o.qs), tone: 'supply' });
+    rows.push({ k: ceiling ? tr('Taqchillik', 'Shortage') : config.context === 'labor' ? tr('Ishsizlik', 'Unemployment') : tr('Ortiqcha', 'Surplus'), v: qty(o.gap), tone: o.gap > 0 ? 'bad' : 'muted' });
+    rows.push({ k: tr('Sotilgan miqdor', 'Quantity sold'), v: qty(o.Q) });
   } else if (tx) {
-    rows.push({ k: 'Soliq (T)', v: price(s.tax), tone: 'tax' });
-    rows.push({ k: `${cap(V.buyers)} to'laydi (P_B)`, v: price(tx.Pb), tone: 'demand' });
-    rows.push({ k: `${cap(V.sellers)} oladi (P_S)`, v: price(tx.Ps), tone: 'supply' });
-    rows.push({ k: 'Soliqsiz narx P*', v: price(eq.P), tone: 'muted' });
-    rows.push({ k: 'Miqdor', v: `${qty(eq.Q)} → ${qty(tx.Q)}` });
-    rows.push({ k: 'Soliq tushumi (T×Q)', v: price(tx.revenue), tone: 'tax' });
-    if (showSurplus) rows.push({ k: "Sof yo'qotish (DWL)", v: price(0.5 * s.tax * (eq.Q - tx.Q)), tone: 'bad' });
+    rows.push({ k: tr('Soliq (T)', 'Tax (T)'), v: price(s.tax), tone: 'tax' });
+    rows.push({ k: tr(`${cap(V.buyers)} to'laydi (P_B)`, `${cap(V.buyers)} pay (P_B)`), v: price(tx.Pb), tone: 'demand' });
+    rows.push({ k: tr(`${cap(V.sellers)} oladi (P_S)`, `${cap(V.sellers)} receive (P_S)`), v: price(tx.Ps), tone: 'supply' });
+    rows.push({ k: tr('Soliqsiz narx P*', 'Price without tax P*'), v: price(eq.P), tone: 'muted' });
+    rows.push({ k: tr('Miqdor', 'Quantity'), v: `${qty(eq.Q)} → ${qty(tx.Q)}` });
+    rows.push({ k: tr('Soliq tushumi (T×Q)', 'Tax revenue (T×Q)'), v: price(tx.revenue), tone: 'tax' });
+    if (showSurplus) rows.push({ k: tr("Sof yo'qotish (DWL)", 'Deadweight loss (DWL)'), v: price(0.5 * s.tax * (eq.Q - tx.Q)), tone: 'bad' });
   } else {
-    rows.push({ k: `Muvozanat ${V.price}i P*`, v: price(eq.P) });
-    rows.push({ k: 'Muvozanat miqdori Q*', v: qty(eq.Q) });
-    if (shiftedD || shiftedS) rows.push({ k: "Boshlang'ich muvozanat", v: `${price(eq0.P)}, ${qty(eq0.Q)}`, tone: 'muted' });
+    rows.push({ k: tr(`Muvozanat ${V.price}i P*`, `Equilibrium ${V.price} P*`), v: price(eq.P) });
+    rows.push({ k: tr('Muvozanat miqdori Q*', 'Equilibrium quantity Q*'), v: qty(eq.Q) });
+    if (shiftedD || shiftedS) rows.push({ k: tr("Boshlang'ich muvozanat", 'Initial equilibrium'), v: `${price(eq0.P)}, ${qty(eq0.Q)}`, tone: 'muted' });
     if (config.showRevenue) {
-      rows.push({ k: 'Umumiy tushum P×Q', v: price(eq.P * eq.Q), tone: 'tax' });
-      if (shiftedD || shiftedS) rows.push({ k: 'Avvalgi tushum', v: price(eq0.P * eq0.Q), tone: 'muted' });
+      rows.push({ k: tr('Umumiy tushum P×Q', 'Total revenue P×Q'), v: price(eq.P * eq.Q), tone: 'tax' });
+      if (shiftedD || shiftedS) rows.push({ k: tr('Avvalgi tushum', 'Previous revenue'), v: price(eq0.P * eq0.Q), tone: 'muted' });
     }
   }
   if (showSurplus && !tx && !(s.mode === 'market' && s.view === 'move')) {
@@ -345,23 +350,23 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
     const Q = ctl ? ctl.Q : eq.Q;
     const cs = consumerSurplus(s.D, P, Q);
     const ps = producerSurplus(s.S, P, Q);
-    rows.push({ k: "Iste'molchi ortiqchaligi (CS)", v: price(cs), tone: 'demand' });
-    rows.push({ k: 'Ishlab chiqaruvchi ortiqchaligi (PS)', v: price(ps), tone: 'supply' });
-    if (ctl) rows.push({ k: "Sof yo'qotish (DWL)", v: price(welfare.total - cs - ps), tone: 'bad' });
+    rows.push({ k: tr("Iste'molchi ortiqchaligi (CS)", 'Consumer surplus (CS)'), v: price(cs), tone: 'demand' });
+    rows.push({ k: tr('Ishlab chiqaruvchi ortiqchaligi (PS)', 'Producer surplus (PS)'), v: price(ps), tone: 'supply' });
+    if (ctl) rows.push({ k: tr("Sof yo'qotish (DWL)", 'Deadweight loss (DWL)'), v: price(welfare.total - cs - ps), tone: 'bad' });
   }
   if (config.slopeControls) {
     const p = tx ? { Q: eq.Q, P: eq.P } : eq;
-    rows.push({ k: 'Talab egiluvchanligi (E_d)', v: fmt(demandElasticityAt(s.D, p), 2), tone: 'demand' });
-    rows.push({ k: 'Taklif egiluvchanligi (E_s)', v: fmt(supplyElasticityAt(s.S, p), 2), tone: 'supply' });
+    rows.push({ k: tr('Talab egiluvchanligi (E_d)', 'Elasticity of demand (E_d)'), v: fmt(demandElasticityAt(s.D, p), 2), tone: 'demand' });
+    rows.push({ k: tr('Taklif egiluvchanligi (E_s)', 'Elasticity of supply (E_s)'), v: fmt(supplyElasticityAt(s.S, p), 2), tone: 'supply' });
   }
 
-  const explanation = explain({ s, eq, eq0, ceiling, floor, tx, V, price, qty, unit, shiftedD, shiftedS, base, ctx: config.context ?? 'goods' });
+  const explanation = (isEn ? explainEn : explain)({ s, eq, eq0, ceiling, floor, tx, V, price, qty, unit, shiftedD, shiftedS, base, ctx: config.context ?? 'goods' });
 
   return (
     <figure className="card my-6 overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-ink bg-marker px-4 py-3 text-[#111]">
         <figcaption className="font-display text-[14px] font-bold">
-          <RichText text={config.title ?? 'Talab va taklif grafigi'} />
+          <RichText text={config.title ?? tr('Talab va taklif grafigi', 'Supply and demand graph')} />
         </figcaption>
         <div className="flex flex-wrap items-center gap-2">
           {config.surplus && (
@@ -369,10 +374,10 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
               className={`btn-ghost btn-sm ${s.surplusOn ? '!bg-ink !text-marker' : ''}`}
               onClick={() => setS((st) => ({ ...st, surplusOn: !st.surplusOn }))}
             >
-              {s.surplusOn ? '✓ ' : ''}Ortiqchalik maydonlari
+              {s.surplusOn ? '✓ ' : ''}{tr('Ortiqchalik maydonlari', 'Surplus areas')}
             </button>
           )}
-          <button className="btn-ghost btn-sm" onClick={reset} title="Boshlang'ich holatga qaytarish">
+          <button className="btn-ghost btn-sm" onClick={reset} title={tr("Boshlang'ich holatga qaytarish", 'Reset to the start')}>
             ↺ Reset
           </button>
         </div>
@@ -400,8 +405,8 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
               value={s.view}
               onChange={(v) => setS((st) => ({ ...st, view: v }))}
               options={[
-                { value: 'shift', label: 'Egri chiziqni siljitish' },
-                { value: 'move', label: "Egri chiziq bo'ylab harakat" },
+                { value: 'shift', label: tr('Egri chiziqni siljitish', 'Shift a curve') },
+                { value: 'move', label: tr("Egri chiziq bo'ylab harakat", 'Move along a curve') },
               ]}
             />
           )}
@@ -565,7 +570,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         </div>
 
         <div className="border-t-2 border-dashed border-ink/30 p-4 md:border-l-2 md:border-t-0">
-          <div className="kicker mb-2">Ko'rsatkichlar</div>
+          <div className="kicker mb-2">{tr("Ko'rsatkichlar", 'Numbers')}</div>
           <dl className="space-y-1.5 text-sm">
             {rows.map((r) => (
               <div key={r.k} className="flex items-baseline justify-between gap-3">
@@ -581,7 +586,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
       <div className="grid gap-x-6 gap-y-2 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">
         {(s.mode === 'ceiling' || s.mode === 'floor') && (
           <Slider
-            label={s.mode === 'ceiling' ? 'Narx shifti (price ceiling)' : 'Narx tubi (price floor)'}
+            label={s.mode === 'ceiling' ? tr('Narx shifti (price ceiling)', 'Price ceiling') : tr('Narx tubi (price floor)', 'Price floor')}
             value={s.control}
             min={0}
             max={config.yMax * 0.95}
@@ -593,7 +598,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         )}
         {s.mode === 'tax' && (
           <Slider
-            label="Soliq miqdori (T)"
+            label={tr('Soliq miqdori (T)', 'Size of the tax (T)')}
             value={s.tax}
             min={0}
             max={config.taxMax ?? config.yMax * 0.6}
@@ -605,7 +610,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         )}
         {s.mode === 'tax' && config.taxSideToggle !== false && (
           <div>
-            <div className="mb-1 text-xs font-medium text-muted">Soliqni qonun bo'yicha kim to'laydi?</div>
+            <div className="mb-1 text-xs font-medium text-muted">{tr("Soliqni qonun bo'yicha kim to'laydi?", 'Who pays the tax by law?')}</div>
             <Segmented
               size="sm"
               value={s.taxOn}
@@ -619,7 +624,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         )}
         {s.mode === 'market' && s.view === 'move' && (
           <Slider
-            label={`${cap(V.price)} (bozor narxi)`}
+            label={tr(`${cap(V.price)} (bozor narxi)`, `${cap(V.price)} (market price)`)}
             value={s.probe}
             min={0}
             max={config.yMax * 0.95}
@@ -631,7 +636,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         {config.shiftControls !== false && !(s.mode === 'market' && s.view === 'move') && (
           <>
             <Slider
-              label="Talabni siljitish (shift demand)"
+              label={tr('Talabni siljitish (shift demand)', 'Shift demand')}
               value={shiftD}
               min={-config.xMax * 0.45}
               max={config.xMax * 0.45}
@@ -641,7 +646,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
               color="--demand"
             />
             <Slider
-              label="Taklifni siljitish (shift supply)"
+              label={tr('Taklifni siljitish (shift supply)', 'Shift supply')}
               value={shiftS}
               min={-config.xMax * 0.45}
               max={config.xMax * 0.45}
@@ -655,7 +660,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
         {config.slopeControls && (
           <>
             <Slider
-              label="Talab: noegiluvchan ← → egiluvchan"
+              label={tr('Talab: noegiluvchan ← → egiluvchan', 'Demand: inelastic ← → elastic')}
               value={slopeD}
               min={-1}
               max={1}
@@ -664,7 +669,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
               color="--demand"
             />
             <Slider
-              label="Taklif: noegiluvchan ← → egiluvchan"
+              label={tr('Taklif: noegiluvchan ← → egiluvchan', 'Supply: inelastic ← → elastic')}
               value={slopeS}
               min={-1}
               max={1}
@@ -678,7 +683,7 @@ export function SupplyDemandGraph({ config, onChange, baseline }: Props) {
 
       {!config.compact && (
         <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-          <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
           <RichText text={explanation} block className="prose-uz text-[15px]" />
           {s.preset != null && config.presets?.[s.preset]?.note && (
             <p className="mt-2 text-sm text-muted">
@@ -899,7 +904,7 @@ export function BurdenBar({ buyers, buyersLabel, sellersLabel }: { buyers: numbe
   );
 }
 
-// ---------- explanation in Uzbek ----------
+// ---------- explanations (Uzbek, then English) ----------
 
 function explain(x: {
   s: SDState;
@@ -967,4 +972,60 @@ function explain(x: {
   if (x.shiftedS) parts.push(sDir > 0 ? "taklif **o'ngga** siljidi (increase in supply)" : sDir < 0 ? 'taklif **chapga** siljidi (decrease in supply)' : 'taklif egri chizig\'i burildi');
   const dirWord = (a: number, b: number) => (b > a + 1e-6 ? 'oshdi' : b < a - 1e-6 ? 'kamaydi' : "o'zgarmadi");
   return `${cap(parts.join(', '))}. Yangi muvozanat: ${V.price} ${price(eq0.P)} → ${price(eq.P)} (${dirWord(eq0.P, eq.P)}), miqdor ${qty(eq0.Q)} → ${qty(eq.Q)} (${dirWord(eq0.Q, eq.Q)}).\n\nKulrang uzuq chiziqlar — eski egri chiziqlar. Egri chiziq **siljiganda** (shift) har bir narxdagi miqdor o'zgaradi; bu narxdan boshqa omil (daromad, xomashyo narxi, texnologiya…) o'zgarganini bildiradi.`;
+}
+
+function explainEn(x: Parameters<typeof explain>[0]): string {
+  const { s, eq, eq0, ceiling, floor, tx, V, price, qty, unit } = x;
+  const u = unit ? ` ${unit}` : '';
+
+  if (s.mode === 'market' && s.view === 'move') {
+    const d = qd(s.D, s.probe);
+    const sq = qs(s.S, s.probe);
+    if (Math.abs(d - sq) < Math.max(0.5, eq.Q * 0.01))
+      return `This price is the equilibrium: ${V.buyers} want to buy ${qty(d)}${u} and ${V.sellers} want to sell ${qty(sq)}${u}. There is no pressure on the price — the market “clears”.`;
+    if (s.probe > eq.P)
+      return `The price ${price(s.probe)} is **above** equilibrium (${price(eq.P)}). Quantity supplied is ${qty(sq)} but quantity demanded only ${qty(d)} — a **${V.surplus}** of ${qty(sq - d)}${u}. Sellers start cutting the price.\n\nNotice that the curves did not move. When the price changes we only **move along the curves** — a change in “quantity demanded” and “quantity supplied”, not in demand or supply themselves.`;
+    return `The price ${price(s.probe)} is **below** equilibrium (${price(eq.P)}). Quantity demanded is ${qty(d)} but quantity supplied only ${qty(sq)} — a **${V.shortage}** of ${qty(d - sq)}${u}. Queues form and sellers raise the price.\n\nThe curves stay put: this is a **movement along the curves**, not a shift.`;
+  }
+
+  if (ceiling) {
+    if (!ceiling.binding)
+      return `The price ceiling ${price(s.control)} is **above** the equilibrium price (${price(eq.P)}), so it is **not binding**: the market reaches its equilibrium and ${qty(eq.Q)}${u} are sold. Drag the ceiling below equilibrium and see what happens.`;
+    return `The price ceiling ${price(s.control)} is **below** the equilibrium price (${price(eq.P)}), so it is **binding**. At this price ${V.buyers} want ${qty(ceiling.qd)}${u} but ${V.sellers} offer only ${qty(ceiling.qs)}${u}: a **${V.shortage}** of ${qty(ceiling.gap)}${u}.\n\nBecause the price cannot rise, the good is rationed by queues, connections, or bribes. The quantity sold is set by the short side — **supply** (${qty(ceiling.Q)}${u}).`;
+  }
+
+  if (floor) {
+    if (!floor.binding)
+      return `The price floor ${price(s.control)} is **below** the equilibrium price (${price(eq.P)}), so it is **not binding**: the market price is still ${price(eq.P)}. Raise the floor above equilibrium.`;
+    const labor = x.ctx === 'labor';
+    return `The price floor ${price(s.control)} is **above** equilibrium (${price(eq.P)}), so it is **binding**. ${cap(V.sellers)} offer ${qty(floor.qs)}${u} but ${V.buyers} take only ${qty(floor.qd)}${u}: a **${V.surplus}** of ${qty(floor.gap)}${u}.${
+      labor
+        ? '\n\nWorkers who find jobs earn more, but some cannot find work at all — that is the main “cost” of a minimum wage.'
+        : '\n\nThe quantity sold is now limited by **demand**: whoever gets in first (or has connections) gets to sell.'
+    }`;
+  }
+
+  if (tx) {
+    if (s.tax <= 0) return `The tax is zero. Move the slider: a tax drives a “wedge” between the price ${V.buyers} pay and the price ${V.sellers} receive.`;
+    const who = s.taxOn === 'sellers' ? V.sellers : V.buyers;
+    const curve = s.taxOn === 'sellers' ? 'the supply curve shifts **up**' : 'the demand curve shifts **down**';
+    const b = Math.round(tx.buyerShare * 100);
+    const heavier =
+      b > 55
+        ? `Most of the burden falls on **${V.buyers}** — so demand is less elastic than supply.`
+        : b < 45
+          ? `Most of the burden falls on **${V.sellers}** — so supply is less elastic than demand.`
+          : 'The burden is shared about equally: the two curves have similar elasticities.';
+    return `By law the tax is paid by **${who}**, so ${curve} by ${price(s.tax)}. As a result ${V.buyers} pay ${price(tx.Pb)} (it was ${price(eq.P)}) and ${V.sellers} receive ${price(tx.Ps)} after tax. The quantity falls from ${qty(eq.Q)} to ${qty(tx.Q)}${u}.\n\n${heavier} Switch who pays the tax — **P_B, P_S, and Q stay exactly the same**.`;
+  }
+
+  if (!x.shiftedD && !x.shiftedS)
+    return `Equilibrium is where supply and demand cross: at ${price(eq.P)} the quantity ${V.buyers} want (${qty(eq.Q)}${u}) equals the quantity ${V.sellers} want to sell. Drag the curves with the mouse or a finger, or use the sliders.`;
+  const parts: string[] = [];
+  const dDir = qd(s.D, eq0.P) - eq0.Q;
+  const sDir = qs(s.S, eq0.P) - eq0.Q;
+  if (x.shiftedD) parts.push(dDir > 0 ? 'demand shifted **right** (an increase in demand)' : dDir < 0 ? 'demand shifted **left** (a decrease in demand)' : 'the demand curve rotated');
+  if (x.shiftedS) parts.push(sDir > 0 ? 'supply shifted **right** (an increase in supply)' : sDir < 0 ? 'supply shifted **left** (a decrease in supply)' : 'the supply curve rotated');
+  const dirWord = (a: number, b: number) => (b > a + 1e-6 ? 'up' : b < a - 1e-6 ? 'down' : 'unchanged');
+  return `${cap(parts.join(', '))}. New equilibrium: ${V.price} ${price(eq0.P)} → ${price(eq.P)} (${dirWord(eq0.P, eq.P)}), quantity ${qty(eq0.Q)} → ${qty(eq.Q)} (${dirWord(eq0.Q, eq.Q)}).\n\nThe grey dashed lines are the old curves. When a curve **shifts**, the quantity at every price changes; this means something other than the price (income, input prices, technology…) has changed.`;
 }

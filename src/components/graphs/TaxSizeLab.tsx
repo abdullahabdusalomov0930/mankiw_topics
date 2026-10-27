@@ -4,6 +4,7 @@ import { RichText } from '../ui/RichText';
 import { makeFrame, sx, sy, ticks, type Frame } from './plot';
 import { SupplyDemandGraph, type SDConfig, type SDState } from './SupplyDemandGraph';
 import { useWidth } from './useWidth';
+import { tr } from '../../lib/lang';
 
 /**
  * Ch. 8 Figure 6: the tax graph on top, and below it deadweight loss and tax revenue as
@@ -13,7 +14,7 @@ export function TaxSizeLab({ demand, supply, xMax, yMax, startTax }: { demand: D
   const [st, setSt] = useState<{ D: Demand; S: Supply; T: number }>({ D: demand, S: supply, T: startTax });
   const onChange = useCallback((s: SDState) => setSt({ D: s.D, S: s.S, T: s.tax }), []);
   const config: SDConfig = {
-    title: "Figure 6 — Soliq kattaligi, sof yo'qotish va tushum",
+    title: tr("Figure 6 — Soliq kattaligi, sof yo'qotish va tushum", 'Figure 6 — Tax size, deadweight loss, and revenue'),
     demand,
     supply,
     xMax,
@@ -37,13 +38,19 @@ export function TaxSizeLab({ demand, supply, xMax, yMax, startTax }: { demand: D
   const half = deadweightLoss(st.D, st.S, st.T / 2);
   const ratio = half > 0 ? dwl / half : 0;
   const side = st.T > tStar + 1e-6 ? 'down' : st.T < tStar - 1e-6 ? 'up' : 'top';
-  const explain = `Soliq **$${fmt(st.T)}**: tushum $${fmt(cur.revenue)}, sof yo'qotish (DWL) $${fmt(dwl)}. Soliqni ikki barobar oshirsangiz, DWL **${fmt(ratio || 4, 1)} barobar** oshadi — u soliq kvadratiga proporsional (\\(DWL = T^2 / 2(b+d)\\)).\n\nTushum esa avval oshadi, keyin kamayadi — **Laffer curve**. Maksimal tushum \\(T = $${fmt(tStar)}\\) da. ${
+  const explain = tr(`Soliq **$${fmt(st.T)}**: tushum $${fmt(cur.revenue)}, sof yo'qotish (DWL) $${fmt(dwl)}. Soliqni ikki barobar oshirsangiz, DWL **${fmt(ratio || 4, 1)} barobar** oshadi — u soliq kvadratiga proporsional (\\(DWL = T^2 / 2(b+d)\\)).\n\nTushum esa avval oshadi, keyin kamayadi — **Laffer curve**. Maksimal tushum \\(T = $${fmt(tStar)}\\) da. ${
     side === 'down'
       ? "Hozir siz egri chiziqning **pasayuvchi** tomonidasiz: soliqni kamaytirish tushumni **oshiradi**."
       : side === 'up'
         ? "Hozir siz o'suvchi tomondasiz: soliqni oshirish tushumni oshiradi (lekin DWL tezroq o'sadi)."
         : 'Siz aynan cho\'qqidasiz.'
-  }\n\nEgiluvchanlik slayderlarini suring: egri chiziqlar qanchalik egiluvchan bo'lsa, bir xil soliqda DWL shunchalik katta.`;
+  }\n\nEgiluvchanlik slayderlarini suring: egri chiziqlar qanchalik egiluvchan bo'lsa, bir xil soliqda DWL shunchalik katta.`, `A tax of **$${fmt(st.T)}**: revenue $${fmt(cur.revenue)}, deadweight loss (DWL) $${fmt(dwl)}. Double the tax and the DWL rises **${fmt(ratio || 4, 1)}-fold** — it is proportional to the square of the tax (\\(DWL = T^2 / 2(b+d)\\)).\n\nRevenue first rises, then falls — the **Laffer curve**. Revenue peaks at \\(T = $${fmt(tStar)}\\). ${
+    side === 'down'
+      ? 'You are now on the **falling** side of the curve: cutting the tax **raises** revenue.'
+      : side === 'up'
+        ? 'You are on the rising side: raising the tax raises revenue (but the DWL grows faster).'
+        : 'You are exactly at the peak.'
+  }\n\nMove the elasticity sliders: the more elastic the curves, the bigger the DWL from the same tax.`);
 
   return (
     <div className="my-6">
@@ -54,7 +61,7 @@ export function TaxSizeLab({ demand, supply, xMax, yMax, startTax }: { demand: D
           <MiniChart title="(e) Tax revenue: the Laffer curve" data={sched.map((r) => [r.T, r.revenue])} cur={[st.T, cur.revenue]} color="tax" maxT={maxT} peak={tStar} border />
         </div>
         <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-          <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+          <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
           <RichText text={explain} block className="prose-uz text-[15px]" />
         </div>
       </figure>

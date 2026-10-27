@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { predictShift, shiftDemand, shiftSupply, type Demand, type Direction, type Supply } from '../../lib/econ';
 import { SupplyDemandGraph } from './SupplyDemandGraph';
+import { tr } from '../../lib/lang';
 
 const DIR: Record<Direction, string> = { up: '↑', down: '↓', same: '—', ambiguous: '?' };
-const DIR_UZ: Record<Direction, string> = { up: 'oshadi', down: 'kamayadi', same: "o'zgarmaydi", ambiguous: 'noaniq (ambiguous)' };
+const DIR_UZ: Record<Direction, string> = tr(
+  { up: 'oshadi', down: 'kamayadi', same: "o'zgarmaydi", ambiguous: 'noaniq (ambiguous)' },
+  { up: 'rises', down: 'falls', same: 'stays the same', ambiguous: 'ambiguous' },
+);
 
 /**
  * Ch. 4 Table 4 as a clickable grid: each cell opens a supply-and-demand graph with that
@@ -73,13 +77,13 @@ export function ShiftTable({ demand, supply, xMax, yMax }: { demand: Demand; sup
         </table>
       </div>
       <div className="postit tape mt-6 -rotate-[0.4deg] bg-postit-blue p-4 pt-5 text-[15px]">
-        Tanlangan holat: narx <b>{DIR_UZ[pred.P]}</b>, miqdor <b>{DIR_UZ[pred.Q]}</b>.
+        {tr('Tanlangan holat: narx', 'Selected case: price')} <b>{DIR_UZ[pred.P]}</b>, {tr('miqdor', 'quantity')} <b>{DIR_UZ[pred.Q]}</b>.
         {ambiguous && (
           <span>
             {' '}
-            Natija siljishlarning <b>nisbiy kattaligiga</b> bog'liq (Figure 12). Hozir katta siljigan:{' '}
+            {tr('Natija siljishlarning', 'The result depends on the')} <b>{tr('nisbiy kattaligiga', 'relative size')}</b> {tr("bog'liq (Figure 12). Hozir katta siljigan:", 'of the shifts (Figure 12). The bigger shift now:')}{' '}
             <button className="btn-ghost btn-sm" onClick={() => setBigDemand((b) => !b)}>
-              {bigDemand ? 'talab (almashtirish)' : 'taklif (almashtirish)'}
+              {bigDemand ? tr('talab (almashtirish)', 'demand (switch)') : tr('taklif (almashtirish)', 'supply (switch)')}
             </button>
           </span>
         )}
@@ -87,7 +91,7 @@ export function ShiftTable({ demand, supply, xMax, yMax }: { demand: Demand; sup
       <SupplyDemandGraph
         key={key}
         config={{
-          title: 'Table 4 — tanlangan siljishlar',
+          title: tr('Table 4 — tanlangan siljishlar', 'Table 4 — the selected shifts'),
           demand: D,
           supply: S,
           xMax,

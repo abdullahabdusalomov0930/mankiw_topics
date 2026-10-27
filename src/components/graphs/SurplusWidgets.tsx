@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../ui/Kit';
 import { RichText } from '../ui/RichText';
 import { makeFrame, polygon, sx, sy, ticks, type Frame } from './plot';
 import { useWidth } from './useWidth';
+import { tr } from '../../lib/lang';
 
 function Axes({ f, xLabel, yLabel, xStep }: { f: Frame; xLabel: string; yLabel: string; xStep?: number }) {
   const xt = xStep ? Array.from({ length: Math.floor(f.xMax / xStep) + 1 }, (_, i) => i * xStep) : ticks(f.xMax);
@@ -44,7 +45,7 @@ function Card({ title, children, explain }: { title: string; children: React.Rea
       </div>
       {children}
       <div className="border-t-2 border-ink bg-pen/[0.07] px-4 py-3">
-        <div className="kicker mb-1 text-[16px]">Nimani ko'ryapsiz? ✎</div>
+        <div className="kicker mb-1 text-[16px]">{tr("Nimani ko'ryapsiz? ✎", 'What are you seeing? ✎')}</div>
         <RichText text={explain} block className="prose-uz text-[15px]" />
       </div>
     </figure>
@@ -91,13 +92,17 @@ export function StepSurplus({
   const explain =
     trades.length === 0
       ? kind === 'buyers'
-        ? `Narx $${fmt(price)} — hech kimning to'lashga tayyorligi bundan yuqori emas, hech kim sotib olmaydi. Narxni pasaytiring.`
-        : `Narx $${fmt(price)} — hech kimning xarajati bundan past emas, hech kim ishni olmaydi. Narxni oshiring.`
-      : `Narx **$${fmt(price)}** da ${trades.length} ta ${kind === 'buyers' ? 'xaridor sotib oladi' : 'sotuvchi sotadi'}: ${who.join(', ')}. Jami **${kind === 'buyers' ? 'consumer' : 'producer'} surplus = $${fmt(total)}**.\n\n${
+        ? tr(`Narx $${fmt(price)} — hech kimning to'lashga tayyorligi bundan yuqori emas, hech kim sotib olmaydi. Narxni pasaytiring.`, `At a price of $${fmt(price)} nobody's willingness to pay is higher, so nobody buys. Lower the price.`)
+        : tr(`Narx $${fmt(price)} — hech kimning xarajati bundan past emas, hech kim ishni olmaydi. Narxni oshiring.`, `At a price of $${fmt(price)} nobody's cost is lower, so nobody takes the job. Raise the price.`)
+      : tr(`Narx **$${fmt(price)}** da ${trades.length} ta ${kind === 'buyers' ? 'xaridor sotib oladi' : 'sotuvchi sotadi'}: ${who.join(', ')}. Jami **${kind === 'buyers' ? 'consumer' : 'producer'} surplus = $${fmt(total)}**.\n\n${
           kind === 'buyers'
             ? "Talab egri chizig'ining balandligi har bir miqdorda **marginal xaridor**ning to'lashga tayyorligini ko'rsatadi. Narx ostidagi emas, **talab ostidagi va narx ustidagi** maydon — consumer surplus."
             : "Taklif egri chizig'ining balandligi **marginal sotuvchi**ning xarajatini ko'rsatadi. **Narx ostidagi va taklif ustidagi** maydon — producer surplus."
-        }`;
+        }`, `At a price of **$${fmt(price)}**, ${trades.length} ${kind === 'buyers' ? 'buyers buy' : 'sellers sell'}: ${who.join(', ')}. Total **${kind === 'buyers' ? 'consumer' : 'producer'} surplus = $${fmt(total)}**.\n\n${
+          kind === 'buyers'
+            ? 'The height of the demand curve at each quantity shows the willingness to pay of the **marginal buyer**. Consumer surplus is the area **below the demand curve and above the price**.'
+            : 'The height of the supply curve shows the cost of the **marginal seller**. Producer surplus is the area **below the price and above the supply curve**.'
+        }`);
 
   return (
     <Card title={title} explain={explain}>
@@ -152,7 +157,7 @@ export function StepSurplus({
         </div>
       </div>
       <div className="border-t-2 border-dashed border-ink/30 px-4 py-3">
-        <Slider label="Bozor narxi (auksion natijasi)" value={price} min={0} max={maxPrice} step={maxPrice / 200} onChange={setPrice} display={`$${fmt(price)}`} />
+        <Slider label={tr('Bozor narxi (auksion natijasi)', 'Market price (auction result)')} value={price} min={0} max={maxPrice} step={maxPrice / 200} onChange={setPrice} display={`$${fmt(price)}`} />
       </div>
     </Card>
   );
@@ -184,10 +189,10 @@ export function PriceChangeSurplus({ side }: { side: 'consumers' | 'producers' }
   const baseP = better ? p1 : p2; // the "initial" (smaller-surplus) price
   const triangle: [number, number][] = isC ? [[0, D.a], [Math.min(q1, q2), curve(Math.min(q1, q2))], [0, curve(Math.min(q1, q2))]] : [[0, S.c], [Math.min(q1, q2), curve(Math.min(q1, q2))], [0, curve(Math.min(q1, q2))]];
   const explain = better
-    ? `Narx $${fmt(p1)} → $${fmt(p2)}: ${isC ? "xaridorlar uchun yaxshi" : "sotuvchilar uchun yaxshi"}. ${isC ? 'Consumer' : 'Producer'} surplus $${fmt(s1)} → **$${fmt(s2)}**. O'sish ikki qismdan iborat:\n\n- **To'rtburchak (BCED)** = $${fmt(rect)}: avval ham ${isC ? 'sotib olayotganlar endi kamroq to\'laydi' : 'sotayotganlar endi ko\'proq oladi'}.\n- **Uchburchak (CEF)** = $${fmt(tri)}: narx o'zgargani uchun bozorga **yangi ${isC ? 'xaridorlar' : 'sotuvchilar'}** kirdi.`
-    : `Narx $${fmt(p1)} → $${fmt(p2)}: ${isC ? 'xaridorlar' : 'sotuvchilar'} uchun yomon. Surplus $${fmt(s1)} → $${fmt(s2)} ga kamaydi (to'rtburchak $${fmt(rect)} + uchburchak $${fmt(tri)} yo'qoldi). Ikkinchi narxni ${isC ? 'pastroq' : 'yuqoriroq'} qilib ko'ring.`;
+    ? tr(`Narx $${fmt(p1)} → $${fmt(p2)}: ${isC ? "xaridorlar uchun yaxshi" : "sotuvchilar uchun yaxshi"}. ${isC ? 'Consumer' : 'Producer'} surplus $${fmt(s1)} → **$${fmt(s2)}**. O'sish ikki qismdan iborat:\n\n- **To'rtburchak (BCED)** = $${fmt(rect)}: avval ham ${isC ? 'sotib olayotganlar endi kamroq to\'laydi' : 'sotayotganlar endi ko\'proq oladi'}.\n- **Uchburchak (CEF)** = $${fmt(tri)}: narx o'zgargani uchun bozorga **yangi ${isC ? 'xaridorlar' : 'sotuvchilar'}** kirdi.`, `Price $${fmt(p1)} → $${fmt(p2)}: ${isC ? 'good for buyers' : 'good for sellers'}. ${isC ? 'Consumer' : 'Producer'} surplus $${fmt(s1)} → **$${fmt(s2)}**. The increase has two parts:\n\n- **Rectangle (BCED)** = $${fmt(rect)}: ${isC ? 'those who were already buying now pay less' : 'those who were already selling now receive more'}.\n- **Triangle (CEF)** = $${fmt(tri)}: because the price changed, **new ${isC ? 'buyers' : 'sellers'}** entered the market.`)
+    : tr(`Narx $${fmt(p1)} → $${fmt(p2)}: ${isC ? 'xaridorlar' : 'sotuvchilar'} uchun yomon. Surplus $${fmt(s1)} → $${fmt(s2)} ga kamaydi (to'rtburchak $${fmt(rect)} + uchburchak $${fmt(tri)} yo'qoldi). Ikkinchi narxni ${isC ? 'pastroq' : 'yuqoriroq'} qilib ko'ring.`, `Price $${fmt(p1)} → $${fmt(p2)}: bad for ${isC ? 'buyers' : 'sellers'}. Surplus fell from $${fmt(s1)} to $${fmt(s2)} (the rectangle $${fmt(rect)} + triangle $${fmt(tri)} were lost). Try making the second price ${isC ? 'lower' : 'higher'}.`);
   return (
-    <Card title={isC ? 'Figure 3 — Narx tushsa consumer surplus qanday oshadi' : 'Figure 6 — Narx oshsa producer surplus qanday oshadi'} explain={explain}>
+    <Card title={isC ? tr('Figure 3 — Narx tushsa consumer surplus qanday oshadi', 'Figure 3 — How the price affects consumer surplus') : tr('Figure 6 — Narx oshsa producer surplus qanday oshadi', 'Figure 6 — How the price affects producer surplus')} explain={explain}>
       <div className="grid md:grid-cols-[minmax(0,1fr)_15rem]">
         <div ref={wrapRef} className="min-w-0 p-1">
           <svg width={f.W} height={f.H} viewBox={`0 0 ${f.W} ${f.H}`} className="block" role="img" aria-label="price change surplus">
@@ -217,15 +222,20 @@ export function PriceChangeSurplus({ side }: { side: 'consumers' | 'producers' }
           <div className="space-y-1.5">
             <Row k={`Surplus at P1`} v={`$${fmt(s1)}`} />
             <Row k={`Surplus at P2`} v={`$${fmt(s2)}`} />
-            <Row k="BCED (eski ishtirokchilar)" v={`$${fmt(rect)}`} />
-            <Row k="CEF (yangi ishtirokchilar)" v={`$${fmt(tri)}`} />
+            <Row k={tr('BCED (eski ishtirokchilar)', 'BCED (existing traders)')} v={`$${fmt(rect)}`} />
+            <Row k={tr('CEF (yangi ishtirokchilar)', 'CEF (new traders)')} v={`$${fmt(tri)}`} />
           </div>
-          <p className="mt-3 text-xs text-muted">Sariq — to'rtburchak, yashil — uchburchak, ko'k/to'q sariq — {baseP === p1 ? "boshlang'ich" : 'qolgan'} ortiqchalik.</p>
+          <p className="mt-3 text-xs text-muted">
+            {tr(
+              `Sariq — to'rtburchak, yashil — uchburchak, ko'k/to'q sariq — ${baseP === p1 ? "boshlang'ich" : 'qolgan'} ortiqchalik.`,
+              `Yellow = rectangle, green = triangle, blue/orange = ${baseP === p1 ? 'initial' : 'remaining'} surplus.`,
+            )}
+          </p>
         </div>
       </div>
       <div className="grid gap-x-6 border-t-2 border-dashed border-ink/30 px-4 py-3 sm:grid-cols-2">
-        <Slider label="P1 (boshlang'ich narx)" value={p1} min={0.5} max={9.5} step={0.25} onChange={setP1} display={`$${fmt(p1)}`} />
-        <Slider label="P2 (yangi narx)" value={p2} min={0.5} max={9.5} step={0.25} onChange={setP2} display={`$${fmt(p2)}`} />
+        <Slider label={tr("P1 (boshlang'ich narx)", 'P1 (initial price)')} value={p1} min={0.5} max={9.5} step={0.25} onChange={setP1} display={`$${fmt(p1)}`} />
+        <Slider label={tr('P2 (yangi narx)', 'P2 (new price)')} value={p2} min={0.5} max={9.5} step={0.25} onChange={setP2} display={`$${fmt(p2)}`} />
       </div>
     </Card>
   );
@@ -258,16 +268,16 @@ export function EfficiencyExplorer() {
   const below = Q < eq.Q;
   const explain =
     Math.abs(Q - eq.Q) < 0.6
-      ? `Q = ${fmt(Q)} ≈ muvozanat miqdori (${fmt(eq.Q, 1)}). Total surplus **maksimal** ($${fmt(best)}). Hech qanday qayta taqsimlash yoki miqdorni o'zgartirish uni oshira olmaydi — bozor **samarali** (efficient).`
+      ? tr(`Q = ${fmt(Q)} ≈ muvozanat miqdori (${fmt(eq.Q, 1)}). Total surplus **maksimal** ($${fmt(best)}). Hech qanday qayta taqsimlash yoki miqdorni o'zgartirish uni oshira olmaydi — bozor **samarali** (efficient).`, `Q = ${fmt(Q)} ≈ the equilibrium quantity (${fmt(eq.Q, 1)}). Total surplus is **at its maximum** ($${fmt(best)}). No reallocation or change in quantity can raise it — the market is **efficient**.`)
       : below
-        ? `Q = ${fmt(Q)} muvozanatdan **kam**. Oxirgi birlikda marginal xaridor uchun qiymat ($${fmt(dP(Q))}) marginal sotuvchi xarajatidan ($${fmt(sP(Q))}) **katta** — yana sotib-sotish ikkala tomonga foydali. Yo'qotilgan surplus (qizil) = **$${fmt(best - now)}**.`
-        : `Q = ${fmt(Q)} muvozanatdan **ko'p**. Oxirgi birliklarda sotuvchi xarajati ($${fmt(sP(Q))}) xaridor qiymatidan ($${fmt(dP(Q))}) **katta** — ularni ishlab chiqarish surplusni kamaytiradi. Yo'qotish (qizil) = **$${fmt(best - now)}**.`;
+        ? tr(`Q = ${fmt(Q)} muvozanatdan **kam**. Oxirgi birlikda marginal xaridor uchun qiymat ($${fmt(dP(Q))}) marginal sotuvchi xarajatidan ($${fmt(sP(Q))}) **katta** — yana sotib-sotish ikkala tomonga foydali. Yo'qotilgan surplus (qizil) = **$${fmt(best - now)}**.`, `Q = ${fmt(Q)} is **below** equilibrium. For the last unit, the value to the marginal buyer ($${fmt(dP(Q))}) is **greater** than the cost to the marginal seller ($${fmt(sP(Q))}) — more trade would benefit both sides. Lost surplus (red) = **$${fmt(best - now)}**.`)
+        : tr(`Q = ${fmt(Q)} muvozanatdan **ko'p**. Oxirgi birliklarda sotuvchi xarajati ($${fmt(sP(Q))}) xaridor qiymatidan ($${fmt(dP(Q))}) **katta** — ularni ishlab chiqarish surplusni kamaytiradi. Yo'qotish (qizil) = **$${fmt(best - now)}**.`, `Q = ${fmt(Q)} is **above** equilibrium. For the last units, the seller's cost ($${fmt(sP(Q))}) is **greater** than the buyer's value ($${fmt(dP(Q))}) — producing them lowers surplus. Loss (red) = **$${fmt(best - now)}**.`);
   const qa = Math.min(Q, eq.Q);
   const qb = Math.max(Q, eq.Q);
   return (
-    <Card title="Figure 8 — Muvozanat miqdori nega samarali" explain={mode === 'quantity' ? explain : "Muvozanatda **eng yuqori** to'lashga tayyorlikka ega xaridorlar (AE segmenti) sotib oladi va **eng past** xarajatli sotuvchilar (CE segmenti) sotadi. Agar tovarni EB dagi (past qiymatli) xaridorga yoki ED dagi (yuqori xarajatli) sotuvchiga bersak, total surplus kamayadi. Bu — bozor samaradorligining birinchi ikki xulosasi."}>
+    <Card title={tr('Figure 8 — Muvozanat miqdori nega samarali', 'Figure 8 — The efficiency of the equilibrium quantity')} explain={mode === 'quantity' ? explain : tr("Muvozanatda **eng yuqori** to'lashga tayyorlikka ega xaridorlar (AE segmenti) sotib oladi va **eng past** xarajatli sotuvchilar (CE segmenti) sotadi. Agar tovarni EB dagi (past qiymatli) xaridorga yoki ED dagi (yuqori xarajatli) sotuvchiga bersak, total surplus kamayadi. Bu — bozor samaradorligining birinchi ikki xulosasi.", 'At equilibrium the buyers with the **highest** willingness to pay (segment AE) buy and the sellers with the **lowest** costs (segment CE) sell. Giving the good to a buyer on EB (low value) or to a seller on ED (high cost) would lower total surplus. These are the first two insights about market efficiency.')}>
       <div className="px-4 pt-3">
-        <Segmented size="sm" value={mode} onChange={setMode} options={[{ value: 'quantity', label: 'Miqdorni tanlash (3-xulosa)' }, { value: 'allocation', label: 'Kim sotadi/oladi (1–2-xulosa)' }]} />
+        <Segmented size="sm" value={mode} onChange={setMode} options={[{ value: 'quantity', label: tr('Miqdorni tanlash (3-xulosa)', 'Choose the quantity (insight 3)') }, { value: 'allocation', label: tr('Kim sotadi/oladi (1–2-xulosa)', 'Who buys and sells (insights 1–2)') }]} />
       </div>
       <div className="grid md:grid-cols-[minmax(0,1fr)_15rem]">
         <div ref={wrapRef} className="min-w-0 p-1">
@@ -311,15 +321,15 @@ export function EfficiencyExplorer() {
         </div>
         <div className="border-t-2 border-dashed border-ink/30 p-4 text-sm md:border-l-2 md:border-t-0">
           <div className="space-y-1.5">
-            <Row k="Muvozanat Q*" v={fmt(eq.Q, 1)} />
-            <Row k="Maks. total surplus" v={`$${fmt(best)}`} />
+            <Row k={tr('Muvozanat Q*', 'Equilibrium Q*')} v={fmt(eq.Q, 1)} />
+            <Row k={tr('Maks. total surplus', 'Max. total surplus')} v={`$${fmt(best)}`} />
             {mode === 'quantity' && (
               <>
-                <Row k="Tanlangan Q" v={fmt(Q)} />
+                <Row k={tr('Tanlangan Q', 'Chosen Q')} v={fmt(Q)} />
                 <Row k="Value to buyers (marginal)" v={`$${fmt(dP(Q))}`} />
                 <Row k="Cost to sellers (marginal)" v={`$${fmt(sP(Q))}`} />
                 <Row k="Total surplus" v={`$${fmt(now)}`} />
-                <Row k="Yo'qotish" v={`$${fmt(best - now)}`} />
+                <Row k={tr("Yo'qotish", 'Loss')} v={`$${fmt(best - now)}`} />
               </>
             )}
           </div>
@@ -327,7 +337,7 @@ export function EfficiencyExplorer() {
       </div>
       {mode === 'quantity' && (
         <div className="border-t-2 border-dashed border-ink/30 px-4 py-3">
-          <Slider label="Ishlab chiqarilgan va iste'mol qilingan miqdor" value={Q} min={0} max={100} step={1} onChange={setQ} display={fmt(Q)} />
+          <Slider label={tr("Ishlab chiqarilgan va iste'mol qilingan miqdor", 'Quantity produced and consumed')} value={Q} min={0} max={100} step={1} onChange={setQ} display={fmt(Q)} />
         </div>
       )}
     </Card>
