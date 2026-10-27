@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,7 +8,7 @@ export const terms: Term[] = [
     en: "negative / positive externality",
     uz: "salbiy / ijobiy tashqi effekt",
     defEn: "an externality is negative if the impact on the bystander is adverse and positive if it is beneficial",
-    defUz: "**Salbiy**: ifloslanish, shovqin, tirbandlik — bozor **ko'p** ishlab chiqaradi. **Ijobiy**: ta'lim, emlash, tarixiy binolarni tiklash, ilmiy tadqiqot — bozor **kam** ishlab chiqaradi.",
+    defUz: tr("**Salbiy**: ifloslanish, shovqin, tirbandlik — bozor **ko'p** ishlab chiqaradi. **Ijobiy**: ta'lim, emlash, tarixiy binolarni tiklash, ilmiy tadqiqot — bozor **kam** ishlab chiqaradi.", '**Negative**: pollution, noise, congestion — the market produces **too much**. **Positive**: education, vaccination, restoring historic buildings, research — the market produces **too little**.'),
   },
   {
     id: "social-cost",
@@ -15,7 +16,7 @@ export const terms: Term[] = [
     en: "social cost",
     uz: "ijtimoiy xarajat",
     defEn: "the private costs of the producers plus the costs to bystanders harmed by the externality",
-    defUz: "Social cost = private cost + external cost. Grafikda ijtimoiy xarajat egri chizig'i taklif egri chizig'idan tashqi xarajat miqdoricha **yuqorida**.",
+    defUz: tr("Social cost = private cost + external cost. Grafikda ijtimoiy xarajat egri chizig'i taklif egri chizig'idan tashqi xarajat miqdoricha **yuqorida**.", 'Social cost = private cost + external cost. On a graph the social-cost curve lies **above** the supply curve by the amount of the external cost.'),
   },
   {
     id: "social-value",
@@ -23,7 +24,7 @@ export const terms: Term[] = [
     en: "social value",
     uz: "ijtimoiy qiymat",
     defEn: "the private value to consumers plus the external benefit to bystanders",
-    defUz: "Social value = private value + external benefit. Ijtimoiy qiymat egri chizig'i talab egri chizig'idan **yuqorida**.",
+    defUz: tr("Social value = private value + external benefit. Ijtimoiy qiymat egri chizig'i talab egri chizig'idan **yuqorida**.", 'Social value = private value + external benefit. The social-value curve lies **above** the demand curve.'),
   },
   {
     id: "internalizing-the-externality",
@@ -31,7 +32,7 @@ export const terms: Term[] = [
     en: "internalizing the externality",
     uz: "tashqi effektni internallashtirish",
     defEn: "altering incentives so that people take into account the external effects of their actions",
-    defUz: "Rag'batlarni shunday o'zgartirishki, odamlar o'z harakatlarining begonalarga ta'sirini hisobga olsin — masalan, tashqi xarajatga teng soliq.",
+    defUz: tr("Rag'batlarni shunday o'zgartirishki, odamlar o'z harakatlarining begonalarga ta'sirini hisobga olsin — masalan, tashqi xarajatga teng soliq.", 'Altering incentives so that people take into account the external effects of their actions — e.g., a tax equal to the external cost.'),
   },
   {
     id: "technology-spillover",
@@ -39,7 +40,7 @@ export const terms: Term[] = [
     en: "technology spillover",
     uz: "texnologik spillover (yoyilish)",
     defEn: "the impact of one firm's research and production efforts on other firms' access to technological advance",
-    defUz: "Bir firmaning kashfiyoti boshqalarga ham foyda beradi — ijobiy tashqi effekt. Javob: subsidiya, patent yoki industrial policy.",
+    defUz: tr("Bir firmaning kashfiyoti boshqalarga ham foyda beradi — ijobiy tashqi effekt. Javob: subsidiya, patent yoki industrial policy.", "One firm's discovery also benefits others — a positive externality. The response: subsidies, patents, or industrial policy."),
   },
   {
     id: "industrial-policy",
@@ -47,7 +48,7 @@ export const terms: Term[] = [
     en: "industrial policy",
     uz: "sanoat siyosati",
     defEn: "government intervention that aims to promote technology-enhancing industries",
-    defUz: "Katta spillover beradigan sohalarni qo'llab-quvvatlash. Muammo: spilloverni o'lchash qiyin, siyosiy kuchli sohalar rag'batlantirilishi mumkin.",
+    defUz: tr("Katta spillover beradigan sohalarni qo'llab-quvvatlash. Muammo: spilloverni o'lchash qiyin, siyosiy kuchli sohalar rag'batlantirilishi mumkin.", 'Supporting industries that yield large spillovers. The problem: spillovers are hard to measure, and politically powerful industries may be rewarded.'),
   },
   {
     id: "patent",
@@ -55,7 +56,7 @@ export const terms: Term[] = [
     en: "patent protection",
     uz: "patent himoyasi",
     defEn: "giving inventors exclusive use of their inventions for a limited period",
-    defUz: "Patent ixtirochiga o'z kashfiyotiga **mulk huquqi** beradi — tashqi effektni internallashtiradi va tadqiqotga rag'bat beradi; kamchiligi — royaltilar texnologiya tarqalishini sekinlashtiradi.",
+    defUz: tr("Patent ixtirochiga o'z kashfiyotiga **mulk huquqi** beradi — tashqi effektni internallashtiradi va tadqiqotga rag'bat beradi; kamchiligi — royaltilar texnologiya tarqalishini sekinlashtiradi.", 'A patent gives the inventor a **property right** over the invention — it internalizes the externality and rewards research; the drawback — royalties slow the spread of technology.'),
   },
   {
     id: "command-and-control",
@@ -63,7 +64,7 @@ export const terms: Term[] = [
     en: "command-and-control policies",
     uz: "buyruq va nazorat siyosati",
     defEn: "policies that regulate behavior directly",
-    defUz: "Muayyan xatti-harakatni talab qilish yoki taqiqlash (masalan, zaharli chiqindini daryoga tashlash — jinoyat; EPA emissiya chegaralari). Regulyator sohaning texnologiyasini yaxshi bilishi kerak.",
+    defUz: tr("Muayyan xatti-harakatni talab qilish yoki taqiqlash (masalan, zaharli chiqindini daryoga tashlash — jinoyat; EPA emissiya chegaralari). Regulyator sohaning texnologiyasini yaxshi bilishi kerak.", "Requiring or forbidding particular behaviors (e.g., dumping toxic waste into a river is a crime; EPA emission limits). The regulator must know the industry's technology well."),
   },
   {
     id: "market-based-policy",
@@ -71,7 +72,7 @@ export const terms: Term[] = [
     en: "market-based policies",
     uz: "bozorga asoslangan siyosat",
     defEn: "policies that provide incentives so that private decision makers choose to solve the problem on their own",
-    defUz: "Rag'batlar orqali ishlaydi: corrective taxes va subsidies, tradable pollution permits. Iqtisodchilar odatda shularni afzal ko'radi.",
+    defUz: tr("Rag'batlar orqali ishlaydi: corrective taxes va subsidies, tradable pollution permits. Iqtisodchilar odatda shularni afzal ko'radi.", 'Works through incentives: corrective taxes and subsidies, tradable pollution permits. Economists usually prefer these.'),
   },
   {
     id: "corrective-tax",
@@ -79,7 +80,7 @@ export const terms: Term[] = [
     en: "corrective (Pigovian) tax",
     uz: "korrektiv (Pigou) solig'i",
     defEn: "a tax designed to induce private decision makers to take into account the social costs that arise from a negative externality",
-    defUz: "Arthur Pigou nomi bilan. Ideal holda **tashqi xarajatga teng**. Boshqa soliqlardan farqli: DWL yaratmaydi, aksincha samaradorlikni **oshiradi** va tushum beradi. Ijobiy effekt uchun — **corrective subsidy**.",
+    defUz: tr("Arthur Pigou nomi bilan. Ideal holda **tashqi xarajatga teng**. Boshqa soliqlardan farqli: DWL yaratmaydi, aksincha samaradorlikni **oshiradi** va tushum beradi. Ijobiy effekt uchun — **corrective subsidy**.", 'Named after Arthur Pigou. Ideally **equal to the external cost**. Unlike other taxes it creates no DWL; instead it **raises** efficiency and raises revenue. For a positive externality — a **corrective subsidy**.'),
   },
   {
     id: "pollution-permits",
@@ -87,7 +88,7 @@ export const terms: Term[] = [
     en: "tradable pollution permits",
     uz: "sotiladigan ifloslanish ruxsatnomalari",
     defEn: "permits to pollute that firms can buy and sell, so the total quantity of pollution is fixed while the right to pollute goes to those who value it most",
-    defUz: "Davlat jami ifloslanish **miqdorini** belgilaydi, bozor narxni aniqlaydi (cap-and-trade). Kamaytirish qimmat firmalar sotib oladi, arzonlari sotadi. Misol: AQShda SO₂ (1990).",
+    defUz: tr("Davlat jami ifloslanish **miqdorini** belgilaydi, bozor narxni aniqlaydi (cap-and-trade). Kamaytirish qimmat firmalar sotib oladi, arzonlari sotadi. Misol: AQShda SO₂ (1990).", 'The government sets the total **quantity** of pollution and the market determines the price (cap-and-trade). Firms with costly abatement buy, cheap ones sell. Example: SO₂ in the U.S. (1990).'),
   },
   {
     id: "coase-theorem",
@@ -95,7 +96,7 @@ export const terms: Term[] = [
     en: "Coase theorem",
     uz: "Coase teoremasi",
     defEn: "the proposition that if private parties can bargain without cost over the allocation of resources, they can solve the problem of externalities on their own",
-    defUz: "Bitim xarajatsiz bo'lsa, huquq kimga berilganidan qat'i nazar, tomonlar kelishib **samarali** natijaga keladi. Huquq faqat **kim kimga to'lashini** belgilaydi.",
+    defUz: tr("Bitim xarajatsiz bo'lsa, huquq kimga berilganidan qat'i nazar, tomonlar kelishib **samarali** natijaga keladi. Huquq faqat **kim kimga to'lashini** belgilaydi.", 'If transactions are costless, the parties bargain to an **efficient** outcome no matter who holds the right. The right only determines **who pays whom**.'),
   },
   {
     id: "transaction-costs",
@@ -103,7 +104,7 @@ export const terms: Term[] = [
     en: "transaction costs",
     uz: "bitim xarajatlari",
     defEn: "the costs that parties incur during the process of agreeing to and following through on a bargain",
-    defUz: "Tarjimon, advokat, shartnoma tuzish va nazorat xarajatlari. Ular yutuqdan katta bo'lsa yoki tomonlar ko'p bo'lsa, Coase yechimi ishlamaydi.",
+    defUz: tr("Tarjimon, advokat, shartnoma tuzish va nazorat xarajatlari. Ular yutuqdan katta bo'lsa yoki tomonlar ko'p bo'lsa, Coase yechimi ishlamaydi.", 'Costs of interpreters, lawyers, drafting and enforcing contracts. If they exceed the gains, or there are many parties, the Coase solution fails.'),
   },
   {
     id: "carbon-tax",
@@ -111,6 +112,6 @@ export const terms: Term[] = [
     en: "carbon tax",
     uz: "uglerod solig'i",
     defEn: "a tax on the carbon emissions implicit in fuels and other products",
-    defUz: "Iqlim o'zgarishiga qarshi uglerodga narx qo'yish: barcha qarorlarga (mashina, uy, ovqat) ta'sir qiladi — regulyatsiya esa faqat bir nechtasiga. Muqobili — cap-and-trade.",
+    defUz: tr("Iqlim o'zgarishiga qarshi uglerodga narx qo'yish: barcha qarorlarga (mashina, uy, ovqat) ta'sir qiladi — regulyatsiya esa faqat bir nechtasiga. Muqobili — cap-and-trade.", 'Putting a price on carbon to fight climate change: it affects all decisions (cars, homes, food) — regulation only a few. The alternative is cap-and-trade.'),
   },
 ];

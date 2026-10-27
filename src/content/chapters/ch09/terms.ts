@@ -1,4 +1,5 @@
 import type { Term } from '../../types';
+import { tr } from '../../../lib/lang';
 
 export const terms: Term[] = [
   {
@@ -7,7 +8,7 @@ export const terms: Term[] = [
     en: "world price",
     uz: "jahon narxi",
     defEn: "the price of a good that prevails in the world market for that good",
-    defUz: "Tovarning jahon bozoridagi narxi. Uni savdosiz ichki narx bilan solishtirsak, mamlakat eksportchi yoki importchi bo'lishini bilamiz.",
+    defUz: tr("Tovarning jahon bozoridagi narxi. Uni savdosiz ichki narx bilan solishtirsak, mamlakat eksportchi yoki importchi bo'lishini bilamiz.", 'The price of a good in the world market. Comparing it with the domestic price without trade tells us whether a country will export or import the good.'),
   },
   {
     id: "tariff",
@@ -15,7 +16,7 @@ export const terms: Term[] = [
     en: "tariff",
     uz: "tarif (bojxona boji)",
     defEn: "a tax on goods produced abroad and sold domestically",
-    defUz: "Import qilinadigan tovarga soliq. Ichki narxni jahon narxidan yuqori ko'taradi, importni kamaytiradi va ikki sof yo'qotish uchburchagini (D va F) yaratadi.",
+    defUz: tr("Import qilinadigan tovarga soliq. Ichki narxni jahon narxidan yuqori ko'taradi, importni kamaytiradi va ikki sof yo'qotish uchburchagini (D va F) yaratadi.", 'A tax on goods produced abroad and sold domestically. It raises the domestic price above the world price, reduces imports, and creates two deadweight-loss triangles (D and F).'),
   },
   {
     id: "domestic-price",
@@ -23,7 +24,7 @@ export const terms: Term[] = [
     en: "domestic price (without trade)",
     uz: "ichki narx (savdosiz)",
     defEn: "the price that balances domestic supply and demand when no international trade is allowed",
-    defUz: "Savdosiz narx — tovarning mamlakatdagi **imkoniyat xarajati**ni aks ettiradi. Past bo'lsa — comparative advantage bor (eksport), yuqori bo'lsa — yo'q (import).",
+    defUz: tr("Savdosiz narx — tovarning mamlakatdagi **imkoniyat xarajati**ni aks ettiradi. Past bo'lsa — comparative advantage bor (eksport), yuqori bo'lsa — yo'q (import).", "The price without trade reflects the good's **opportunity cost** in the country. If it is low, the country has a comparative advantage (exports); if high, it doesn't (imports)."),
   },
   {
     id: "small-economy",
@@ -31,7 +32,7 @@ export const terms: Term[] = [
     en: "small-economy assumption",
     uz: "kichik iqtisodiyot farazi",
     defEn: "the country is so small relative to the world that its actions have a negligible effect on the world price; it is a price taker in the world economy",
-    defUz: "Mamlakat jahon narxiga ta'sir qila olmaydi — u **price taker**: jahon narxida xohlagancha sotadi yoki sotib oladi. Jahon narxi gorizontal chiziq.",
+    defUz: tr("Mamlakat jahon narxiga ta'sir qila olmaydi — u **price taker**: jahon narxida xohlagancha sotadi yoki sotib oladi. Jahon narxi gorizontal chiziq.", 'The country cannot affect the world price — it is a **price taker**: it sells or buys as much as it wants at the world price. The world price is a horizontal line.'),
   },
   {
     id: "exporter-importer",
@@ -39,7 +40,7 @@ export const terms: Term[] = [
     en: "exporting / importing country",
     uz: "eksport / import qiluvchi mamlakat",
     defEn: "a country becomes an exporter when the world price exceeds its domestic price and an importer when it is below",
-    defUz: "Eksportchida ishlab chiqaruvchilar yutadi, iste'molchilar yutqazadi; importchida — aksincha. Ikkala holda ham yutuq yo'qotishdan katta (D maydoni).",
+    defUz: tr("Eksportchida ishlab chiqaruvchilar yutadi, iste'molchilar yutqazadi; importchida — aksincha. Ikkala holda ham yutuq yo'qotishdan katta (D maydoni).", 'In an exporting country producers gain and consumers lose; in an importing country it is the reverse. In both cases the gains exceed the losses (area D).'),
   },
   {
     id: "import-quota",
@@ -47,7 +48,7 @@ export const terms: Term[] = [
     en: "import quota",
     uz: "import kvotasi",
     defEn: "a limit on how much of a good can be imported",
-    defUz: "Tarifga o'xshaydi: importni kamaytiradi, narxni oshiradi, DWL yaratadi. Farqi: E maydoni davlatga emas, **import litsenziyasi egalariga** tushadi (agar litsenziyalar sotilmasa).",
+    defUz: tr("Tarifga o'xshaydi: importni kamaytiradi, narxni oshiradi, DWL yaratadi. Farqi: E maydoni davlatga emas, **import litsenziyasi egalariga** tushadi (agar litsenziyalar sotilmasa).", 'Like a tariff: it reduces imports, raises the price, and creates a DWL. The difference: area E goes not to the government but to the **holders of import licenses** (unless the licenses are sold).'),
   },
   {
     id: "economies-of-scale",
@@ -55,7 +56,7 @@ export const terms: Term[] = [
     en: "economies of scale",
     uz: "miqyos samarasi",
     defEn: "some goods can be produced at low cost only if they are produced in large quantities",
-    defUz: "Katta hajmda ishlab chiqarilganda bir birlik xarajati tushadi. Erkin savdo firmalarga jahon bozorini ochib, bu samaradan to'liq foydalanish imkonini beradi.",
+    defUz: tr("Katta hajmda ishlab chiqarilganda bir birlik xarajati tushadi. Erkin savdo firmalarga jahon bozorini ochib, bu samaradan to'liq foydalanish imkonini beradi.", 'Per-unit costs fall when production is large. Free trade opens the world market to firms and lets them take full advantage of this effect.'),
   },
   {
     id: "unilateral-multilateral",
@@ -63,7 +64,7 @@ export const terms: Term[] = [
     en: "unilateral vs multilateral approach",
     uz: "bir tomonlama va ko'p tomonlama yondashuv",
     defEn: "removing trade restrictions on one's own versus reducing them in concert with other countries",
-    defUz: "**Unilateral**: o'zi cheklovlarni olib tashlaydi (XIX asr Britaniya, Chili, Janubiy Koreya). **Multilateral**: boshqa mamlakatlar bilan kelishib (NAFTA, GATT) — siyosiy jihatdan osonroq, lekin muzokaralar barbod bo'lishi mumkin.",
+    defUz: tr("**Unilateral**: o'zi cheklovlarni olib tashlaydi (XIX asr Britaniya, Chili, Janubiy Koreya). **Multilateral**: boshqa mamlakatlar bilan kelishib (NAFTA, GATT) — siyosiy jihatdan osonroq, lekin muzokaralar barbod bo'lishi mumkin.", '**Unilateral**: a country removes its restrictions on its own (19th-century Britain, Chile, South Korea). **Multilateral**: by agreement with other countries (NAFTA, GATT) — politically easier, but negotiations can break down.'),
   },
   {
     id: "wto",
@@ -71,7 +72,7 @@ export const terms: Term[] = [
     en: "World Trade Organization (WTO)",
     uz: "Jahon savdo tashkiloti",
     defEn: "the international institution, established in 1995, that enforces the rules established under GATT",
-    defUz: "Jeneva. 2021 yilda 164 a'zo, jahon savdosining 98% i. Vazifalari: savdo bitimlarini boshqarish, muzokaralar maydoni, nizolarni hal qilish.",
+    defUz: tr("Jeneva. 2021 yilda 164 a'zo, jahon savdosining 98% i. Vazifalari: savdo bitimlarini boshqarish, muzokaralar maydoni, nizolarni hal qilish.", 'Geneva. In 2021, 164 members covering 98% of world trade. Its functions: administering trade agreements, providing a forum for negotiations, and settling disputes.'),
   },
   {
     id: "gatt",
@@ -79,6 +80,6 @@ export const terms: Term[] = [
     en: "GATT and NAFTA",
     uz: "GATT va NAFTA",
     defEn: "the General Agreement on Tariffs and Trade (multilateral negotiations since WWII) and the North American Free Trade Agreement (1993, updated as USMCA in 2020)",
-    defUz: "GATT o'rtacha tarifni 20% dan ortiqdan 5% dan pastga tushirgan. NAFTA AQSh, Meksika va Kanada o'rtasidagi to'siqlarni kamaytirgan.",
+    defUz: tr("GATT o'rtacha tarifni 20% dan ortiqdan 5% dan pastga tushirgan. NAFTA AQSh, Meksika va Kanada o'rtasidagi to'siqlarni kamaytirgan.", 'GATT cut the average tariff from over 20% to below 5%. NAFTA lowered barriers among the United States, Mexico, and Canada.'),
   },
 ];
