@@ -60,8 +60,15 @@ export function watchUser(cb: (u: CloudUser | null) => void): () => void {
 }
 
 export async function signInWithGoogle(): Promise<void> {
-  const [{ auth }, { GoogleAuthProvider, signInWithPopup }] = await Promise.all([load(), import('firebase/auth')]);
-  await signInWithPopup(auth, new GoogleAuthProvider());
+  const [{ auth }, { GoogleAuthProvider, signInWithPopup, signInWithRedirect }] = await Promise.all([load(), import('firebase/auth')]);
+  const provider = new GoogleAuthProvider();
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (e) {
+    // Some phone browsers block popups: sign in on a full page instead.
+    if ((e as { code?: string }).code === 'auth/popup-blocked') await signInWithRedirect(auth, provider);
+    else throw e;
+  }
 }
 
 export async function signOutUser(): Promise<void> {
