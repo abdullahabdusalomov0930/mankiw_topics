@@ -1,3 +1,4 @@
+import { SignInGate } from './SignInGate';
 import { AccountButton } from './AccountButton';
 import { Sticker } from './ui/Sticker';
 import { useEffect, useState } from 'react';
@@ -134,7 +135,9 @@ export function Layout() {
         )}
       </header>
       <main>
-        <Outlet />
+        <SignInGate>
+          <Outlet />
+        </SignInGate>
       </main>
       <footer className="mx-auto max-w-7xl px-4 py-10 text-center font-hand text-sm text-muted print:hidden">
         {isEn ? (

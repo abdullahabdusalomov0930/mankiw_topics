@@ -71,6 +71,18 @@ export async function signInWithGoogle(): Promise<void> {
   }
 }
 
+/** Error code from a full-page (redirect) sign-in that just came back, if it failed. */
+export async function redirectSignInError(): Promise<string | null> {
+  if (!cloudEnabled) return null;
+  const [{ auth }, { getRedirectResult }] = await Promise.all([load(), import('firebase/auth')]);
+  try {
+    await getRedirectResult(auth);
+    return null;
+  } catch (e) {
+    return (e as { code?: string }).code ?? 'unknown';
+  }
+}
+
 export async function signOutUser(): Promise<void> {
   const [{ auth }, { signOut }] = await Promise.all([load(), import('firebase/auth')]);
   await signOut(auth);
