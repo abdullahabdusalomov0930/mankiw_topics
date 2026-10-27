@@ -103,7 +103,7 @@ export const practice: Question[] = [
     { text: tr("Mehnat taklifi egiluvchanligi haqida turli fikrlar bor", 'They hold different views about the elasticity of labor supply'), correct: true, why: tr("Taklif noegiluvchan (hamma baribir to'liq ishlaydi) bo'lsa — DWL kichik; egiluvchan (qo'shimcha soatlar, ikkinchi ish, nafaqa, soya iqtisodiyot) bo'lsa — katta.", 'If supply is inelastic (everyone works full time anyway), the DWL is small; if elastic (extra hours, second jobs, retirement, the underground economy), it is large.') },
     { text: tr("Soliq stavkasini bilishmaydi", "They don't know the tax rate"), why: tr("Stavka ma'lum (~40%) — muammo egiluvchanlikda.", 'The rate is known (~40%) — the problem is elasticity.') },
     { text: tr("Mehnat talabi vertikal", 'Labor demand is vertical'), why: tr("Bahs asosan taklif tomonida.", 'The debate is mostly about supply.') },
-    { text: "Bahs yo'q", why: "Kitob: “The debate … persists to this day.”" },
+    { text: tr("Bahs yo'q", "No debate"), why: "Kitob: “The debate … persists to this day.”" },
   ], 'new'),
   { id: "ch08.new.match", chapter: C, kind: "match", source: "new", topic: "Figure 3", prompt: tr("Figure 3 dagi maydonlarni ma'nosi bilan moslashtiring.", 'Match the areas of Figure 3 with their meaning.'), pairs: [
     { left: "A", right: tr("Soliqdan keyin qolgan consumer surplus", 'Consumer surplus left after the tax') },

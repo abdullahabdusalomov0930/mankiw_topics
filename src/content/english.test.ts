@@ -6,7 +6,7 @@ import type { ChapterData } from './types';
  * data with the language set to English and looks for Uzbek words in all its strings
  * (except the fields that hold the Uzbek names on purpose).
  */
-const UZBEK = /[a-z][‘’ʻ'](?=[a-z])(?<=\b[og][‘’ʻ'])|\b[a-z]*[a-pr-z]q[aeio][a-z]*\b|\b(va|bilan|uchun|emas|lekin|yoki|kerak|bo['‘’]l\w*|qiladi|narx\w*|talab\w*|taklif\w*|soliq\w*|miqdor\w*|xarajat\w*|foyda\w*|daromad\w*|hamma|faqat|chunki|agar|bob|misol|savol|javob|kitobda|yil|ta'sir)\b/i;
+const UZBEK = /[a-z][‘’ʻ'](?=[a-z])(?<=\b[og][‘’ʻ'])|\b[a-z]*[a-pr-z]q[aeio][a-z]*\b|\b(va|bilan|uchun|emas|lekin|yoki|kerak|bo['‘’]l\w*|qiladi|narx\w*|talab\w*|taklif\w*|soliq\w*|miqdor\w*|xarajat\w*|foyda\w*|daromad\w*|hamma|faqat|chunki|agar|bob|misol|savol|javob|kitobda|yil|ta'sir|da|ta|ga|dan|ni|ning|gacha|yo['‘’]q|ishchi\w*|bozor\w*|kam|ko['‘’]p|oladi|qiladi|beradi|bo['‘’]lsa)\b/i;
 const KEEP = new Set(['uz', 'titleUz', 'nameUz', 'xUz', 'yUz', 'unit']);
 
 function strings(v: unknown, path: string, out: [string, string][]) {

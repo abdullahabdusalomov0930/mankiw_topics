@@ -42,7 +42,7 @@ export const problems: Problem[] = [
     tr("Yutganlar — kanadalik vino ishlab chiqaruvchilari, yutqazganlar — iste'molchilar. Kanada umuman **yomonroq** ahvolda.", 'Winners: Canadian wine producers; losers: consumers. Canada as a whole is **worse off**.'),
   ], "World price rises; Canadian consumers lose more than producers gain; Canada is worse off."),
   p(2, "Congress imposes a tariff on imported automobiles. Assuming the US is a price taker, show the change in imports, the loss to US consumers, the gain to US manufacturers, government revenue, and the DWL. Decompose the loss to consumers into three pieces.", [
-    "Import Q₁ᴰ − Q₁ˢ dan Q₂ᴰ − Q₂ˢ ga kamayadi.",
+    tr("Import Q₁ᴰ − Q₁ˢ dan Q₂ᴰ − Q₂ˢ ga kamayadi.", "Imports fall from Q₁ᴰ − Q₁ˢ to Q₂ᴰ − Q₂ˢ."),
     tr("Iste'molchilar yo'qotishi: C + D + E + F.", "Consumers' loss: C + D + E + F."),
     tr("Uch qism: **C** — ichki ishlab chiqaruvchilarga, **E** — davlat tushumi, **D + F** — sof yo'qotish.", 'Three parts: **C** — to domestic producers, **E** — government revenue, **D + F** — deadweight loss.'),
   ], "Consumer loss C + D + E + F = producer gain C + revenue E + deadweight loss D + F.", "tariff"),

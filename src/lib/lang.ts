@@ -18,7 +18,10 @@ function read(): Lang {
 export const lang: Lang = typeof window === 'undefined' ? 'uz' : read();
 export const isEn = lang === 'en';
 
-if (typeof document !== 'undefined') document.documentElement.lang = lang;
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = lang;
+  if (isEn) document.title = 'Principles of Economics — Mankiw';
+}
 
 /** Pick the string for the current language: tr('Uzbek', 'English'). */
 export function tr<T>(uz: T, en: T): T {

@@ -12,7 +12,7 @@ export const formulas: Formula[] = [
       { tex: "P_W", meaning: tr("jahon narxi", 'world price') },
       { tex: "P_D", meaning: tr("savdosiz ichki narx", 'domestic price without trade') },
     ],
-    example: { setup: tr("QuickQuiz 1: Autarkada kostyum 3 untsiya oltin, qo'shnilarda 2.", 'QuickQuiz 1: in Autarka a suit costs 3 ounces of gold; in neighboring countries, 2.'), steps: ["\\(P_W = 2 < P_D = 3\\) → importchi, comparative advantage yo'q."] },
+    example: { setup: tr("QuickQuiz 1: Autarkada kostyum 3 untsiya oltin, qo'shnilarda 2.", 'QuickQuiz 1: in Autarka a suit costs 3 ounces of gold; in neighboring countries, 2.'), steps: [tr("\\(P_W = 2 < P_D = 3\\) → importchi, comparative advantage yo'q.", "\\(P_W = 2 < P_D = 3\\) → an importer, no comparative advantage.")] },
   },
   {
     id: "exports",

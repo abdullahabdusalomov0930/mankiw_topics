@@ -91,7 +91,7 @@ export function TaxRateCalc() {
     >
       <div className="grid gap-3 px-4 pt-3 sm:grid-cols-3">
         {[
-          ['Soliq', `$${fmt(tax)}`, 'bg-surface2'],
+          [tr('Soliq', 'Tax'), `$${fmt(tax)}`, 'bg-surface2'],
           ['Average tax rate', `${fmt(avg * 100, 1)}%`, 'bg-postit-blue text-[#111]'],
           ['Marginal tax rate', `${fmt(mr * 100, 1)}%`, 'bg-postit-pink text-[#111]'],
         ].map(([a, b, c]) => (

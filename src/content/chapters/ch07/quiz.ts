@@ -136,7 +136,7 @@ export const graphTasks: Question[] = [
     source: "new",
     topic: tr("Siljish va surplus", 'Shifts and surplus'),
     prompt: tr("TV ishlab chiqarish xarajatlari tushdi. Taklifni siljitib, **consumer surplusni kamida ikki barobar** oshiring (“Ortiqchalik maydonlari” tugmasini yoqing).", 'The cost of making TVs fell. Shift supply to at least **double consumer surplus** (turn on “Surplus areas”).'),
-    graph: { title: 'Flat-screen TV bozori', demand: marketD, supply: { c: 2, d: 0.1 }, xMax: 100, yMax: 10, modes: ['market'], surplus: true, surplusOn: true, qtyDigits: 0 },
+    graph: { title: tr('Flat-screen TV bozori', 'The market for flat-screen TVs'), demand: marketD, supply: { c: 2, d: 0.1 }, xMax: 100, yMax: 10, modes: ['market'], surplus: true, surplusOn: true, qtyDigits: 0 },
     check: (s) => {
       const base = consumerSurplus(marketD, equilibrium(marketD, { c: 2, d: 0.1 }).P);
       if (Math.abs(s.D.a - marketD.a) > 1e-6) return { ok: false, msg: tr("Xarajatlar — taklif omili. Talabni joyida qoldiring.", 'Costs are a supply factor. Leave demand in place.') };

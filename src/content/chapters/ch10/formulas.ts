@@ -39,7 +39,7 @@ export const formulas: Formula[] = [
       { tex: "t^*", meaning: tr("salbiy effekt uchun soliq", 'tax for a negative externality') },
       { tex: "s^*", meaning: tr("ijobiy effekt uchun subsidiya", 'subsidy for a positive externality') },
     ],
-    example: { setup: tr("Problem 5d: Zlurp — $1 tashqi xarajat, $1 soliq.", 'Problem 5d: Zlurp — $1 external cost, $1 tax.'), steps: [tr("Narx $2.50 bo'ladi, har bir odam 3 shisha oladi (4 emas).", 'The price becomes $2.50; each person buys 3 bottles (not 4).'), "Total surplus 4 → 4.5 ga oshadi."] },
+    example: { setup: tr("Problem 5d: Zlurp — $1 tashqi xarajat, $1 soliq.", 'Problem 5d: Zlurp — $1 external cost, $1 tax.'), steps: [tr("Narx $2.50 bo'ladi, har bir odam 3 shisha oladi (4 emas).", 'The price becomes $2.50; each person buys 3 bottles (not 4).'), tr("Total surplus 4 → 4.5 ga oshadi.", "Total surplus rises from 4 to 4.5.")] },
   },
   {
     id: "dwl-ext",

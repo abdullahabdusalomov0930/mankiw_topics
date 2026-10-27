@@ -1,6 +1,10 @@
 # Iqtisodiyot asoslari — Mankiw, *Principles of Economics* (10e)
 
-Interactive study site for Chapters 1–20, explanations in Uzbek (Latin), terms in English.
+Interactive study site for Chapters 1–20 with two language modes, switched with the **EN+UZ / EN** toggle in the header:
+
+- **EN+UZ** (default) — explanations in Uzbek (Latin), terms in English.
+- **EN** — everything in English. Also reachable with `?lang=en`; the choice is remembered in localStorage.
+
 Vite + React + TypeScript + Tailwind, KaTeX for formulas, custom SVG graphs, progress in localStorage.
 
 ## Run locally
@@ -31,4 +35,6 @@ npm run build   # static site in dist/
 - `src/lib/econ.ts` — pure, tested math (equilibrium, controls, taxes, elasticity, surplus, DWL, trade, externalities).
 - `src/components/graphs/SupplyDemandGraph.tsx` — the main reusable widget.
 - `src/content/chapters/chNN/` — one folder per chapter; see `ADDING_A_CHAPTER.md`.
-- `src/chapterRegistry.ts` — list of chapters.
+- `src/chapterRegistry.ts` — list of chapters; in English mode it loads `chNN/en/page.tsx` instead of `chNN/page.tsx`.
+- `src/lib/lang.ts` — the language switch; data files write bilingual strings as `tr('uzbek', 'english')`.
+- `src/content/english.test.ts` — fails if any Uzbek text reaches the English mode.

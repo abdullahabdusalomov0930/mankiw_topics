@@ -87,8 +87,8 @@ export const checks: Record<string, Question> = {
   "s-18-3a": mk("ch18.check.18-3a", "Antitrust", tr("Clayton Act (1914) nimasi bilan ajralib turadi?", 'What distinguishes the Clayton Act (1914)?'), [
     { text: tr("Noqonuniy kelishuvdan zarar ko'rganlar sudga berib, zararning **uch barobarini** undirishi mumkin — xususiy da'volarni rag'batlantiradi", 'Those harmed by an illegal agreement can sue and recover **three times** their damages — encouraging private lawsuits'), correct: true, why: tr("Sherman Act (1890) esa kelishuvlarni jinoiy fitnaga aylantirgan.", 'The Sherman Act (1890) made agreements a criminal conspiracy.') },
     { text: tr("Kartellarni qonuniylashtirdi", 'It legalized cartels'), why: tr("Aksincha.", 'The reverse.') },
-    { text: tr("Narxlarni davlat belgilaydi", 'The government sets prices'), why: "Yo'q." },
-    { text: tr("Faqat xalqaro savdoga tegishli", 'It applies only to international trade'), why: "Yo'q." },
+    { text: tr("Narxlarni davlat belgilaydi", 'The government sets prices'), why: tr("Yo'q.", "No.") },
+    { text: tr("Faqat xalqaro savdoga tegishli", 'It applies only to international trade'), why: tr("Yo'q.", "No.") },
   ], 'new'),
   "s-18-3b": { id: "ch18.check.18-3b", chapter: C, kind: "numeric", source: "new", topic: "Bundling", prompt: tr("City: Superheroes $150k, Hamlet $50k; Country: $50k va $150k. Paket narxida studiya ikkala teatrdan jami qancha (ming $) oladi?", 'City: Superheroes $150k, Hamlet $50k; Country: $50k and $150k. With a bundle price, how much (in $ thousand) does the studio get in total from both theaters?'), answer: 400, tolerance: 0, unit: tr("ming $", "$ thousand"), why: tr("Har teatr paketga $200k to'laydi → $400k; alohida narxda eng yaxshisi har filmga $150k → har teatr bitta film → $300k.", 'Each theater pays $200k for the bundle → $400k; with separate prices the best is $150k per film → each theater one film → $300k.') },
 };

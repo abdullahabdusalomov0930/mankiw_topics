@@ -140,7 +140,7 @@ export const practice: Question[] = [
     { text: tr("Normativ — “kerak” so'zi bor, faqat ma'lumotlar bilan baholab bo'lmaydi", 'Normative — it contains “should” and cannot be judged by data alone'), correct: true, why: tr("Lekin pozitiv tahlil (masalan, to'qimachilik qancha ish o'rni beradi) normativ xulosaga ta'sir qiladi.", 'But positive analysis (for example, how many jobs textiles would create) feeds into the normative conclusion.') },
     { text: tr("Pozitiv", 'Positive'), why: tr("Dunyo qanday bo'lishi kerakligini aytyapti.", 'It says how the world ought to be.') },
     { text: tr("Makroiqtisodiy fakt", 'A macroeconomic fact'), why: tr("Bu — tavsiya.", 'It is a recommendation.') },
-    { text: "Model", why: "Bu da'vo." },
+    { text: "Model", why: tr("Bu da'vo.", "That's a claim.") },
   ], 'new'),
 ];
 

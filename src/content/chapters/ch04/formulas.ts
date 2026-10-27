@@ -25,7 +25,7 @@ export const formulas: Formula[] = [
     tex: "Q^S_{\\text{market}}(P) = \\sum_j Q^S_j(P)",
     symbols: [{ tex: "Q^S_j(P)", meaning: tr("j-sotuvchining P narxdagi taklif miqdori", 'quantity supplied by seller j at price P') }],
     example: {
-      setup: "Figure 6: $4 da Ben 3 ta, Jerry 4 ta.",
+      setup: tr("Figure 6: $4 da Ben 3 ta, Jerry 4 ta.", "Figure 6: at $4, Ben sells 3 and Jerry 4."),
       steps: ["\\(Q^S_{\\text{market}}(4) = 3 + 4 = 7\\)."],
     },
   },

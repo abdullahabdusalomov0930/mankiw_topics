@@ -26,7 +26,7 @@ export const problems: Problem[] = [
     "(b) 350,000 + 80,000 = **$430,000**.",
     "(c) 400,000 − 350,000 = **$50,000**.",
     tr("(d) **Yo'q**: iqtisodiy foyda 400,000 − 430,000 = −$30,000.", '(d) **No**: economic profit is 400,000 − 430,000 = −$30,000.'),
-    "(e) **$430,000** dan ko'p.",
+    tr("(e) **$430,000** dan ko'p.", "(e) More than **$430,000**."),
   ], "$430,000; accounting profit $50,000; economic loss $30,000, so no; revenue above $430,000.", "profit"),
   p(3, "A fisherman: hours 0–5 → fish 0, 10, 18, 24, 28, 30 lb. (a) Marginal product of each hour? (b) Graph the production function and explain its shape. (c) Fixed cost $10 (pole), time worth $5/hour — graph total cost and explain.", [
     tr("(a) MP: **10, 8, 6, 4, 2** funt — kamayuvchi.", '(a) MP: **10, 8, 6, 4, 2** pounds — diminishing.'),

@@ -40,7 +40,7 @@ export const quickQuiz: Question[] = [
     { text: "Marginal cost will decrease.", why: tr("MC ning yo'nalishi haqida ma'lumot yo'q.", "There's no information about the direction of MC.") },
     { text: "Marginal cost will increase.", why: tr("Aniq emas.", 'Not certain.') },
     { text: "Average total cost will decrease.", correct: true, why: tr("MC < ATC → o'rtacha tushadi (past baho GPA ni tushiradi).", 'MC < ATC → the average falls (a low grade lowers the GPA).') },
-    { text: "Average total cost will increase.", why: "MC ATC dan past." },
+    { text: "Average total cost will increase.", why: tr("MC ATC dan past.", "MC is below ATC.") },
   ]),
   mk("ch14.qq.7", "Fixed cost", "The government imposes a $1,000 per year license fee on all pizza restaurants. As a result, which cost curves shift?", [
     { text: "average total cost and marginal cost", why: tr("Fixed cost MC ga ta'sir qilmaydi.", "A fixed cost doesn't affect MC.") },

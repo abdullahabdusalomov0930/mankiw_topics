@@ -134,7 +134,7 @@ export const terms: Term[] = [
     uz: "bozor talabi",
     defEn: "the sum of all the individual demands for a particular good or service",
     defUz: tr("Har bir narxda barcha xaridorlarning talab miqdorlari yig'indisi. Grafikda individual egri chiziqlar **gorizontal** qo'shiladi.", "The sum of all buyers' quantities demanded at each price. On a graph, individual curves are added **horizontally**."),
-    example: "$4 da Catherine 4 ta, Nicholas 3 ta → bozor 7 ta.",
+    example: tr("$4 da Catherine 4 ta, Nicholas 3 ta → bozor 7 ta.", "At $4, Catherine buys 4 and Nicholas 3 → the market buys 7."),
   },
   {
     id: "normal-good",
@@ -194,7 +194,7 @@ export const terms: Term[] = [
     uz: "bozor taklifi",
     defEn: "the sum of the supplies of all sellers",
     defUz: tr("Har bir narxda barcha sotuvchilar taklif miqdorlarining yig'indisi — individual taklif egri chiziqlarini gorizontal qo'shish.", "The sum of all sellers' quantities supplied at each price — individual supply curves added horizontally."),
-    example: "$4 da Ben 3 ta, Jerry 4 ta → bozor 7 ta.",
+    example: tr("$4 da Ben 3 ta, Jerry 4 ta → bozor 7 ta.", "At $4, Ben sells 3 and Jerry 4 → the market supplies 7."),
   },
   {
     id: "equilibrium-quantity",

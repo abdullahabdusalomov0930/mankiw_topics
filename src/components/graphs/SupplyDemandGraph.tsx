@@ -891,7 +891,7 @@ export function BurdenBar({ buyers, buyersLabel, sellersLabel }: { buyers: numbe
         <span className="text-demand">
           {buyersLabel}: <span className="num">{b}%</span>
         </span>
-        <span className="text-muted">Soliq yuki (tax burden)</span>
+        <span className="text-muted">{tr('Soliq yuki (tax burden)', 'Tax burden')}</span>
         <span className="text-supply">
           {sellersLabel}: <span className="num">{100 - b}%</span>
         </span>

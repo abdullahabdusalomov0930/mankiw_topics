@@ -103,7 +103,7 @@ export const practice: Question[] = [
     { text: tr("Foyda maksimal bo'lishi mumkin va bu uzoq muddatli muvozanat (tangency)", 'Profit may be maximized and this is a long-run equilibrium (tangency)'), correct: true, why: "Figure 3." },
     { text: tr("Kirish bo'ladi", 'There will be entry'), why: tr("Foyda 0.", 'Profit is 0.') },
     { text: tr("Chiqish bo'ladi", 'There will be exit'), why: tr("Zarar yo'q.", 'There are no losses.') },
-    { text: tr("Firma miqdorni oshirishi kerak", 'The firm should raise its quantity'), why: "MR = MC da." },
+    { text: tr("Firma miqdorni oshirishi kerak", 'The firm should raise its quantity'), why: tr("MR = MC da.", "At MR = MC.") },
   ], 'new'),
   mk("ch17.new.nutville", "Problem 8", tr("Nutville'da barcha yeryong'oq pastasi brendlari bir xil ekani aniqlandi — bozor mukammal raqobatli bo'ldi. Uzoq muddatda tipik firma?", 'In Nutville all peanut-butter brands turn out to be identical — the market becomes perfectly competitive. The typical firm in the long run?'), [
     { text: tr("Narx tushadi (P = min ATC), miqdor oshadi (efficient scale), ATC tushadi, MC oshadi, foyda 0 da qoladi", 'The price falls (P = min ATC), quantity rises (efficient scale), ATC falls, MC rises, profit stays at 0'), correct: true, why: tr("Excess capacity va markup yo'qoladi.", 'Excess capacity and the markup disappear.') },
