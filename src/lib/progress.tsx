@@ -38,7 +38,7 @@ export interface ProgressState {
   last: { chapter: number; section?: string } | null;
 }
 
-const empty: ProgressState = {
+export const emptyProgress: ProgressState = {
   xp: 0,
   streak: { count: 0, last: null },
   read: {},
@@ -67,10 +67,10 @@ function addDays(date: string, n: number): string {
 function load(): ProgressState {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return empty;
-    return { ...empty, ...JSON.parse(raw) };
+    if (!raw) return emptyProgress;
+    return { ...emptyProgress, ...JSON.parse(raw) };
   } catch {
-    return empty;
+    return emptyProgress;
   }
 }
 
@@ -80,6 +80,36 @@ function save(s: ProgressState) {
   } catch {
     // storage full or blocked: progress just won't persist
   }
+}
+
+/**
+ * Combine two progress records (this browser and the cloud copy) without losing work:
+ * read sections and exams are united, for each question and card the newer record wins,
+ * and a question stays in "mistakes" only if its newest attempt was wrong.
+ */
+export function mergeProgress(a: ProgressState, b: ProgressState): ProgressState {
+  const read: ProgressState['read'] = { ...a.read };
+  for (const [ch, list] of Object.entries(b.read)) read[+ch] = [...new Set([...(read[+ch] ?? []), ...list])];
+
+  const answers = { ...a.answers };
+  for (const [id, at] of Object.entries(b.answers)) if (!answers[id] || at.at > answers[id].at) answers[id] = at;
+
+  const mistakes: ProgressState['mistakes'] = {};
+  for (const [id, m] of [...Object.entries(a.mistakes), ...Object.entries(b.mistakes)]) {
+    if (answers[id]?.correct) continue;
+    if (!mistakes[id] || m.at > mistakes[id].at) mistakes[id] = m;
+  }
+
+  const cards = { ...a.cards };
+  for (const [id, c] of Object.entries(b.cards)) if (!cards[id] || c.reviews > cards[id].reviews) cards[id] = c;
+
+  const exams = [...a.exams, ...b.exams.filter((e) => !a.exams.some((x) => x.at === e.at))].sort((x, y) => y.at - x.at).slice(0, 30);
+
+  const sa = a.streak.last ?? '';
+  const sb = b.streak.last ?? '';
+  const streak = sa === sb ? { count: Math.max(a.streak.count, b.streak.count), last: a.streak.last } : sa > sb ? a.streak : b.streak;
+
+  return { xp: Math.max(a.xp, b.xp), streak, read, answers, mistakes, cards, exams, last: a.last ?? b.last };
 }
 
 function bumpStreak(s: ProgressState): ProgressState['streak'] {
@@ -101,6 +131,8 @@ interface Api {
   recordExam: (r: ExamRecord) => void;
   setLast: (chapter: number, section?: string) => void;
   reset: () => void;
+  /** Replace everything (used when progress arrives from the cloud). */
+  replace: (s: ProgressState) => void;
 }
 
 const Ctx = createContext<Api | null>(null);
@@ -182,6 +214,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     [gain],
   );
 
+  const replace = useCallback((next: ProgressState) => setState({ ...emptyProgress, ...next }), []);
+
   const api = useMemo<Api>(
     () => ({
       state,
@@ -199,9 +233,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         setState((s) =>
           s.last?.chapter === chapter && s.last?.section === section ? s : { ...s, last: { chapter, section } },
         ),
-      reset: () => setState(empty),
+      reset: () => setState(emptyProgress),
+      replace,
     }),
-    [state, lastGain, markRead, recordAnswer, reviewCard, recordExam],
+    [state, lastGain, markRead, recordAnswer, reviewCard, recordExam, replace],
   );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;

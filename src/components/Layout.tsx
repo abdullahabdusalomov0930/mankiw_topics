@@ -1,3 +1,4 @@
+import { AccountButton } from './AccountButton';
 import { Sticker } from './ui/Sticker';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
@@ -102,6 +103,7 @@ export function Layout() {
                 EN
               </button>
             </div>
+            <AccountButton />
             <button
               className="btn-ghost btn-sm h-9 w-9 !p-0"
               onClick={() => setDark((d) => !d)}
