@@ -1,20 +1,21 @@
 /**
- * Google sign-in and cloud storage of progress (Firebase Auth + Firestore).
+ * Google sign-in and cloud storage of progress (Firebase Auth + Realtime Database).
  * Configured through VITE_FIREBASE_* environment variables; without them the site runs
  * exactly as before, with progress only in localStorage. Firebase is loaded on demand,
  * so it never slows down the first page load.
  */
 import type { Auth } from 'firebase/auth';
-import type { Firestore } from 'firebase/firestore';
+import type { Database } from 'firebase/database';
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
   appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined,
 };
 
-export const cloudEnabled = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
+export const cloudEnabled = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId && config.databaseURL);
 
 export interface CloudUser {
   uid: string;
@@ -23,17 +24,17 @@ export interface CloudUser {
   photo: string | null;
 }
 
-let services: Promise<{ auth: Auth; db: Firestore }> | null = null;
+let services: Promise<{ auth: Auth; db: Database }> | null = null;
 
 function load() {
   services ??= (async () => {
-    const [{ initializeApp }, { getAuth }, { getFirestore }] = await Promise.all([
+    const [{ initializeApp }, { getAuth }, { getDatabase }] = await Promise.all([
       import('firebase/app'),
       import('firebase/auth'),
-      import('firebase/firestore'),
+      import('firebase/database'),
     ]);
     const app = initializeApp(config);
-    return { auth: getAuth(app), db: getFirestore(app) };
+    return { auth: getAuth(app), db: getDatabase(app) };
   })();
   return services;
 }
@@ -69,17 +70,16 @@ export async function signOutUser(): Promise<void> {
 }
 
 /**
- * One document per learner: progress/{uid}. The state is stored as a JSON string so that
- * question ids with dots ("ch01.qq.4") need no escaping as Firestore field names.
+ * One record per learner: progress/{uid}. The state is stored as a JSON string so that question ids
+ * with dots ("ch01.qq.4"), which Realtime Database does not allow as keys, need no escaping.
  */
 export async function loadProgress<T>(uid: string): Promise<T | null> {
-  const [{ db }, { doc, getDoc }] = await Promise.all([load(), import('firebase/firestore')]);
-  const snap = await getDoc(doc(db, 'progress', uid));
-  const data = snap.data() as { json?: string } | undefined;
+  const [{ db }, { ref, get }] = await Promise.all([load(), import('firebase/database')]);
+  const data = (await get(ref(db, `progress/${uid}`))).val() as { json?: string } | null;
   return data?.json ? (JSON.parse(data.json) as T) : null;
 }
 
 export async function saveProgress(uid: string, state: unknown): Promise<void> {
-  const [{ db }, { doc, setDoc, serverTimestamp }] = await Promise.all([load(), import('firebase/firestore')]);
-  await setDoc(doc(db, 'progress', uid), { json: JSON.stringify(state), updatedAt: serverTimestamp() });
+  const [{ db }, { ref, set, serverTimestamp }] = await Promise.all([load(), import('firebase/database')]);
+  await set(ref(db, `progress/${uid}`), { json: JSON.stringify(state), updatedAt: serverTimestamp() });
 }

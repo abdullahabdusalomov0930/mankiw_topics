@@ -26,14 +26,14 @@ npm run build   # static site in dist/
 ## Google sign-in (progress in the cloud)
 
 Learners can sign in with Google; their XP, answers, flashcards and exam results are then stored in
-Firestore (`progress/{uid}`) and follow them to any device. Progress made before signing in is merged in.
+Firebase Realtime Database (`progress/{uid}`) and follow them to any device. Progress made before signing in is merged in.
 Without configuration the sign-in button is hidden and progress stays in the browser only.
 
 1. [console.firebase.google.com](https://console.firebase.google.com) → **Add project**.
 2. **Build → Authentication → Get started → Sign-in method → Google → Enable**.
 3. **Authentication → Settings → Authorized domains → Add domain**: `mankiw-topics.vercel.app`.
-4. **Build → Firestore Database → Create database** (production mode), then **Rules**: paste `firestore.rules` → **Publish**.
-5. **Project settings → Your apps → Web (`</>`)** → register an app → copy `apiKey`, `authDomain`, `projectId`, `appId`.
+4. **Build → Realtime Database → Create database** (locked mode), then **Rules**: paste `database.rules.json` → **Publish**.
+5. **Project settings → Your apps → Web (`</>`)** → register an app → copy `apiKey`, `authDomain`, `projectId`, `appId`, `databaseURL`.
 6. Put them into Vercel → **Settings → Environment Variables** as in `.env.example`, then redeploy.
    For local development copy `.env.example` to `.env.local` and fill it in.
 
