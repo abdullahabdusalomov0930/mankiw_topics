@@ -10,6 +10,7 @@ import { ProgressProvider } from './lib/progress';
 import { ChapterPage } from './pages/ChapterPage';
 import { ExamPage, FormulasPage, GlossaryPage, GraphsPage, MistakesPage, ReviewPage } from './pages/Global';
 import { Home } from './pages/Home';
+import { AccountPage, LeaderboardPage } from './pages/Account';
 
 // Chapter data for the chosen language is loaded before the first render.
 loadChapters().then(() =>
@@ -28,6 +29,8 @@ loadChapters().then(() =>
                 <Route path="exam" element={<ExamPage />} />
                 <Route path="mistakes" element={<MistakesPage />} />
                 <Route path="review" element={<ReviewPage />} />
+                <Route path="leaderboard" element={<LeaderboardPage />} />
+                <Route path="account" element={<AccountPage />} />
                 <Route path="*" element={<Home />} />
               </Route>
             </Routes>

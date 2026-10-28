@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { tr } from '../lib/lang';
 
@@ -22,7 +23,7 @@ const STATUS = {
 };
 
 export function AccountButton() {
-  const { enabled, user, status, signIn, signOut } = useAuth();
+  const { enabled, user, status, nickname, signIn, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
 
@@ -61,10 +62,16 @@ export function AccountButton() {
       {status === 'error' && <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-surface bg-bad" />}
       {open && (
         <div className="card absolute right-0 top-11 z-50 w-64 p-3 text-sm">
-          <div className="truncate font-semibold">{user.name}</div>
+          <div className="truncate font-semibold">{nickname || user.name}</div>
           <div className="truncate text-xs text-muted">{user.email}</div>
           <div className={`mt-2 text-xs ${status === 'error' ? 'text-bad' : 'text-muted'}`}>{STATUS[status]}</div>
-          <button className="btn-ghost btn-sm mt-3 w-full" onClick={() => void signOut().then(() => setOpen(false))}>
+          <Link to="/account" className="btn-primary btn-sm mt-3 flex w-full justify-center" onClick={() => setOpen(false)}>
+            {tr('Hisobim', 'My account')}
+          </Link>
+          <Link to="/leaderboard" className="btn-ghost btn-sm mt-2 flex w-full justify-center" onClick={() => setOpen(false)}>
+            {tr('Reyting', 'Leaderboard')}
+          </Link>
+          <button className="btn-ghost btn-sm mt-2 w-full" onClick={() => void signOut().then(() => setOpen(false))}>
             {tr('Chiqish', 'Sign out')}
           </button>
         </div>

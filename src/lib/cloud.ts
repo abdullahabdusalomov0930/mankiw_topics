@@ -104,3 +104,49 @@ export async function saveProgress(uid: string, state: unknown): Promise<void> {
   const [{ db }, { ref, set, serverTimestamp }] = await Promise.all([load(), import('firebase/database')]);
   await set(ref(db, `progress/${uid}`), { json: JSON.stringify(state), updatedAt: serverTimestamp() });
 }
+
+/**
+ * Public profile for the leaderboard: profiles/{uid} = { name, xp, updatedAt }.
+ * Only the nickname and XP are shared with other learners — no email or photo.
+ */
+export interface Profile {
+  uid: string;
+  name: string;
+  xp: number;
+}
+
+export const NICKNAME_MIN = 2;
+export const NICKNAME_MAX = 24;
+
+export async function loadProfile(uid: string): Promise<Profile | null> {
+  const [{ db }, { ref, get }] = await Promise.all([load(), import('firebase/database')]);
+  const v = (await get(ref(db, `profiles/${uid}`))).val() as { name?: string; xp?: number } | null;
+  return v?.name ? { uid, name: v.name, xp: v.xp ?? 0 } : null;
+}
+
+export async function saveProfile(uid: string, name: string, xp: number): Promise<void> {
+  const [{ db }, { ref, set, serverTimestamp }] = await Promise.all([load(), import('firebase/database')]);
+  await set(ref(db, `profiles/${uid}`), { name, xp, updatedAt: serverTimestamp() });
+}
+
+/** The `limit` learners with the most XP, best first. */
+export async function topProfiles(limit: number): Promise<Profile[]> {
+  const [{ db }, { ref, get, query, orderByChild, limitToLast }] = await Promise.all([load(), import('firebase/database')]);
+  const snap = await get(query(ref(db, 'profiles'), orderByChild('xp'), limitToLast(limit)));
+  const out: Profile[] = [];
+  snap.forEach((c) => {
+    const v = c.val() as { name?: string; xp?: number };
+    if (v?.name) out.push({ uid: c.key!, name: v.name, xp: v.xp ?? 0 });
+  });
+  return out.sort((a, b) => b.xp - a.xp);
+}
+
+/** 1-based place of someone with `xp` XP: one more than the number of learners ahead of them. */
+export async function rankFor(xp: number): Promise<{ rank: number; total: number }> {
+  const [{ db }, { ref, get, query, orderByChild, startAt }] = await Promise.all([load(), import('firebase/database')]);
+  const [ahead, all] = await Promise.all([
+    get(query(ref(db, 'profiles'), orderByChild('xp'), startAt(xp + 1))),
+    get(ref(db, 'profiles')),
+  ]);
+  return { rank: ahead.size + 1, total: all.size };
+}

@@ -5,6 +5,14 @@
         ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid"
       }
+    },
+    "profiles": {
+      ".read": "auth != null",
+      ".indexOn": ["xp"],
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['name', 'xp']) && newData.child('name').isString() && newData.child('name').val().length >= 2 && newData.child('name').val().length <= 24 && newData.child('xp').isNumber() && newData.child('xp').val() >= 0"
+      }
     }
   }
 }

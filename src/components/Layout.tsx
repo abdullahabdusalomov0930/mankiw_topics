@@ -8,13 +8,13 @@ import { useProgress } from '../lib/progress';
 import { XPBurst } from './ui/Kit';
 
 const NAV = [
-  { to: '/', label: tr('Bosh sahifa', 'Home'), end: true },
   { to: '/glossary', label: tr("Lug'at", 'Glossary') },
   { to: '/formulas', label: tr('Formulalar', 'Formulas') },
   { to: '/graphs', label: tr('Grafiklar', 'Graphs') },
   { to: '/exam', label: tr('Imtihon', 'Exam') },
   { to: '/mistakes', label: tr('Xatolar', 'Mistakes') },
   { to: '/review', label: tr('Kartochkalar', 'Flashcards') },
+  { to: '/leaderboard', label: tr('Reyting', 'Rank') },
 ];
 
 function useTheme() {
@@ -62,14 +62,13 @@ export function Layout() {
             </span>
             <span className="hidden font-display text-[17px] font-bold tracking-tight sm:inline">{tr('iqtisodiyot', 'economics')}</span>
           </Link>
-          <nav className="ml-4 hidden items-center gap-1 lg:flex">
+          <nav className="ml-4 hidden items-center gap-1 xl:flex">
             {NAV.map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
-                end={n.end}
                 className={({ isActive }) =>
-                  `relative rounded-[0.7rem] border-2 px-3 py-1.5 text-sm font-semibold transition ${isActive ? 'border-ink bg-marker text-[#111]' : 'border-transparent text-ink hover:border-dashed hover:border-ink/60'}`
+                  `relative whitespace-nowrap rounded-[0.7rem] border-2 px-2.5 py-1.5 text-sm font-semibold transition ${isActive ? 'border-ink bg-marker text-[#111]' : 'border-transparent text-ink hover:border-dashed hover:border-ink/60'}`
                 }
               >
                 {n.label}
@@ -80,7 +79,7 @@ export function Layout() {
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-2">
-            <div className="relative flex items-center gap-2 rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-1.5 text-sm" title={tr('Tajriba ballari va kunlik seriya', 'Experience points and daily streak')}>
+            <div className="relative flex items-center gap-2 whitespace-nowrap rounded-[0.95rem] border-2 border-ink bg-surface px-3 py-1.5 text-sm" title={tr('Tajriba ballari va kunlik seriya', 'Experience points and daily streak')}>
               <span className="num font-semibold">{state.xp} XP</span>
               <span className="text-muted">·</span>
               <span title={tr('Kunlik seriya (streak)', 'Daily streak')}><Sticker name="fire" /> <span className="num">{state.streak.count}</span></span>
@@ -113,18 +112,17 @@ export function Layout() {
             >
               <Sticker name={dark ? 'sun' : 'moon'} size="1.35rem" />
             </button>
-            <button className="btn-ghost btn-sm h-9 w-9 !p-0 lg:hidden" onClick={() => setMenu((m) => !m)} aria-label={tr('Menyu', 'Menu')} aria-expanded={menu}>
+            <button className="btn-ghost btn-sm h-9 w-9 !p-0 xl:hidden" onClick={() => setMenu((m) => !m)} aria-label={tr('Menyu', 'Menu')} aria-expanded={menu}>
               {menu ? '✕' : '☰'}
             </button>
           </div>
         </div>
         {menu && (
-          <nav className="border-t-2 border-ink bg-surface px-4 py-2 lg:hidden">
+          <nav className="border-t-2 border-ink bg-surface px-4 py-2 xl:hidden">
             {NAV.map((n) => (
               <NavLink
                 key={n.to}
                 to={n.to}
-                end={n.end}
                 className={({ isActive }) => `block rounded-[0.7rem] px-3 py-2.5 text-[15px] font-semibold ${isActive ? 'bg-marker text-[#111]' : ''}`}
               >
                 {n.label}

@@ -14,7 +14,7 @@ import { isEn, tr } from '../lib/lang';
 import { useProgress } from '../lib/progress';
 import { FormulaCard } from './ChapterPage';
 
-function PageHead({ title, sub }: { title: string; sub?: string }) {
+export function PageHead({ title, sub }: { title: string; sub?: string }) {
   return (
     <header className="py-8 sm:py-10">
       <h1 className="text-3xl font-extrabold tracking-[-0.03em] sm:text-5xl">{title}</h1>
