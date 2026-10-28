@@ -1,21 +1,23 @@
 /**
  * Google sign-in and cloud storage of progress (Firebase Auth + Realtime Database).
- * Configured through VITE_FIREBASE_* environment variables; without them the site runs
- * exactly as before, with progress only in localStorage. Firebase is loaded on demand,
- * so it never slows down the first page load.
+ * Firebase is loaded on demand, so it never slows down the first page load.
  */
 import type { Auth } from 'firebase/auth';
 import type { Database } from 'firebase/database';
 
+/**
+ * Firebase web config. These values are public by design (they identify the project, they are not
+ * secrets); the database rules in database.rules.json decide who may read and write what.
+ */
 const config = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined,
+  apiKey: 'AIzaSyCNFyRUajlDDmkBcEqFTAEdtZ7E2G6KXfc',
+  authDomain: 'mankiw-topics.firebaseapp.com',
+  projectId: 'mankiw-topics',
+  appId: '1:839113137161:web:d9da1a04879d92bc00ecd8',
+  databaseURL: 'https://mankiw-topics-default-rtdb.firebaseio.com',
 };
 
-export const cloudEnabled = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId && config.databaseURL);
+export const cloudEnabled = true;
 
 export interface CloudUser {
   uid: string;
